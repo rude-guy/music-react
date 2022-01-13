@@ -1,0 +1,31 @@
+.recommend-list {
+    align-items: center;
+}
+.recommend-list .ant-list-item-meta-title {
+    font-size: .14rem;
+    color: #fff;
+}
+
+.recommend-list .ant-list-item-meta-description {
+    font-size: .14rem;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.recommend-list .ant-list-item-meta-avatar {
+    vertical-align: bottom;
+    margin-right: .2rem;
+}
+
+.recommend-list .ant-list-item-meta-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.recommend-list .ant-list-item-meta-title {
+    margin-bottom: .1rem;
+}
+
+.recommend-list-wrap .ant-empty-description {
+    color: #fff;
+}

@@ -1,0 +1,28 @@
+.space {
+    width: 100%;
+    padding-top: 40%;
+}
+
+.carouselItem {
+    width: 100%;
+    object-fit: fill;
+}
+
+.listTitle {
+    height: .65rem;
+    line-height: .65rem;
+    text-align: center;
+    font-size: .14rem;
+    color: #ffcd32;
+}
+
+.listItem {
+    padding: 0 .2rem .2rem .2rem;
+}
+
+.icon {
+    flex: 0 0 .6rem;
+    width: .6rem;
+    vertical-align: bottom;
+}
+

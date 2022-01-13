@@ -33,7 +33,7 @@ const Tabs = () => {
         <ul className={styles.tabWrap}>
             {
                 tabs.map(tab => {
-                    return <li className={styles.tabItem}>
+                    return <li className={styles.tabItem} key={tab.name}>
                         <NavLink to={tab.to}
                                  className={styles.tabLink}
                                  activeClassName={styles.routerLinkActive}
