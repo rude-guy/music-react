@@ -1,4 +1,10 @@
 import React from 'react'
-export const Singer = () => {
-
+const Singer = () => {
+    return (
+        <div>
+            Singer
+        </div>
+    )
 }
+
+export default Singer

@@ -1,0 +1,43 @@
+.header {
+    height: .44rem;
+    text-align: center;
+    color: #ffcd32;
+    font-size: 0;
+}
+
+.header .icon {
+    display: inline-block;
+    vertical-align: top;
+    margin-top: .06rem;
+    width: .30rem;
+    height: .32rem;
+    margin-right: .09rem;
+    background-image: url("../../assets/images/logo@2x.png");
+    background-size: .3rem .32rem;
+}
+@media (-webkit-min-device-pixel-ratio: 3), (min-device-pixel-ratio: 3) {
+    .header .icon {
+        background-image: url("../../assets/images/logo@3x.png");
+    }
+}
+
+.header .text {
+    display: inline-block;
+    vertical-align: top;
+    line-height: .44rem;
+    font-size: .18rem;
+    color: #ffcd32;
+}
+
+.header .mine {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.header .mine .iconMine {
+    display: block;
+    padding: .12rem;
+    font-size: .22rem;
+    color: #ffcd32;
+}

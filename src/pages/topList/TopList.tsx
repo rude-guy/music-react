@@ -1,4 +1,10 @@
 import React from 'react'
-export const TopList = () => {
 
+const TopList = () => {
+    return (
+        <div>TopList</div>
+    )
 }
+
+
+export default TopList

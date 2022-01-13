@@ -1,7 +1,14 @@
+@import "assets/style/index.css";
 html {
   font-size: 100px;
 }
 
 body {
   font-size: .12rem;
+}
+
+.container {
+  color: #fff;
+  width: 100%;
+  background: #222;
 }
