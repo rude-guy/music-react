@@ -23,8 +23,8 @@ export interface ResRecommend {
 }
 
 const Recommend = () => {
-    const [albums, setAlbums] = useState([] as Album[])
-    const [sliders, setSliders] = useState([] as Slider[])
+    const [albums, setAlbums] = useState<Album[]>([])
+    const [sliders, setSliders] = useState<Slider[]>([])
     useEffect(() => {
         const getData = async () => {
             const {albums, sliders} = await getRecommend()

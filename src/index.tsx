@@ -4,6 +4,7 @@ import 'antd/dist/antd.less';
 import './assets/style/index.css'
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import './wdyr'
 
 ReactDOM.render(
   <React.StrictMode>

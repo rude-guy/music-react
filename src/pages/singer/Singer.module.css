@@ -1,0 +1,7 @@
+.singer {
+    position: fixed;
+    width: 100%;
+    top: .88rem;
+    bottom: 0;
+    overflow: hidden;
+}

@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a913c267-0a48-4107-946f-4ae746a6eec0" name="Changes" comment="feat: 新增首页">
-      <change afterPath="$PROJECT_DIR$/src/pages/recommend/Recommend.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/recommend/Recommend.module.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/services/recommend.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/types/index.ts" afterDir="false" />
+    <list default="true" id="a913c267-0a48-4107-946f-4ae746a6eec0" name="Changes" comment="feat: 新增歌手页">
+      <change afterPath="$PROJECT_DIR$/src/pages/singer/Singer.module.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/singer/components/indexList/IndexList.module.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/singer/components/indexList/IndexList.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/singer/components/indexList/useFixed.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/singer/components/indexList/useShortcut.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/services/singer.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/wdyr.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/style/reset.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/style/reset.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/tabs/Tabs.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/tabs/Tabs.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/tabs/Tabs.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/tabs/Tabs.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/recommend/Album.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/recommend/compoents/Album.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/recommend/Recommend.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/recommend/Recommend.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/singer/Singer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/singer/Singer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/singer/SingerDetail.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/singer/components/SingerDetail.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,13 +28,22 @@
         <option value="JavaScript File" />
         <option value="Less File" />
         <option value="TypeScript JSX File" />
-        <option value="TypeScript File" />
         <option value="CSS File" />
+        <option value="HTML File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="ProjectId" id="23U8vZYumgPF4zMO6EECPO79clg" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -43,10 +52,12 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/assets/images" />
+    <property name="js.last.introduce.type" value="CONST" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -58,12 +69,14 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\web\react\music-react\src" />
       <recent name="E:\web\react\music-react\src\assets\images" />
       <recent name="E:\web\react\music-react\src\assets" />
       <recent name="E:\web\react\music-react\src\assets\style" />
       <recent name="E:\web\react\dome" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\web\react\music-react\src\pages\singer\components" />
       <recent name="E:\web\react\music-react\src\pages\recommend\compoents" />
       <recent name="E:\web\react\music-react\src\assets" />
     </key>
@@ -86,7 +99,10 @@
       <workItem from="1641907254343" duration="1613000" />
       <workItem from="1641956002590" duration="10298000" />
       <workItem from="1641991529031" duration="2839000" />
-      <workItem from="1642039313621" duration="30646000" />
+      <workItem from="1642039313621" duration="33815000" />
+      <workItem from="1642144293435" duration="954000" />
+      <workItem from="1642145507242" duration="20842000" />
+      <workItem from="1642213445064" duration="26786000" />
     </task>
     <task id="LOCAL-00001" summary="feat: 新增redux">
       <created>1642042486357</created>
@@ -109,7 +125,21 @@
       <option name="project" value="LOCAL" />
       <updated>1642062328554</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="feat: 新增首页">
+      <created>1642083480306</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1642083480306</updated>
+    </task>
+    <task id="LOCAL-00005" summary="feat: 新增首页">
+      <created>1642083519409</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1642083519409</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -132,6 +162,7 @@
     <MESSAGE value="feat: 用axios封装request" />
     <MESSAGE value="feat: 首页导航和样式初始化" />
     <MESSAGE value="feat: 新增首页" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: 新增首页" />
+    <MESSAGE value="feat: 新增歌手页" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: 新增歌手页" />
   </component>
 </project>
