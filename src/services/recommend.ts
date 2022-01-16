@@ -2,7 +2,7 @@ import request from '../utils/request'
 
 import {ResRecommend} from '../pages/recommend/Recommend'
 
-export async function getRecommend () {
+export async function getRecommend (): Promise<ResRecommend> {
     try {
         const result: {
             code: number

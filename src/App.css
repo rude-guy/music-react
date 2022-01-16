@@ -12,6 +12,13 @@ body {
   background: #222;
 }
 
+.router-wrap {
+  height: calc(100vh - .88rem);
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
 
 /* 修改andt轮播图样式 */
 

@@ -16,7 +16,7 @@ const tabs: tab[] = [
     },
     {
         name: '歌手',
-        to: {pathname: '/Singer'}
+        to: {pathname: '/SingerInfo'}
     },
     {
         name: '排行',
@@ -35,6 +35,8 @@ const Tabs = () => {
                 tabs.map(tab => {
                     return <li className={styles.tabItem} key={tab.name}>
                         <NavLink to={tab.to}
+                                 defaultChecked
+                                 defaultValue={[tabs[0].to.pathname]}
                                  className={styles.tabLink}
                                  activeClassName={styles.routerLinkActive}
                         >

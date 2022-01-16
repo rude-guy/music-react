@@ -1,6 +1,6 @@
 import React from 'react'
 import './App.css'
-import { Route, HashRouter as Router, Switch} from 'react-router-dom'
+import {Route, HashRouter as Router, Switch, Redirect} from 'react-router-dom'
 import Tabs from './components/tabs/Tabs'
 import Search from './pages/search/Search'
 import TopList from './pages/topList/TopList'
@@ -14,21 +14,13 @@ function App () {
             <Router>
                 <Header/>
                 <Tabs/>
-                <div>
+                <div className={'router-wrap'}>
                     <Switch>
-                        <Route exact path="/recommend">
-                            <Recommend/>
-                        </Route>
-                        <Route exact path="/singer">
-                            <Singer/>
-                        </Route>
-                        <Route exact path="/topList">
-                            <TopList/>
-                        </Route>
-                        <Route exact path="/search">
-                            <Search/>
-                        </Route>
-                        <Route path="*" component={Recommend}/>
+                        <Route exact path="/recommend" component={Recommend}/>
+                        <Route path="/singer" component={Singer} />
+                        <Route exact path="/topList" component={TopList}/>
+                        <Route exact path="/search" component={Search} />
+                        <Redirect from={'/'} to={'/recommend'}/>
                     </Switch>
                 </div>
             </Router>

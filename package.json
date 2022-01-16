@@ -16,6 +16,7 @@
     "@types/react-dom": "^17.0.11",
     "@types/react-redux": "^7.1.22",
     "axios": "^0.24.0",
+    "good-storage": "^1.1.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.6",
@@ -34,7 +35,13 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "plugins": [
+      "react-hooks"
+    ],
+    "rules": {
+      "react-hooks/rules-of-hooks": "error"
+    }
   },
   "browserslist": {
     "production": [
@@ -57,10 +64,12 @@
   "devDependencies": {
     "@commitlint/cli": "^16.0.2",
     "@commitlint/config-conventional": "^16.0.0",
+    "@types/good-storage": "^1.1.0",
     "@types/react-router-dom": "^5.3.2",
     "@welldone-software/why-did-you-render": "^6.2.3",
     "antd": "^4.18.2",
     "craco-less": "^2.0.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
     "prettier": "2.1.2"
   }
 }

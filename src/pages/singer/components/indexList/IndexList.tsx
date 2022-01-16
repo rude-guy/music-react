@@ -1,11 +1,15 @@
-import React, {useCallback} from 'react'
+import React from 'react'
 import styles from './IndexList.module.css'
-import {ListItem, SingerData} from '../../Singer'
+import {SingerInfo, SingerData} from '../../Singer'
 import useFixed from './useFixed'
 import useShortcut from './useShortcut'
-import {useHistory} from 'react-router-dom'
 
-const IndexList = ({singers}: { singers: SingerData[] }) => {
+type Props = {
+    singers: SingerData[]
+    selectSinger: (singer: SingerInfo) => void
+}
+
+const IndexList: React.FC<Props> = ({singers, selectSinger}) => {
     const {
         scrollRef, groupRef,
         fixedTitle, fixedStyle,
@@ -13,14 +17,6 @@ const IndexList = ({singers}: { singers: SingerData[] }) => {
     } = useFixed({singers})
 
     const [onShortcutTouchStart, onShortcutTouchMove] = useShortcut(scrollTo)
-
-    const history = useHistory()
-
-    const onLink = useCallback((singer: ListItem) => {
-        history.push({
-            pathname: '/recommend'
-        })
-    }, [history])
 
     return (
         <>
@@ -37,7 +33,7 @@ const IndexList = ({singers}: { singers: SingerData[] }) => {
                                 singer?.list.map(item => {
                                     return <li className={styles.item}
                                                key={item.id}
-                                               onClick={() => onLink(item)}
+                                               onClick={() => selectSinger(item)}
                                     >
                                         <img className={styles.avatar} src={item.pic} alt={'avatar'}/>
                                         <span className={styles.name}>{item.name}</span>
