@@ -10,9 +10,9 @@ type Props = {
 const MusicList: React.FC<Props> = (props) => {
     const {songs, pic, title} = props
     const history = useHistory()
-
     return (
-        <div className={styles.musicList}>
+        <div className={styles.musicList}
+        >
             <div className={styles.back} onClick={() => history.goBack()}>
                 <i className={`icon-back ${styles.iconBack}`}/>
             </div>

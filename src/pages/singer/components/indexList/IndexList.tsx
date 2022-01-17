@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useCallback, useEffect, useRef, useState} from 'react'
 import styles from './IndexList.module.css'
 import {SingerInfo, SingerData} from '../../Singer'
 import useFixed from './useFixed'
@@ -11,9 +11,8 @@ type Props = {
 
 const IndexList: React.FC<Props> = ({singers, selectSinger}) => {
     const {
-        scrollRef, groupRef,
-        fixedTitle, fixedStyle,
-        currenIndex, scrollTo,
+        scrollRef, groupRef, fixedTitle, fixedStyle,
+        currenIndex, scrollTo
     } = useFixed({singers})
 
     const [onShortcutTouchStart, onShortcutTouchMove] = useShortcut(scrollTo)
@@ -55,7 +54,8 @@ const IndexList: React.FC<Props> = ({singers, selectSinger}) => {
             <div className={styles.shortcut}
                  onTouchStartCapture={onShortcutTouchStart}
                  onTouchMoveCapture={onShortcutTouchMove}
-                 onTouchEndCapture={() => {}}
+                 onTouchEndCapture={() => {
+                 }}
             >
                 <ul>{
                     singers.map((singer, index) => {

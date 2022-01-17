@@ -16,7 +16,7 @@ const tabs: tab[] = [
     },
     {
         name: '歌手',
-        to: {pathname: '/SingerInfo'}
+        to: {pathname: '/Singer'}
     },
     {
         name: '排行',

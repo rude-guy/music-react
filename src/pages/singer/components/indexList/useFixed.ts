@@ -25,11 +25,12 @@ const useFixed = function ({singers}: Props) {
         const scrollDom = scrollRef.current
         if (scrollDom) {
             TAB_TOP = scrollDom.getBoundingClientRect().top
-            scrollDom.addEventListener('scroll', () => {
+            scrollDom.addEventListener('scroll', (e) => {
                 // console.log(groupRef.current?.getBoundingClientRect())
                 if (groupRef.current) {
                     const scrollY = TAB_TOP - groupRef.current.getBoundingClientRect().y
                     setScrollY(scrollY)
+                    e.preventDefault()
                 }
             })
         }
