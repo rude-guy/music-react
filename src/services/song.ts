@@ -10,10 +10,9 @@ export function processSongs (songs: Song[]) {
             mid: songs.map(({mid}) => mid)
         }
     }).then((res: any) => {
-        console.log(res)
-        const map = res.map
+        const map = res.result.map
         return songs.map(song => {
-            song.url = map[song.mid]
+            song.url = map[`${song.mid}`]
             return song
         }).filter(song => {
             return song.url && song.url.indexOf('vkey') > -1

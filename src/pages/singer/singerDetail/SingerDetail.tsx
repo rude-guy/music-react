@@ -5,6 +5,7 @@ import {getSingerDetail} from '../../../services/singer'
 import {SingerInfo} from '../Singer'
 import storage from 'good-storage'
 import {SINGER_KEY} from '../../../assets/ts/constant'
+import {processSongs} from '../../../services/song'
 
 export interface Song {
     album: string
@@ -26,19 +27,23 @@ export type Rest = {
 export const SingerDetail = () => {
     const [songs, setSongs] = useState<Song[]>([])
     const [rest, setRest] = useState<Rest>({})
+    const [noResult, setNoResult] = useState(false)
     useEffect(() => {
         const singer: SingerInfo = storage.session.get(SINGER_KEY)
         setRest({
             pic: singer.pic,
             title: singer.name
         })
-        getSingerDetail(singer).then(result => {
-            console.log(result)
-            setSongs(result)
+        getSingerDetail(singer).then(songs => {
+            return processSongs(songs)
+        }).then(songs => {
+            setSongs(songs)
+        }).catch(() => {
+            setNoResult(true)
         })
     }, [setSongs])
 
     return <div className={styles.topDetail}>
-        <MusicList songs={songs} {...rest}/>
+        <MusicList songs={songs} noResult={noResult} {...rest}/>
     </div>
 }

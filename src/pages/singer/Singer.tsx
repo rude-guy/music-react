@@ -6,6 +6,7 @@ import IndexList from './components/indexList/IndexList'
 import {Route, Switch, useHistory , useRouteMatch} from 'react-router-dom'
 import {SingerDetail} from './singerDetail/SingerDetail'
 import {SINGER_KEY} from '../../assets/ts/constant'
+import Loading from '../../components/loading/Loading'
 
 export interface SingerInfo {
     id: number
@@ -42,7 +43,7 @@ const Singer = () => {
         <div className={styles.singer}>
             <Switch>
                 <Route exact path={`${path}`}>
-                    <IndexList singers={singers} selectSinger={selectSinger}/>
+                    {singers.length ? <IndexList singers={singers} selectSinger={selectSinger}/> : <Loading />}
                 </Route>
                 <Route path={`${path}/:singerId`} component={SingerDetail} />
             </Switch>

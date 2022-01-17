@@ -3,6 +3,7 @@ import {Carousel, List} from 'antd'
 import styles from './Recommend.module.css'
 import './Recommend.css'
 import {getRecommend} from '../../services/recommend'
+import Loading from '../../components/loading/Loading'
 
 export interface Slider {
     id: string
@@ -33,6 +34,9 @@ const Recommend = () => {
         }
         getData()
     }, [])
+    if (!albums.length && !sliders.length) {
+        return <Loading />
+    }
     return (
         <div className={'recommend'}>
             <div className={'carousel-wrap'}>
@@ -73,7 +77,7 @@ const Recommend = () => {
                             />
                         </List.Item>
                     )}
-                />,
+                />
             </div>
         </div>
     )

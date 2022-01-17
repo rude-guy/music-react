@@ -1,0 +1,30 @@
+.noResult {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+}
+
+.noResultContent {
+    text-align: center;
+}
+
+.icon {
+    width: .86rem;
+    height: .90rem;
+    margin: 0 auto;
+    background-image: url("./no-result@2x.png");
+    background-size: .86rem .90rem;
+
+}
+@media (-webkit-min-device-pixel-ratio: 3), (min-device-pixel-ratio: 3) {
+    .icon {
+        background-image: url("./no-result@3x.png");
+    }
+}
+
+.text {
+    margin-top: .30rem;
+    font-size: .14rem;
+    color: rgba(255, 255, 255, 0.3);
+}

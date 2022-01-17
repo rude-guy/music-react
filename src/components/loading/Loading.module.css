@@ -1,0 +1,16 @@
+.loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+}
+
+.loadingContent {
+    text-align: center;
+}
+
+.desc {
+    line-height: .20rem;
+    font-size: .12rem;
+    color: rgba(255, 255, 255, 0.5);
+}

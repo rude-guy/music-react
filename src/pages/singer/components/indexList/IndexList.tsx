@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react'
+import React from 'react'
 import styles from './IndexList.module.css'
 import {SingerInfo, SingerData} from '../../Singer'
 import useFixed from './useFixed'
@@ -16,7 +16,6 @@ const IndexList: React.FC<Props> = ({singers, selectSinger}) => {
     } = useFixed({singers})
 
     const [onShortcutTouchStart, onShortcutTouchMove] = useShortcut(scrollTo)
-
     return (
         <>
             <div className={styles.indexList}
@@ -25,7 +24,7 @@ const IndexList: React.FC<Props> = ({singers, selectSinger}) => {
                 <ul className={styles.scrollList}
                     ref={groupRef}
                 >{
-                    singers?.length ? singers.map(singer => {
+                    singers.map(singer => {
                         return <li className={styles.group} key={singer.title}>
                             <h2 className={styles.title}>{singer.title}</h2>
                             <ul>{
@@ -40,7 +39,7 @@ const IndexList: React.FC<Props> = ({singers, selectSinger}) => {
                                 })
                             }</ul>
                         </li>
-                    }) : <div>loading</div>
+                    })
                 }</ul>
             </div>
             {
