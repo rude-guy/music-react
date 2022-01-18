@@ -20,19 +20,22 @@ export interface Song {
 }
 
 export type Rest = {
-    pic?: String
-    title?: String
+    pic: string
+    title: string
 }
 
 export const SingerDetail = () => {
     const [songs, setSongs] = useState<Song[]>([])
-    const [rest, setRest] = useState<Rest>({})
+    const [rest, setRest] = useState<Rest>({
+        pic: '',
+        title: ''
+    })
     const [noResult, setNoResult] = useState(false)
     useEffect(() => {
         const singer: SingerInfo = storage.session.get(SINGER_KEY)
         setRest({
-            pic: singer.pic,
-            title: singer.name
+            pic: singer.pic || '',
+            title: singer.name || ''
         })
         getSingerDetail(singer).then(songs => {
             return processSongs(songs)

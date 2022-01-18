@@ -3,11 +3,12 @@ import styles from './MusicList.module.css'
 import Scroll, {Pos} from '../scroll/Scroll'
 import {Rest, Song} from '../../pages/singer/singerDetail/SingerDetail'
 import {useHistory} from 'react-router-dom'
-import {useComputed} from '../../utils/public'
 import {NumberOrString} from '../../types'
 import Loading from '../loading/Loading'
 import NoResult from '../noResult/NoResult'
 import SongList from '../songList/SongList'
+import {selectPlay} from '../../store/actions'
+import {useAppDispatch, useAppSelector} from '../../store/hooks'
 
 type Props = {
     songs: Song[],
@@ -16,6 +17,7 @@ type Props = {
 
 const RESERVED_HEIGHT = 40  // tab高度
 
+// 获取滚动Y坐标
 const useScroll = () => {
     const [scrollY, setScrollY] = useState(0)
     // 窃听滚动
@@ -25,13 +27,12 @@ const useScroll = () => {
     return {scrollY, onScroll}
 }
 
-const MusicList: React.FC<Props> = (props) => {
-    const {songs, pic, title, noResult = false} = props
-    const history = useHistory()
-    const musicRef = useRef(null)
+// 计算样式的
+const useStyle = (scrollY: number, pic: string) => {
     const imageHeight = useRef(0) // 图片的高度
     const maxTranslateY = useRef(0) // 最大偏移高度
-    const {scrollY, onScroll} = useScroll()
+
+    // 初始化Image的高度
     const bgImage = useCallback((node: HTMLImageElement) => {
         if (node != null) {
             setTimeout(() => {
@@ -41,21 +42,8 @@ const MusicList: React.FC<Props> = (props) => {
         }
     }, [])
 
-    // 挂载 scroll刷新
-    useEffect(() => {
-        let timer: any
-        if (musicRef != null) {
-            timer = setTimeout(() => {
-                (musicRef.current as any).refresh()
-            }, 0)
-        }
-        return () => {
-            clearTimeout(timer)
-        }
-    }, [songs])
-
     // 模糊背景样式
-    const filterStyle = useComputed<React.CSSProperties>(() => {
+    const filterStyle = useMemo<React.CSSProperties>(() => {
         let blur = 0
         if (scrollY >= 0) {
             blur = Math.min(maxTranslateY.current / imageHeight.current, scrollY / imageHeight.current) * 0.5
@@ -66,7 +54,7 @@ const MusicList: React.FC<Props> = (props) => {
     }, [scrollY])
 
     // 背景图片样式
-    const bgImageStyle = useComputed<React.CSSProperties>(() => {
+    const bgImageStyle = useMemo<React.CSSProperties>(() => {
         let zIndex = 0
         let paddingTop: NumberOrString = '70%'
         let height: NumberOrString = 0
@@ -86,22 +74,66 @@ const MusicList: React.FC<Props> = (props) => {
             paddingTop,
             translateZ,
             zIndex,
+            backgroundImage: `url(${pic})`,
             transform: `scale(${scale})translateZ(${translateZ}px)`
         }
     }, [scrollY, pic])
 
     // 随机播放按钮
-    const playBtnStyle = useComputed<React.CSSProperties>(() => {
+    const playBtnStyle = useMemo<React.CSSProperties>(() => {
         return {
             display: scrollY > maxTranslateY.current ? 'none' : ''
         }
     }, [scrollY])
 
+    return {
+        bgImage, bgImageStyle,
+        filterStyle, playBtnStyle
+    }
+}
+
+// 派发store
+const useStore = ({songs}: {songs: Song[]}) => {
+    const dispatch = useAppDispatch()
+    const onSelectItem = useCallback((song: Song, index: number) => {
+        dispatch(selectPlay({list: songs, index}))
+    }, [dispatch, songs])
+    return {
+        onSelectItem
+    }
+}
+
+const MusicList: React.FC<Props> = (props) => {
+    const {songs, pic, title, noResult = false} = props
+    const history = useHistory()
+    const musicRef = useRef<any>(null)
+    // 获取滚动Y坐标
+    const {scrollY, onScroll} = useScroll()
+    // 计算样式的
+    const {
+        bgImage, bgImageStyle,
+        filterStyle, playBtnStyle
+    } = useStyle(scrollY, pic)
+    // 挂载 scroll刷新
+    useEffect(() => {
+        // TODO 滚动失效
+        let timer: any
+        if (musicRef.current != null) {
+            timer = setTimeout(() => {
+                musicRef.current.refresh()
+            }, 0)
+        }
+        return () => {
+            clearTimeout(timer)
+        }
+    }, [songs])
+    // 派发store
+    const {onSelectItem} = useStore({songs})
     // 渲染组件
     const renderComponent = useMemo(() => {
-        return songs.length ? <SongList songs={songs} /> :
+        return songs.length ? <SongList songs={songs} onSelectItem={onSelectItem}/> :
             noResult ? <NoResult/> : <Loading />
-    }, [songs, noResult])
+    }, [songs, onSelectItem,noResult])
 
     return (
         <div className={styles.musicList}>
@@ -111,7 +143,7 @@ const MusicList: React.FC<Props> = (props) => {
             <h1 className={`${styles.title} no-wrap`}>{title}</h1>
             <div className={styles.bgImage}
                  ref={bgImage}
-                 style={{...bgImageStyle, backgroundImage: `url(${pic})`}}
+                 style={bgImageStyle}
             >
                 <div className={styles.playBtnWrapper}>
                     <div className={styles.playBtn}

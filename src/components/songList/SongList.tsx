@@ -1,17 +1,21 @@
-import React from 'react'
+import React, {useCallback} from 'react'
 import styles from './SongList.module.css'
 import {Song} from '../../pages/singer/singerDetail/SingerDetail'
 
 interface SongListProps {
     songs: Song[]
+    onSelectItem?: (song: Song, index: number) => void
 }
 
-const SongList: React.FC<SongListProps> = ({songs}) => {
+const SongList: React.FC<SongListProps> = ({songs, onSelectItem}) => {
     return <div className={styles.songListWrapper}>
         <ul className={styles.songList}>
             {
-                songs.map(song => {
-                    return <li className={styles.item} key={song.id}>
+                songs.map((song, index) => {
+                    return <li className={styles.item}
+                               key={song.id}
+                               onClick={() => onSelectItem?.(song, index)}
+                    >
                         {/*<div className={styles.rank}>*/}
                         {/*    <span className={styles.icon} />*/}
                         {/*</div>*/}
