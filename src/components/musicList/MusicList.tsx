@@ -7,8 +7,9 @@ import {NumberOrString} from '../../types'
 import Loading from '../loading/Loading'
 import NoResult from '../noResult/NoResult'
 import SongList from '../songList/SongList'
-import {selectPlay} from '../../store/actions'
+import {randomPlay, selectPlay} from '../../store/actions'
 import {useAppDispatch, useAppSelector} from '../../store/hooks'
+import {selectMusic} from '../../store/reducers'
 
 type Props = {
     songs: Song[],
@@ -93,13 +94,23 @@ const useStyle = (scrollY: number, pic: string) => {
 }
 
 // 派发store
-const useStore = ({songs}: {songs: Song[]}) => {
+const useStore = ({songs}: { songs: Song[] }) => {
+    const music = useAppSelector(selectMusic)
     const dispatch = useAppDispatch()
+    // 选择歌曲
     const onSelectItem = useCallback((song: Song, index: number) => {
         dispatch(selectPlay({list: songs, index}))
     }, [dispatch, songs])
+
+    // 随机播放
+    const onRandomPlaying = useCallback(() => {
+        dispatch(randomPlay(songs))
+    }, [dispatch, songs])
+
     return {
-        onSelectItem
+        onSelectItem,
+        onRandomPlaying,
+        playList: music.playList
     }
 }
 
@@ -128,12 +139,15 @@ const MusicList: React.FC<Props> = (props) => {
         }
     }, [songs])
     // 派发store
-    const {onSelectItem} = useStore({songs})
+    const {
+        onSelectItem, onRandomPlaying,
+        playList
+    } = useStore({songs})
     // 渲染组件
     const renderComponent = useMemo(() => {
         return songs.length ? <SongList songs={songs} onSelectItem={onSelectItem}/> :
-            noResult ? <NoResult/> : <Loading />
-    }, [songs, onSelectItem,noResult])
+            noResult ? <NoResult/> : <Loading/>
+    }, [songs, onSelectItem, noResult])
 
     return (
         <div className={styles.musicList}>
@@ -150,14 +164,14 @@ const MusicList: React.FC<Props> = (props) => {
                          style={playBtnStyle}
                     >
                         <i className={`icon-play ${styles.iconPlay}`}/>
-                        <span className={styles.text}>随机播放全部</span>
+                        <span className={styles.text} onClick={onRandomPlaying}>随机播放全部</span>
                     </div>
                 </div>
                 <div className={styles.filter}
                      style={filterStyle}/>
             </div>
             <Scroll className={styles.list}
-                    style={{bottom: songs.length ? '.6rem' : '0'}}
+                    style={{bottom: playList.length ? '.6rem' : '0'}}
                     onScroll={onScroll}
                     probeType={3}
                     ref={musicRef}
