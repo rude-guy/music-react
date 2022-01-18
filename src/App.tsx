@@ -7,6 +7,7 @@ import TopList from './pages/topList/TopList'
 import Singer from './pages/singer/Singer'
 import Recommend from './pages/recommend/Recommend'
 import Header from './components/header/Header'
+import Player from './components/player/Player'
 
 function App () {
     return (
@@ -23,6 +24,7 @@ function App () {
                         <Redirect from={'/'} to={'/recommend'}/>
                     </Switch>
                 </div>
+                <Player />
             </Router>
         </div>
     )

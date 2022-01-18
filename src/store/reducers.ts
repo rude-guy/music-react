@@ -53,7 +53,14 @@ export const musicSlice = createSlice({
         setFavoriteList (state, action: PayloadAction<Song[]>) {
             state.favoriteList = action.payload
         },
-    }
+    },
+    // extraReducers: (builder) => {
+    //     builder
+    //         .addCase(incrementAsync.pending, (state) => {
+    //         })
+    //         .addCase(incrementAsync.fulfilled, (state, action) => {
+    //         });
+    // },
 })
 
 export const {
@@ -68,6 +75,6 @@ export const {
 // 根状态
 export const selectMusic = ({music}: RootState) => music
 // 当前播放歌曲
-export const currentSong = ({music}: RootState) => music.playList[music.currentIndex] || {}
+export const getCurrentSong = ({music}: RootState) => music.playList[music.currentIndex] || {}
 
 export default musicSlice.reducer

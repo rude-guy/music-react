@@ -1,0 +1,264 @@
+.normalPlayer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 150;
+    background: #222;
+}
+
+.background {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.6;
+    filter: blur(.2rem);
+}
+
+.background img {
+    width: 100%;
+    height: 100%;
+}
+
+.top {
+    position: relative;
+    margin-bottom: .25rem;
+}
+
+.top .back {
+    position: absolute;
+    top: 0;
+    left: .06rem;
+    z-index: 50;
+}
+
+.top .iconBack {
+    display: block;
+    padding: .09rem;
+    font-size: .22rem;
+    color: #ffcd32;
+    transform: rotate(-90deg);
+}
+
+.top .title {
+    width: 70%;
+    margin: 0 auto;
+    line-height: .40rem;
+    text-align: center;
+    font-size: .18rem;
+    color: #fff;
+}
+
+.top .subtitle {
+    line-height: .2rem;
+    text-align: center;
+    font-size: .14rem;
+    color: #fff;
+}
+
+.middle {
+    position: fixed;
+    width: 100%;
+    top: .8rem;
+    bottom: 1.7rem;
+    white-space: nowrap;
+    font-size: 0;
+}
+
+.middle .middleL {
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-top: 80%;
+}
+
+.middleL .cdWrapper {
+    position: absolute;
+    left: 10%;
+    top: 0;
+    width: 80%;
+    box-sizing: border-box;
+    height: 100%;
+}
+
+.middleL .cdWrapper .cd {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.middleL .cdWrapper .cd img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    border-radius: 50%;
+    border: .1rem solid rgba(255, 255, 255, 0.1);
+    animation: rotate 20s linear infinite
+}
+
+.middleL .cdWrapper .cd .paused {
+    animation-play-state: paused;
+}
+
+.middleL .cdWrapper .cd .running {
+    animation-play-state: running;
+}
+
+.middleL .playingLyricWrapper {
+    width: 80%;
+    margin: .3rem auto 0 auto;
+    overflow: hidden;
+    text-align: center;
+}
+
+.middleL .playingLyricWrapper .playingLyric {
+    height: .2rem;
+    line-height: .2rem;
+    font-size: .14rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.middleR {
+    display: inline-block;
+    vertical-align: top;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.middleR .lyricWrapper {
+    width: 80%;
+    margin: 0 auto;
+    overflow: hidden;
+    text-align: center;
+}
+
+.middleR .lyricWrapper .text {
+    line-height: .32rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: .14rem;
+}
+
+.middleR .lyricWrapper .text.current {
+    color: #fff;
+}
+
+.middleR .lyricWrapper .pureMusic {
+    padding-top: 50%;
+    line-height: .32rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: .14rem;
+}
+
+.bottom {
+    position: absolute;
+    bottom: .5rem;
+    width: 100%;
+}
+
+.bottom .dotWrapper {
+    text-align: center;
+    font-size: 0;
+}
+
+.bottom .dotWrapper .dot {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 .04rem;
+    width: .08rem;
+    height: .08rem;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.bottom .dotWrapper .dot.active {
+    width: .2rem;
+    border-radius: .05rem;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.progressWrapper {
+    display: flex;
+    align-items: center;
+    width: 80%;
+    margin: 0 auto;
+    padding: .1rem 0;
+}
+
+.progressWrapper .time {
+    color: #fff;
+    font-size: .12rem;
+    flex: 0 0 .4rem;
+    line-height: .3rem;
+    width: .4rem;
+}
+
+.progressWrapper .time.timeL {
+    text-align: left;
+}
+
+.progressWrapper .time.timeR {
+    text-align: right;
+}
+
+.progressWrapper .progressBarWrapper {
+    flex: 1;
+}
+
+.operators {
+    display: flex;
+    align-items: center;
+}
+
+.operators .icon {
+    flex: 1;
+    color: #ffcd32;
+}
+
+.operators .icon.disable {
+    color: rgba(255, 205, 49, 0.5);
+}
+
+.operators .icon i {
+    font-size: .3rem;
+}
+
+.operators .iLeft {
+    text-align: right;
+}
+
+.operators .iCenter {
+    padding: 0 .2rem;
+    text-align: center;
+}
+
+.operators .iCenter i {
+    font-size: .4rem;
+}
+
+.operators .iRight {
+    text-align: left
+}
+
+.operators .iconFavorite {
+    color: #d93f30;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0)
+    }
+
+    100% {
+        transform: rotate(360deg)
+    }
+}
