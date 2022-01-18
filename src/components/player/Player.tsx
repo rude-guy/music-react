@@ -6,7 +6,8 @@ import Scroll from '../scroll/Scroll'
 import {changeMode} from '../../store/actions'
 import ProgressBar from '../progressBar/ProgressBar'
 import {formatTime} from '../../utils/util'
-import {useAudio, useAudioState} from './audio'
+import useAudio,{useAudioState} from './useAudio'
+import useProgress from './useProgress'
 
 const useStore = () => {
     const dispatch = useAppDispatch()
@@ -16,7 +17,6 @@ const useStore = () => {
     const closeFullScreen = useCallback(() => {
         dispatch(setFullScreen(false))
     }, [dispatch])
-
 
     const getFavoriteIcon = useMemo(() => {
         return 'icon-not-favorite'
@@ -67,12 +67,18 @@ const Player = () => {
 
     const [currentTime, setCurrentTime] = useState(0)
 
+    // 进度条相关逻辑
+    const {
+        progressChanging, progress,
+        onProgressChanging, onProgressChanged
+    } = useProgress({currentTime, setCurrentTime, audioRef})
+
     // audio相关
     const {
         ontimeupdate, onpause, oncanplay,
         onended, onerror, prevSong, nextSong,
         togglePlaying
-    } = useAudio({songReady, setSongReady, setCurrentTime, audioRef})
+    } = useAudio({songReady, setSongReady, setCurrentTime, progressChanging, audioRef})
 
     // 播放状态
     const {currentSong} = useAudioState({audioRef, setCurrentTime, setSongReady})
@@ -129,7 +135,10 @@ const Player = () => {
                     <div className={styles.progressWrapper}>
                         <span className={`${styles.time} ${styles.timeL}`}>{formatTime(currentTime)}</span>
                         <div className={styles.progressBarWrapper}>
-                            <ProgressBar/>
+                            <ProgressBar progress={progress}
+                                         onProgressChanging={onProgressChanging}
+                                         onProgressChanged={onProgressChanged}
+                            />
                         </div>
                         <span className={`${styles.time} ${styles.timeR}`}>{formatTime(currentSong.duration)}</span>
                     </div>

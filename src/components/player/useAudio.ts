@@ -14,6 +14,7 @@ type AudioState = {
 
 type Audio = {
     songReady: boolean
+    progressChanging: boolean
 } & AudioState
 
 export const useAudioState = ({audioRef, setCurrentTime, setSongReady}: AudioState) => {
@@ -29,18 +30,24 @@ export const useAudioState = ({audioRef, setCurrentTime, setSongReady}: AudioSta
         audioVal.src = currentSong.url
         audioVal.play()
         dispatch(setPlayingState(true))
-    }, [currentSong])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dispatch, currentSong])
     // 窃听当前播放状态
     useEffect(() => {
         const audioVal = audioRef.current
         if (audioVal == null) return
         playing ? audioVal.play() : audioVal.pause()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [playing])
     return {audioRef, currentSong}
 }
 
 
-export const useAudio = ({songReady, setSongReady, setCurrentTime, audioRef}: Audio) => {
+const useAudio = ({
+        songReady, setSongReady, setCurrentTime,
+        audioRef, progressChanging
+    }: Audio
+) => {
     const {
         playMode, currentIndex, playList,
         playing
@@ -53,6 +60,7 @@ export const useAudio = ({songReady, setSongReady, setCurrentTime, audioRef}: Au
         audioVal.currentTime = 0
         audioVal.play()
         dispatch(setPlayingState(true))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch])
 
     // 上一首
@@ -81,8 +89,10 @@ export const useAudio = ({songReady, setSongReady, setCurrentTime, audioRef}: Au
     }, [dispatch, playList, currentIndex, songReady, loop])
 
     const ontimeupdate = useCallback((e) => {
+        if (progressChanging) return
         setCurrentTime(e.target.currentTime)
-    }, [])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [progressChanging])
 
     // 窃听audio标签暂停事件
     const onpause = useCallback(() => {
@@ -93,6 +103,7 @@ export const useAudio = ({songReady, setSongReady, setCurrentTime, audioRef}: Au
     const oncanplay = useCallback(() => {
         if (songReady) return
         setSongReady(true)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [songReady])
 
     // 窃听audio音频播放结束
@@ -103,6 +114,7 @@ export const useAudio = ({songReady, setSongReady, setCurrentTime, audioRef}: Au
     // 窃听audio音频播放错误
     const onerror = useCallback(() => {
         setSongReady(true)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     // 播放暂停切换
     const togglePlaying = useCallback(() => {
@@ -115,3 +127,5 @@ export const useAudio = ({songReady, setSongReady, setCurrentTime, audioRef}: Au
         prevSong, nextSong, togglePlaying
     }
 }
+
+export default useAudio
