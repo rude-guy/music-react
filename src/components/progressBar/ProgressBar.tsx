@@ -17,9 +17,12 @@ const touch = {
 const ProgressBar: React.FC<Props> = ({progress, onProgressChanging, onProgressChanged}) => {
     const [offset, setOffset] = useState(0)
     const [barWidth, setBarWidth] = useState(0)
+    const [rectLeft, setRectLeft] = useState(0)
+    // 整个容器ref
     const container = useCallback(node => {
         if (node !== null) {
             const barWidth = node.clientWidth - progressBtnWidth
+            setRectLeft(node.getBoundingClientRect().left)
             setBarWidth(barWidth)
             setOffset(barWidth * progress / 100)
         }
@@ -47,7 +50,16 @@ const ProgressBar: React.FC<Props> = ({progress, onProgressChanging, onProgressC
         onProgressChanged?.(progress)
     }, [barWidth, onProgressChanged])
 
-    return <div className={styles.progressBar} ref={container}>
+    const onclick = useCallback((e: React.MouseEvent) => {
+        const offsetWidth = e.pageX - rectLeft
+        const progress = offsetWidth / barWidth
+        onProgressChanged?.(progress)
+    }, [rectLeft, barWidth, onProgressChanged])
+
+    return <div className={styles.progressBar}
+                ref={container}
+                onClick={onclick}
+    >
         <div className={styles.barInner}>
             <div className={styles.progress}
                  ref={progressRef}

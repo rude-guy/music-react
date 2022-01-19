@@ -6,8 +6,9 @@ import Scroll from '../scroll/Scroll'
 import {changeMode} from '../../store/actions'
 import ProgressBar from '../progressBar/ProgressBar'
 import {formatTime} from '../../utils/util'
-import useAudio,{useAudioState} from './useAudio'
+import useAudio, {useAudioState, useTogglePlaying} from './useAudio'
 import useProgress from './useProgress'
+import MiniPlayer from '../miniPlayer/MiniPlayer'
 
 const useStore = () => {
     const dispatch = useAppDispatch()
@@ -77,8 +78,9 @@ const Player = () => {
     const {
         ontimeupdate, onpause, oncanplay,
         onended, onerror, prevSong, nextSong,
-        togglePlaying
     } = useAudio({songReady, setSongReady, setCurrentTime, progressChanging, audioRef})
+
+    const togglePlaying = useTogglePlaying()
 
     // 播放状态
     const {currentSong} = useAudioState({audioRef, setCurrentTime, setSongReady})
@@ -168,6 +170,7 @@ const Player = () => {
                     </div>
                 </div>
             </div>
+            <MiniPlayer />
             <audio ref={audioRef}
                    onTimeUpdate={ontimeupdate}
                    onPause={onpause}

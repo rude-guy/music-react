@@ -1,0 +1,106 @@
+.miniPlayer {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 180;
+    width: 100%;
+    height: .6rem;
+    background: #333;
+}
+
+.cdWrapper {
+    flex: 0 0 .4rem;
+    width: .4rem;
+    height: .4rem;
+    padding: 0 .1rem 0 .2rem;
+    box-sizing: content-box;
+}
+
+.cdWrapper .cd {
+    height: 100%;
+    width: 100%;
+}
+
+.cdWrapper .cd img {
+    border-radius: 50%;
+    animation: rotate 10s linear infinite;
+}
+
+.cdWrapper .cd img.playing {
+    animation: rotate 10s linear infinite;
+}
+
+.cdWrapper .cd img.paused {
+    animation-play-state: paused;
+}
+
+.cdWrapper .cd img.running {
+    animation-play-state: running;
+}
+
+.sliderWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+    line-height: .2rem;
+    overflow: hidden;
+}
+
+.sliderWrapper .sliderGroup {
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.sliderGroup .sliderPage {
+    display: inline-block;
+    width: 100%;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+}
+
+.name {
+    margin-bottom: .02rem;
+    font-size: .14rem;
+    color: #fff;
+}
+
+.desc {
+    font-size: .12rem;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.control {
+    flex: 0 0 .3rem;
+    width: .3rem;
+    padding: 0 .1rem;
+    box-sizing: content-box;
+}
+
+.control .iconPlaylist {
+    position: relative;
+    top: -.02rem;
+    font-size: .28rem;
+    color: rgba(255, 205, 49, 0.5);
+}
+
+.control .iconMini {
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: rgba(255, 205, 49, 0.5);
+    font-size: .32rem;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0)
+    }
+
+    100% {
+        transform: rotate(360deg)
+    }
+}

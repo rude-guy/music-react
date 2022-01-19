@@ -42,15 +42,24 @@ export const useAudioState = ({audioRef, setCurrentTime, setSongReady}: AudioSta
     return {audioRef, currentSong}
 }
 
+export const useTogglePlaying = () => {
+    const dispatch = useAppDispatch()
+    const {playing} = useAppSelector(selectMusic)
+    // 播放暂停切换
+    return useCallback((e: React.MouseEvent) => {
+        e.stopPropagation()
+        dispatch(setPlayingState(!playing))
+    }, [dispatch, playing])
+}
+
 
 const useAudio = ({
-        songReady, setSongReady, setCurrentTime,
-        audioRef, progressChanging
-    }: Audio
+                      songReady, setSongReady, setCurrentTime,
+                      audioRef, progressChanging
+                  }: Audio
 ) => {
     const {
-        playMode, currentIndex, playList,
-        playing
+        playMode, currentIndex, playList
     } = useAppSelector(selectMusic)
     const dispatch = useAppDispatch()
 
@@ -116,15 +125,11 @@ const useAudio = ({
         setSongReady(true)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-    // 播放暂停切换
-    const togglePlaying = useCallback(() => {
-        dispatch(setPlayingState(!playing))
-    }, [dispatch, playing])
 
     return {
         ontimeupdate, onpause, oncanplay,
         onended, onerror,
-        prevSong, nextSong, togglePlaying
+        prevSong, nextSong
     }
 }
 

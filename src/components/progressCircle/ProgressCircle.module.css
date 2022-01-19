@@ -1,0 +1,18 @@
+.progressCircle {
+    position: relative;
+    box-sizing: content-box;
+}
+circle {
+    stroke-width: .08rem;
+    transform-origin: center;
+}
+
+circle.progressBackground {
+    transform: scale(0.9);
+    stroke: rgba(255, 205, 49, 0.5);
+}
+
+circle.progressBar {
+    transform: scale(0.9) rotate(-90deg);
+    stroke: #ffcd32;
+}
