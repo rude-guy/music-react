@@ -17,6 +17,7 @@
     "@types/react-redux": "^7.1.22",
     "axios": "^0.24.0",
     "better-scroll": "^2.4.2",
+    "create-keyframe-animation": "^0.1.0",
     "good-storage": "^1.1.1",
     "lyric-parser": "^1.0.1",
     "react": "^17.0.2",
@@ -24,6 +25,7 @@
     "react-redux": "^7.2.6",
     "react-router-dom": "^5.3.0",
     "react-scripts": "5.0.0",
+    "react-transition-group": "^4.4.2",
     "typescript": "^4.5.4",
     "web-vitals": "^2.1.3"
   },
@@ -70,6 +72,7 @@
     "@types/lyric-parser": "^1.0.1",
     "@types/react-router-dom": "^5.3.2",
     "@welldone-software/why-did-you-render": "^6.2.3",
+    "@types/react-transition-group": "^4.4.2",
     "antd": "^4.18.2",
     "craco-less": "^2.0.0",
     "eslint-plugin-react-hooks": "^4.3.0",

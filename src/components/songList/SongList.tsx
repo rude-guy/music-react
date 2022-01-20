@@ -1,14 +1,14 @@
-import React, {useCallback} from 'react'
+import React, {HTMLAttributes} from 'react'
 import styles from './SongList.module.css'
 import {Song} from '../../pages/singer/singerDetail/SingerDetail'
 
-interface SongListProps {
+interface SongListProps extends HTMLAttributes<HTMLDivElement> {
     songs: Song[]
     onSelectItem?: (song: Song, index: number) => void
 }
 
-const SongList: React.FC<SongListProps> = ({songs, onSelectItem}) => {
-    return <div className={styles.songListWrapper}>
+const SongList: React.FC<SongListProps> = React.memo(({songs, onSelectItem, ...props}) => {
+    return <div className={styles.songListWrapper} {...props}>
         <ul className={styles.songList}>
             {
                 songs.map((song, index) => {
@@ -28,6 +28,6 @@ const SongList: React.FC<SongListProps> = ({songs, onSelectItem}) => {
             }
         </ul>
     </div>
-}
+})
 
 export default SongList

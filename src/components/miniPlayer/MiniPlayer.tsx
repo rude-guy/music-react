@@ -8,7 +8,7 @@ import {useTogglePlaying} from '../player/useAudio'
 const MiniPlayer = () => {
     const dispatch = useAppDispatch()
     const currentSong = useAppSelector(getCurrentSong)
-    const {playing, fullScreen} = useAppSelector(selectMusic)
+    const {playing} = useAppSelector(selectMusic)
 
     // 切换播放状态
     const togglePlaying = useTogglePlaying()
@@ -20,7 +20,6 @@ const MiniPlayer = () => {
     return (
         <div className={styles.miniPlayer}
              onClick={toggleFullScreen}
-             style={{display: fullScreen ? 'none' : ''}}
         >
             <div className={styles.cdWrapper}>
                 <div className={styles.cd}>

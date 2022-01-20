@@ -2,18 +2,18 @@ import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react'
 import styles from './MusicList.module.css'
 import Scroll, {Pos} from '../scroll/Scroll'
 import {Rest, Song} from '../../pages/singer/singerDetail/SingerDetail'
-import {useHistory} from 'react-router-dom'
 import {NumberOrString} from '../../types'
 import Loading from '../loading/Loading'
 import NoResult from '../noResult/NoResult'
 import SongList from '../songList/SongList'
 import {randomPlay, selectPlay} from '../../store/actions'
-import {useAppDispatch, useAppSelector} from '../../store/hooks'
-import {selectMusic} from '../../store/reducers'
+import {useAppDispatch} from '../../store/hooks'
+import {useScrollStyle} from '../../utils/hooks'
 
 type Props = {
     songs: Song[],
     noResult: boolean
+    goBack(): void
 } & Rest
 
 const RESERVED_HEIGHT = 40  // tab高度
@@ -95,7 +95,6 @@ const useStyle = (scrollY: number, pic: string) => {
 
 // 派发store
 const useStore = ({songs}: { songs: Song[] }) => {
-    const music = useAppSelector(selectMusic)
     const dispatch = useAppDispatch()
     // 选择歌曲
     const onSelectItem = useCallback((song: Song, index: number) => {
@@ -110,13 +109,12 @@ const useStore = ({songs}: { songs: Song[] }) => {
     return {
         onSelectItem,
         onRandomPlaying,
-        playList: music.playList
     }
 }
 
 const MusicList: React.FC<Props> = (props) => {
-    const {songs, pic, title, noResult = false} = props
-    const history = useHistory()
+    const {songs, pic, title, noResult = false, goBack} = props
+
     const musicRef = useRef<any>(null)
     // 获取滚动Y坐标
     const {scrollY, onScroll} = useScroll()
@@ -141,17 +139,19 @@ const MusicList: React.FC<Props> = (props) => {
     // 派发store
     const {
         onSelectItem, onRandomPlaying,
-        playList
     } = useStore({songs})
+
+    const scrollStyle = useScrollStyle()
+
     // 渲染组件
     const renderComponent = useMemo(() => {
-        return songs.length ? <SongList songs={songs} onSelectItem={onSelectItem}/> :
+        return songs.length ? <SongList songs={songs} onSelectItem={onSelectItem} style={scrollStyle}/> :
             noResult ? <NoResult/> : <Loading/>
-    }, [songs, onSelectItem, noResult])
+    }, [songs, onSelectItem, noResult, scrollStyle])
 
     return (
         <div className={styles.musicList}>
-            <div className={styles.back} onClick={() => history.goBack()}>
+            <div className={styles.back} onClick={goBack}>
                 <i className={`icon-back ${styles.iconBack}`}/>
             </div>
             <h1 className={`${styles.title} no-wrap`}>{title}</h1>
@@ -171,7 +171,7 @@ const MusicList: React.FC<Props> = (props) => {
                      style={filterStyle}/>
             </div>
             <Scroll className={styles.list}
-                    style={{bottom: playList.length ? '.6rem' : '0'}}
+                    style={scrollStyle}
                     onScroll={onScroll}
                     probeType={3}
                     ref={musicRef}

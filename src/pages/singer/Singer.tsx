@@ -3,7 +3,7 @@ import storage from 'good-storage'
 import styles from './Singer.module.css'
 import {getSingerList} from '../../services/singer'
 import IndexList from './components/indexList/IndexList'
-import {Route, Switch, useHistory , useRouteMatch} from 'react-router-dom'
+import {Route, Switch, useHistory, useRouteMatch} from 'react-router-dom'
 import {SingerDetail} from './singerDetail/SingerDetail'
 import {SINGER_KEY} from '../../assets/ts/constant'
 import Loading from '../../components/loading/Loading'
@@ -24,6 +24,7 @@ const Singer = () => {
     const [singers, setSingers] = useState<SingerData[]>([])
     const {path, url} = useRouteMatch()
     const history = useHistory()
+
     useEffect(() => {
         const getData = async () => {
             const result = await getSingerList()
@@ -39,16 +40,14 @@ const Singer = () => {
         storage.session.set(SINGER_KEY, singer)
         history.push(`${url}/${singer.mid}`)
     }, [url, history])
-    return (
-        <div className={styles.singer}>
-            <Switch>
-                <Route exact path={`${path}`}>
-                    {singers.length ? <IndexList singers={singers} selectSinger={selectSinger}/> : <Loading />}
-                </Route>
-                <Route path={`${path}/:singerId`} component={SingerDetail} />
-            </Switch>
-        </div>
-    )
+
+
+    return <div className={styles.singer}>
+        {singers.length ? <IndexList singers={singers} selectSinger={selectSinger}/> : <Loading/>}
+        <Switch>
+            <Route path={`${path}/:singerId`} component={SingerDetail}/>
+        </Switch>
+    </div>
 }
 
 export default Singer

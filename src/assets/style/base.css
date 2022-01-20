@@ -1,60 +1,157 @@
 body, html {
-  line-height: 1;
-  font-family: 'PingFang SC', 'STHeitiSC-Light', 'Helvetica-Light', arial, sans-serif, 'Droid Sans Fallback';
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  background: #222;
-  color: #fff;
+    line-height: 1;
+    font-family: 'PingFang SC', 'STHeitiSC-Light', 'Helvetica-Light', arial, sans-serif, 'Droid Sans Fallback';
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    background: #222;
+    color: #fff;
 }
 
 .g-relative {
-  position: relative;
+    position: relative;
 }
 
-.slide-enter-active, .slide-leave-active {
-  transition: all 0.3s
+
+/*页面切换*/
+.slide-appear {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0)
 }
 
-.slide-enter-from, .slide-leave-to {
-  transform: translate3d(100%, 0, 0)
+.slide-appear-active {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    transition: all 0.3s;
 }
+
+.slide-exit {
+    opacity: 1;
+    transform: translate3d(0, 0, 0)
+}
+
+.slide-exit-active {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
+    transition: all 0.3s;
+}
+
+/*播放器显示隐藏*/
+.normal-enter {
+    opacity: 0;
+}
+
+.normal-enter .top {
+    transform: translate3d(0, -1rem, 0);
+}
+
+.normal-enter .bottom {
+    transform: translate3d(0, 1rem, 0)
+}
+
+.normal-enter-active {
+    opacity: 1;
+    transition: all .6s;
+}
+
+.normal-enter-active .top,
+.normal-enter-active .bottom {
+    transform: translate3d(0, 0, 0);
+    transition: all .6s cubic-bezier(0.45, 0, 0.55, 1);
+}
+
+.normal-exit {
+    opacity: 1;
+}
+
+.normal-exit .top,
+.normal-exit .bottom{
+    transform: translate3d(0, 0, 0);
+}
+
+.normal-exit-active {
+    opacity: 0;
+    transition: all .6s;
+}
+
+.normal-exit-active .top {
+    transform: translate3d(0, -1rem, 0);
+    transition: all .6s cubic-bezier(0.45, 0, 0.55, 1);
+}
+
+.normal-exit-active .bottom {
+    transform: translate3d(0, 1rem, 0);
+    transition: all .6s cubic-bezier(0.45, 0, 0.55, 1);
+}
+
+.normal-exit-done {
+    display: none !important;
+}
+
+
+/*mini播放器*/
+.mini-enter {
+    opacity: 1;
+    transform: translate3d(0, 0, 0)
+}
+
+.mini-enter-active {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+    transition: all 600ms;
+}
+
+.mini-enter-done {
+    display: none !important;
+}
+
+.mini-exit {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+}
+
+.mini-exit-active {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    transition: all 600ms;
+}
+
 
 .list-enter-active, .list-leave-active {
-  transition: all 0.3s;
+    transition: all 0.3s;
 }
 
-.list-enter-from, .list-leave-to {
-  height: 0 !important;
+.list-enter, .list-leave-done {
+    height: 0 !important;
 }
 
 @keyframes rotate {
-  0% {
-    transform: rotate(0)
-  }
+    0% {
+        transform: rotate(0)
+    }
 
-  100% {
-    transform: rotate(360deg)
-  }
+    100% {
+        transform: rotate(360deg)
+    }
 }
 
 /*禁止折行*/
 .no-wrap {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 /*扩展小图标按钮的点击区域*/
 .extend-click {
-  position: relative;
+    position: relative;
 }
 
 .extend-click :before {
-  content: '';
-  position: absolute;
-  top: -.1rem;
-  left: -.1rem;
-  right: -.1rem;
-  bottom: -.1rem;
+    content: '';
+    position: absolute;
+    top: -.1rem;
+    left: -.1rem;
+    right: -.1rem;
+    bottom: -.1rem;
 }
 

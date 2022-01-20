@@ -59,6 +59,7 @@ const useFixed = function ({singers}: Props) {
         }
         setListHeights(heights)
         heights = null
+
     }, [singers])
 
     // 在0~TITLE_HEIGHT之间实现标题向上推动

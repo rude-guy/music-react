@@ -17,7 +17,7 @@ const IndexList: React.FC<Props> = ({singers, selectSinger}) => {
 
     const [onShortcutTouchStart, onShortcutTouchMove] = useShortcut(scrollTo)
     return (
-        <>
+        <div>
             <div className={styles.indexList}
                  ref={scrollRef}
             >
@@ -67,7 +67,7 @@ const IndexList: React.FC<Props> = ({singers, selectSinger}) => {
                     })
                 }</ul>
             </div>
-        </>
+        </div>
     )
 }
 

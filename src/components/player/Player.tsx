@@ -1,5 +1,6 @@
-import React, {useCallback, useMemo, useRef, useState} from 'react'
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react'
 import styles from './Player.module.css'
+import {CSSTransition} from 'react-transition-group'
 import {useAppDispatch, useAppSelector} from '../../store/hooks'
 import {PLAY_MODE, selectMusic, setFullScreen} from '../../store/reducers'
 import Scroll from '../scroll/Scroll'
@@ -16,22 +17,43 @@ import useMiddleInteractive from './useMiddleInteractive'
 export const ProcessContext = React.createContext<number>(0)
 ProcessContext.displayName = 'myProcessContext'
 
-const useStore = () => {
+// 使用动画
+export const useCssTransition = () => {
     const dispatch = useAppDispatch()
-    const {
-        playList, fullScreen, playing,
-    } = useAppSelector(selectMusic)
-    const closeFullScreen = useCallback(() => {
+    const {fullScreen} = useAppSelector(selectMusic)
+    const [animation, setAnimation] = useState(false)
+
+    function closeFullScreen () {
         dispatch(setFullScreen(false))
-    }, [dispatch])
+    }
+
+    function closeAnimation () {
+        setAnimation(false)
+    }
+
+    useEffect(() => {
+        setAnimation(fullScreen)
+        return () => {
+            setAnimation(false)
+        }
+    }, [fullScreen])
+    return {
+        fullScreen, animation,
+        closeFullScreen, closeAnimation
+    }
+}
+
+const useStore = () => {
+    const {
+        playList, playing,
+    } = useAppSelector(selectMusic)
 
     const getFavoriteIcon = useMemo(() => {
         return 'icon-not-favorite'
     }, [])
 
     return {
-        playList, fullScreen, playing,
-        closeFullScreen,
+        playList, playing,
         getFavoriteIcon,
     }
 }
@@ -60,8 +82,7 @@ const usePlayMode = () => {
 
 const Player = () => {
     const {
-        playList, fullScreen, playing,
-        closeFullScreen,
+        playList, playing,
         getFavoriteIcon,
     } = useStore()
 
@@ -97,117 +118,126 @@ const Player = () => {
     // 播放状态
     const {currentSong} = useAudioState({audioRef, setCurrentTime, setSongReady, playLyric, stopLyric})
 
+    // 播放页左右滑动
     const {
-       onMiddleTouchstart, onMiddleTouchmove, onMiddleTouchend,
-       currentShow, middleRStyle, middleLStyle
+        onMiddleTouchstart, onMiddleTouchmove, onMiddleTouchend,
+        currentShow, middleRStyle, middleLStyle
     } = useMiddleInteractive()
+
+    // 屏幕动画相关
+    const {animation, closeFullScreen, closeAnimation} = useCssTransition()
 
     return (
         <div className={'player'}
              style={{display: playList.length ? '' : 'none'}}
         >
-            <div className={styles.normalPlayer}
-                 style={{display: fullScreen ? '' : 'none'}}
-            >
-                <div className={styles.background}>
-                    <img src={currentSong.pic} alt={'song'}/>
-                </div>
-                <div className={styles.top}>
-                    <div className={styles.back}
-                         onClick={closeFullScreen}
-                    >
-                        <i className={`icon-back ${styles.iconBack}`}/>
-                    </div>
-                    <h1 className={`${styles.title} no-wrap`}>{currentSong.name}</h1>
-                    <h2 className={styles.subtitle}>{currentSong.singer}</h2>
-                </div>
-                <main className={styles.middle}
-                      onTouchStartCapture={onMiddleTouchstart}
-                      onTouchMoveCapture={onMiddleTouchmove}
-                      onTouchEndCapture={onMiddleTouchend}
+            <CSSTransition classNames={'normal'} timeout={600} in={animation} onExited={closeFullScreen}>
+                <div className={styles.normalPlayer}
+                    // style={{display: fullScreen ? '' : 'none'}}
                 >
-                    <div className={styles.middleL}
-                         style={middleLStyle}
+                    <div className={styles.background}>
+                        <img src={currentSong.pic} alt={'song'}/>
+                    </div>
+                    <div className={`${styles.top} top`}>
+                        <div className={styles.back}
+                             onClick={closeAnimation}
+                        >
+                            <i className={`icon-back ${styles.iconBack}`}/>
+                        </div>
+                        <h1 className={`${styles.title} no-wrap`}>{currentSong.name}</h1>
+                        <h2 className={styles.subtitle}>{currentSong.singer}</h2>
+                    </div>
+                    <main className={styles.middle}
+                          onTouchStartCapture={onMiddleTouchstart}
+                          onTouchMoveCapture={onMiddleTouchmove}
+                          onTouchEndCapture={onMiddleTouchend}
                     >
-                        <div className={styles.cdWrapper}>
-                            <div className={styles.cd}>
-                                <img className={`image ${playing ? styles.running : styles.paused}`}
-                                     src={currentSong.pic} alt={'song'}/>
+                        <div className={styles.middleL}
+                             style={middleLStyle}
+                        >
+                            <div className={styles.cdWrapper}>
+                                <div className={styles.cd}>
+                                    <img className={`image ${playing ? styles.running : styles.paused}`}
+                                         src={currentSong.pic} alt={'song'}/>
+                                </div>
+                            </div>
+                            <div className={styles.playingLyricWrapper}>
+                                <div
+                                    className={styles.playingLyric}>{playingLyric ? playingLyric : '歌词正在载入中~ ~ ~'}</div>
                             </div>
                         </div>
-                        <div className={styles.playingLyricWrapper}>
-                            <div className={styles.playingLyric}>{playingLyric ? playingLyric : '歌词正在载入中~ ~ ~'}</div>
-                        </div>
-                    </div>
-                    <Scroll className={styles.middleR}
-                            ref={lyricScrollRef}
-                            style={middleRStyle}
-                    >
-                        <div className={styles.lyricWrapper}>
-                            {
-                                currentLyric ? <div ref={lyricListRef}>
-                                    {
-                                        currentLyric.lines.map((line, index) => (
-                                            <p className={`${styles.text} ${currentLineNum === index ? styles.current : ''}`}
-                                               key={line.time}
-                                            >
-                                                {line.txt}
-                                            </p>
-                                        ))
-                                    }
-                                </div> : <></>
-                            }
-                            <div className={styles.pureMusic}
-                                 style={{display: pureMusicLyric ? '' : 'none'}}
-                            >
-                                <p>{pureMusicLyric}</p>
+                        <Scroll className={styles.middleR}
+                                ref={lyricScrollRef}
+                                style={middleRStyle}
+                        >
+                            <div className={styles.lyricWrapper}>
+                                {
+                                    currentLyric ? <div ref={lyricListRef}>
+                                        {
+                                            currentLyric.lines.map((line, index) => (
+                                                <p className={`${styles.text} ${currentLineNum === index ? styles.current : ''}`}
+                                                   key={line.time}
+                                                >
+                                                    {line.txt}
+                                                </p>
+                                            ))
+                                        }
+                                    </div> : <></>
+                                }
+                                <div className={styles.pureMusic}
+                                     style={{display: pureMusicLyric ? '' : 'none'}}
+                                >
+                                    <p>{pureMusicLyric}</p>
+                                </div>
                             </div>
+                        </Scroll>
+                    </main>
+                    <div className={`${styles.bottom} bottom`}>
+                        <div className={styles.dotWrapper}>
+                            <span className={`${styles.dot} ${currentShow === 'cd' ? styles.active : ''}`}/>
+                            <span className={`${styles.dot} ${currentShow === 'lyric' ? styles.active : ''}`}/>
                         </div>
-                    </Scroll>
-                </main>
-                <div className={styles.bottom}>
-                    <div className={styles.dotWrapper}>
-                        <span className={`${styles.dot} ${currentShow === 'cd' ? styles.active : ''}`}/>
-                        <span className={`${styles.dot} ${currentShow === 'lyric' ? styles.active : ''}`}/>
-                    </div>
-                    <div className={styles.progressWrapper}>
-                        <span className={`${styles.time} ${styles.timeL}`}>{formatTime(currentTime)}</span>
-                        <div className={styles.progressBarWrapper}>
-                            <ProgressBar progress={progress}
-                                         onProgressChanging={onProgressChanging}
-                                         onProgressChanged={onProgressChanged}
-                            />
+                        <div className={styles.progressWrapper}>
+                            <span className={`${styles.time} ${styles.timeL}`}>{formatTime(currentTime)}</span>
+                            <div className={styles.progressBarWrapper}>
+                                <ProgressBar progress={progress}
+                                             onProgressChanging={onProgressChanging}
+                                             onProgressChanged={onProgressChanged}
+                                />
+                            </div>
+                            <span className={`${styles.time} ${styles.timeR}`}>{formatTime(currentSong.duration)}</span>
                         </div>
-                        <span className={`${styles.time} ${styles.timeR}`}>{formatTime(currentSong.duration)}</span>
-                    </div>
-                    <div className={styles.operators}>
-                        <div className={`${styles.icon} ${styles.iLeft}`}>
-                            <i className={modeIcon}
-                               onClick={togglePlayMode}
-                            />
-                        </div>
-                        <div className={`${styles.icon} ${styles.iLeft}`}>
-                            <i className="icon-prev"
-                               onClick={prevSong}
-                            />
-                        </div>
-                        <div className={`${styles.icon} ${styles.iCenter}`}>
-                            <i className={`${playing ? 'icon-pause' : 'icon-play'}`}
-                               onClick={togglePlaying}
-                            />
-                        </div>
-                        <div className={`${styles.icon} ${styles.iRight}`}>
-                            <i className="icon-next"
-                               onClick={nextSong}/>
-                        </div>
-                        <div className={`${styles.icon} ${styles.iRight}`}>
-                            <i className={getFavoriteIcon}/>
+                        <div className={styles.operators}>
+                            <div className={`${styles.icon} ${styles.iLeft}`}>
+                                <i className={modeIcon}
+                                   onClick={togglePlayMode}
+                                />
+                            </div>
+                            <div className={`${styles.icon} ${styles.iLeft}`}>
+                                <i className="icon-prev"
+                                   onClick={prevSong}
+                                />
+                            </div>
+                            <div className={`${styles.icon} ${styles.iCenter}`}>
+                                <i className={`${playing ? 'icon-pause' : 'icon-play'}`}
+                                   onClick={togglePlaying}
+                                />
+                            </div>
+                            <div className={`${styles.icon} ${styles.iRight}`}>
+                                <i className="icon-next"
+                                   onClick={nextSong}/>
+                            </div>
+                            <div className={`${styles.icon} ${styles.iRight}`}>
+                                <i className={getFavoriteIcon}/>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </CSSTransition>
             <ProcessContext.Provider value={progress || 0}>
-                <MiniPlayer/>
+                <CSSTransition classNames={'mini'} timeout={600} in={animation} mountOnEnter>
+                    <MiniPlayer/>
+                </CSSTransition>
             </ProcessContext.Provider>
             <audio ref={audioRef}
                    onTimeUpdate={ontimeupdate}
