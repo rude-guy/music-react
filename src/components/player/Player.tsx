@@ -10,6 +10,7 @@ import useAudio, {useAudioState, useTogglePlaying} from './useAudio'
 import useProgress from './useProgress'
 import MiniPlayer from '../miniPlayer/MiniPlayer'
 import useLyric from './useLyric'
+import useMiddleInteractive from './useMiddleInteractive'
 
 const useStore = () => {
     const dispatch = useAppDispatch()
@@ -92,6 +93,11 @@ const Player = () => {
     // 播放状态
     const {currentSong} = useAudioState({audioRef, setCurrentTime, setSongReady, playLyric, stopLyric})
 
+    const {
+       onMiddleTouchstart, onMiddleTouchmove, onMiddleTouchend,
+       currentShow, middleRStyle, middleLStyle
+    } = useMiddleInteractive()
+
     return (
         <div className={'player'}
              style={{display: playList.length ? '' : 'none'}}
@@ -111,8 +117,14 @@ const Player = () => {
                     <h1 className={`${styles.title} no-wrap`}>{currentSong.name}</h1>
                     <h2 className={styles.subtitle}>{currentSong.singer}</h2>
                 </div>
-                <main className={styles.middle}>
-                    <div className={styles.middleL}>
+                <main className={styles.middle}
+                      onTouchStartCapture={onMiddleTouchstart}
+                      onTouchMoveCapture={onMiddleTouchmove}
+                      onTouchEndCapture={onMiddleTouchend}
+                >
+                    <div className={styles.middleL}
+                         style={middleLStyle}
+                    >
                         <div className={styles.cdWrapper}>
                             <div className={styles.cd}>
                                 <img className={`image ${playing ? styles.running : styles.paused}`}
@@ -120,11 +132,12 @@ const Player = () => {
                             </div>
                         </div>
                         <div className={styles.playingLyricWrapper}>
-                            <div className={styles.playingLyric}>{playingLyric}</div>
+                            <div className={styles.playingLyric}>{playingLyric ? playingLyric : '歌词正在载入中~ ~ ~'}</div>
                         </div>
                     </div>
                     <Scroll className={styles.middleR}
                             ref={lyricScrollRef}
+                            style={middleRStyle}
                     >
                         <div className={styles.lyricWrapper}>
                             {
@@ -149,9 +162,9 @@ const Player = () => {
                     </Scroll>
                 </main>
                 <div className={styles.bottom}>
-                    <div className="dot-wrapper">
-                        <span className={styles.dot}/>
-                        {/*<span className={styles.dot} />*/}
+                    <div className={styles.dotWrapper}>
+                        <span className={`${styles.dot} ${currentShow === 'cd' ? styles.active : ''}`}/>
+                        <span className={`${styles.dot} ${currentShow === 'lyric' ? styles.active : ''}`}/>
                     </div>
                     <div className={styles.progressWrapper}>
                         <span className={`${styles.time} ${styles.timeL}`}>{formatTime(currentTime)}</span>

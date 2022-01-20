@@ -24,11 +24,21 @@ const useLyric = ({currentTime, songReady}: LyricProps) => {
     const [playingLyric, setPlayingLyric] = useState('')
     const [currentLineNum, setCurrentLineNum] = useState(0)
     const scrollCom = useRef<any>(null)
-    const lyricScrollRef = useCallback((node) => {
-        if (node !== null) {
-            scrollCom.current = node.getBScroll()
+    const lyricScrollRef = useRef<any>(null)
+
+    useEffect(() => {
+        let timer: any
+        if (lyricScrollRef.current) {
+            scrollCom.current = lyricScrollRef.current.getBScroll()
+            timer = setTimeout(() => {
+                lyricScrollRef.current.refresh()
+            }, 0)
         }
-    }, [])
+        return () => {
+            clearTimeout(timer)
+        }
+    }, [currentLyric])
+
     const lyricListRef = useRef<HTMLDivElement>(null)
 
     // 跳转歌词
@@ -47,7 +57,7 @@ const useLyric = ({currentTime, songReady}: LyricProps) => {
     }
 
     function handleLyric ({lineNum, txt}: { lineNum: number; txt: string }) {
-        console.log(txt)
+        console.log({lineNum, txt})
         setCurrentLineNum(lineNum)
         setPlayingLyric(txt)
         if (!scrollCom.current || lyricListRef.current == null) {
@@ -84,6 +94,7 @@ const useLyric = ({currentTime, songReady}: LyricProps) => {
         const hasLyric = currentLyric.lines.length
         if (hasLyric) {
             if (songReady) {
+                setPlayingLyric(currentLyric.lines[0].txt)
                 playLyric()
             }
         } else {
@@ -91,11 +102,13 @@ const useLyric = ({currentTime, songReady}: LyricProps) => {
             setPlayingLyric(newLyric)
             setPureMusicLyric(newLyric)
         }
-    }, [currentSong, dispatch, songReady])
+    }, [currentSong, dispatch])
 
     useEffect(() => {
         getLyricData()
         return () => {
+            stopLyric()
+            currentLyricRef.current = null
             setCurrentLyric(null)
         }
     }, [getLyricData])
