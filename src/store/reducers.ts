@@ -16,6 +16,8 @@ export interface MusicState {
     currentIndex: number  // 当前播放列表中歌曲的索引
     fullScreen: boolean  // 是否全屏播放
     favoriteList: Song[]   // 收藏歌曲播放列表
+    searchHistory: []    // 搜索历史
+    playHistory: Song[]   // 播放历史
 }
 
 const initialState: MusicState = {
@@ -25,7 +27,9 @@ const initialState: MusicState = {
     playMode: PLAY_MODE.sequence,
     currentIndex: 0,
     fullScreen: false,
-    favoriteList: []
+    favoriteList: [],
+    searchHistory: [],
+    playHistory: []
 }
 
 export const musicSlice = createSlice({
@@ -53,6 +57,21 @@ export const musicSlice = createSlice({
         setFavoriteList (state, action: PayloadAction<Song[]>) {
             state.favoriteList = action.payload
         },
+        addSongLyric (state, action: PayloadAction<{ song: Song, lyric: string }>) {
+            const {song, lyric} = action.payload
+            state.playList.map(item => {
+                if (item.mid === song.mid) {
+                    item.lyric = lyric
+                }
+                return item
+            })
+        },
+        setSearchHistory (state, action: PayloadAction<[]>) {
+            state.searchHistory = action.payload
+        },
+        setPlayHistory (state, action: PayloadAction<[]>) {
+            state.playHistory = action.payload
+        }
     },
     // extraReducers: (builder) => {
     //     builder
@@ -66,7 +85,8 @@ export const musicSlice = createSlice({
 export const {
     setPlayingState, setSequenceList, setPlayList,
     setPlayMode, setFullScreen, setCurrentIndex,
-    setFavoriteList
+    setFavoriteList, addSongLyric, setSearchHistory,
+    setPlayHistory
 } = musicSlice.actions
 
 /*

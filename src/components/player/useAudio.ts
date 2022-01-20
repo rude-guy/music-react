@@ -10,14 +10,18 @@ export type AudioRef = {
 type AudioState = {
     setCurrentTime: React.Dispatch<React.SetStateAction<number>>
     setSongReady: React.Dispatch<React.SetStateAction<boolean>>
+    playLyric: () => void
+    stopLyric: () => void
 } & AudioRef
 
 type Audio = {
     songReady: boolean
-    progressChanging: boolean
-} & AudioState
+    progressChanging: boolean,
+    setCurrentTime: React.Dispatch<React.SetStateAction<number>>
+    setSongReady: React.Dispatch<React.SetStateAction<boolean>>
+} & AudioRef
 
-export const useAudioState = ({audioRef, setCurrentTime, setSongReady}: AudioState) => {
+export const useAudioState = ({audioRef, setCurrentTime, setSongReady, playLyric, stopLyric}: AudioState) => {
     const currentSong = useAppSelector(getCurrentSong)
     const {playing} = useAppSelector(selectMusic)
     const dispatch = useAppDispatch()
@@ -36,7 +40,13 @@ export const useAudioState = ({audioRef, setCurrentTime, setSongReady}: AudioSta
     useEffect(() => {
         const audioVal = audioRef.current
         if (audioVal == null) return
-        playing ? audioVal.play() : audioVal.pause()
+        if (playing) {
+            audioVal.play()
+            playLyric()
+        } else {
+            audioVal.pause()
+            stopLyric()
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [playing])
     return {audioRef, currentSong}

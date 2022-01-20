@@ -1,6 +1,5 @@
 import React, {useEffect, useImperativeHandle, useRef, useState} from 'react'
 import BScroll from 'better-scroll'
-
 export type Pos = {
     x: number
     y: number
@@ -66,6 +65,7 @@ const Scroll: React.FC<ScrollProps> = React.forwardRef((props, ref) => {
         {children}
     </div>
 })
+
 
 Scroll.defaultProps = {
     click: true,

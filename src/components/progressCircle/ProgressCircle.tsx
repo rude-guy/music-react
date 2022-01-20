@@ -23,8 +23,8 @@ const ProgressCircle: React.FC<{ radius: number }> = ({radius, children}) => {
                 cx="50"
                 cy="50"
                 fill="transparent"
-                stroke-dasharray="dashArray"
-                stroke-dashoffset="dashOffset"
+                // stroke-dasharray="dashArray"
+                // stroke-dashoffset="dashOffset"
             />
         </svg>
         {children}

@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useRef, useState} from 'react'
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react'
 import styles from './Player.module.css'
 import {useAppDispatch, useAppSelector} from '../../store/hooks'
 import {PLAY_MODE, selectMusic, setFullScreen} from '../../store/reducers'
@@ -9,6 +9,7 @@ import {formatTime} from '../../utils/util'
 import useAudio, {useAudioState, useTogglePlaying} from './useAudio'
 import useProgress from './useProgress'
 import MiniPlayer from '../miniPlayer/MiniPlayer'
+import useLyric from './useLyric'
 
 const useStore = () => {
     const dispatch = useAppDispatch()
@@ -68,11 +69,17 @@ const Player = () => {
 
     const [currentTime, setCurrentTime] = useState(0)
 
+    // 歌词相关
+    const {
+        currentLyric, currentLineNum, playLyric, lyricScrollRef,
+        lyricListRef, stopLyric, pureMusicLyric, playingLyric
+    } = useLyric({currentTime, songReady})
+
     // 进度条相关逻辑
     const {
         progressChanging, progress,
         onProgressChanging, onProgressChanged
-    } = useProgress({currentTime, setCurrentTime, audioRef})
+    } = useProgress({currentTime, setCurrentTime, audioRef, playLyric, stopLyric})
 
     // audio相关
     const {
@@ -83,7 +90,7 @@ const Player = () => {
     const togglePlaying = useTogglePlaying()
 
     // 播放状态
-    const {currentSong} = useAudioState({audioRef, setCurrentTime, setSongReady})
+    const {currentSong} = useAudioState({audioRef, setCurrentTime, setSongReady, playLyric, stopLyric})
 
     return (
         <div className={'player'}
@@ -113,18 +120,30 @@ const Player = () => {
                             </div>
                         </div>
                         <div className={styles.playingLyricWrapper}>
-                            <div className={styles.playingLyric}>{'playingLyric'}</div>
+                            <div className={styles.playingLyric}>{playingLyric}</div>
                         </div>
                     </div>
-                    <Scroll className={styles.middleR}>
+                    <Scroll className={styles.middleR}
+                            ref={lyricScrollRef}
+                    >
                         <div className={styles.lyricWrapper}>
-                            <div>
-                                <p className={styles.text}>
-                                    {'line.txt'}
-                                </p>
-                            </div>
-                            <div className={styles.pureMusic}>
-                                <p>{'pureMusicLyric'}</p>
+                            {
+                                currentLyric ? <div ref={lyricListRef}>
+                                    {
+                                        currentLyric.lines.map((line, index) => (
+                                            <p className={`${styles.text} ${currentLineNum === index ? styles.current : ''}`}
+                                               key={line.time}
+                                            >
+                                                {line.txt}
+                                            </p>
+                                        ))
+                                    }
+                                </div> : <></>
+                            }
+                            <div className={styles.pureMusic}
+                                 style={{display: pureMusicLyric ? '' : 'none'}}
+                            >
+                                <p>{pureMusicLyric}</p>
                             </div>
                         </div>
                     </Scroll>
@@ -170,7 +189,7 @@ const Player = () => {
                     </div>
                 </div>
             </div>
-            <MiniPlayer />
+            <MiniPlayer/>
             <audio ref={audioRef}
                    onTimeUpdate={ontimeupdate}
                    onPause={onpause}

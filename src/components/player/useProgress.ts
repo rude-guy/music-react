@@ -5,10 +5,12 @@ import {AudioRef} from './useAudio'
 
 type UseProgress = {
     currentTime: number
-    setCurrentTime: React.Dispatch<React.SetStateAction<number>>
+    setCurrentTime: React.Dispatch<React.SetStateAction<number>>,
+    playLyric: (currentTime?: number) => void
+    stopLyric: () => void
 } & AudioRef
 
-const useProgress = ({currentTime, setCurrentTime, audioRef}: UseProgress) => {
+const useProgress = ({currentTime, setCurrentTime, audioRef, playLyric, stopLyric}: UseProgress) => {
     const currentSong = useAppSelector(getCurrentSong)
     const {playing} = useAppSelector(selectMusic)
     const dispatch = useAppDispatch()
@@ -22,13 +24,17 @@ const useProgress = ({currentTime, setCurrentTime, audioRef}: UseProgress) => {
     const onProgressChanging = useCallback((progress: number) => {
         setProgressChanging(true)
         setCurrentTime(progress * currentSong.duration)
+        playLyric()
+        stopLyric()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentSong])
 
     const onProgressChanged = useCallback((progress: number) => {
         setProgressChanging(false)
         const currentTime = progress * currentSong.duration
-        setCurrentTime(currentTime)
+        setCurrentTime(() => currentTime)
+        // debugger
+        playLyric(currentTime)
         if (!playing) dispatch(setPlayingState(true))
         if (audioRef.current == null) return
         audioRef.current.currentTime = currentTime

@@ -16,7 +16,7 @@ export interface Song {
     pic: string
     singer: string
     url: string
-    [params: string]: any
+    lyric?: string
 }
 
 export type Rest = {

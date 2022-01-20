@@ -52,3 +52,12 @@ export const changeMode = (mode: PLAY_MODE): AppThunk => (
     dispatch(setCurrentIndex(index))
     dispatch(setPlayMode(mode))
 }
+
+//
+// export const addSong = (song: Song): AppThunk => (
+//     dispatch,
+//     getState
+// ) => {
+//     const {playList, sequenceList} = selectMusic(getState())
+//
+// }
