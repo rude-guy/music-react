@@ -1,7 +1,12 @@
-import React from 'react'
+import React, {useContext, useMemo} from 'react'
 import styles from './ProgressCircle.module.css'
+import {ProcessContext} from '../player/Player'
 
 const ProgressCircle: React.FC<{ radius: number }> = ({radius, children}) => {
+    const progress = useContext<number>(ProcessContext)
+    const dashOffset = useMemo(() => {
+        return (1 - progress) * Math.PI * 100
+    }, [progress])
     return <div className={styles.progressCircle}>
         <svg
             width={radius}
@@ -23,14 +28,13 @@ const ProgressCircle: React.FC<{ radius: number }> = ({radius, children}) => {
                 cx="50"
                 cy="50"
                 fill="transparent"
-                // stroke-dasharray="dashArray"
-                // stroke-dashoffset="dashOffset"
+                strokeDasharray={Math.PI * 100}
+                strokeDashoffset={dashOffset}
             />
         </svg>
         {children}
     </div>
 }
-
 
 ProgressCircle.defaultProps = {
     radius: 100

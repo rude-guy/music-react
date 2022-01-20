@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react'
+import React, {useCallback, useMemo, useRef, useState} from 'react'
 import styles from './Player.module.css'
 import {useAppDispatch, useAppSelector} from '../../store/hooks'
 import {PLAY_MODE, selectMusic, setFullScreen} from '../../store/reducers'
@@ -11,6 +11,10 @@ import useProgress from './useProgress'
 import MiniPlayer from '../miniPlayer/MiniPlayer'
 import useLyric from './useLyric'
 import useMiddleInteractive from './useMiddleInteractive'
+
+// 熟悉context
+export const ProcessContext = React.createContext<number>(0)
+ProcessContext.displayName = 'myProcessContext'
 
 const useStore = () => {
     const dispatch = useAppDispatch()
@@ -202,7 +206,9 @@ const Player = () => {
                     </div>
                 </div>
             </div>
-            <MiniPlayer/>
+            <ProcessContext.Provider value={progress || 0}>
+                <MiniPlayer/>
+            </ProcessContext.Provider>
             <audio ref={audioRef}
                    onTimeUpdate={ontimeupdate}
                    onPause={onpause}

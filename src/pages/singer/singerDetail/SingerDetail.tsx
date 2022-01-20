@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useLayoutEffect, useState} from 'react'
 import styles from './SingerDetail.module.css'
 import MusicList from '../../../components/musicList/MusicList'
 import {getSingerDetail} from '../../../services/singer'
@@ -31,7 +31,7 @@ export const SingerDetail = () => {
         title: ''
     })
     const [noResult, setNoResult] = useState(false)
-    useEffect(() => {
+    useLayoutEffect(() => {
         const singer: SingerInfo = storage.session.get(SINGER_KEY)
         setRest({
             pic: singer.pic || '',

@@ -57,7 +57,6 @@ const useLyric = ({currentTime, songReady}: LyricProps) => {
     }
 
     function handleLyric ({lineNum, txt}: { lineNum: number; txt: string }) {
-        console.log({lineNum, txt})
         setCurrentLineNum(lineNum)
         setPlayingLyric(txt)
         if (!scrollCom.current || lyricListRef.current == null) {
@@ -93,8 +92,8 @@ const useLyric = ({currentTime, songReady}: LyricProps) => {
         setCurrentLyric(currentLyric)
         const hasLyric = currentLyric.lines.length
         if (hasLyric) {
+            setPlayingLyric(currentLyric.lines[0].txt)
             if (songReady) {
-                setPlayingLyric(currentLyric.lines[0].txt)
                 playLyric()
             }
         } else {
