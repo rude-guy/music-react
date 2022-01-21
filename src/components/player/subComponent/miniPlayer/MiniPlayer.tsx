@@ -1,9 +1,10 @@
 import React, {useCallback} from 'react'
 import styles from './MiniPlayer.module.css'
-import {useAppDispatch, useAppSelector} from '../../store/hooks'
-import {getCurrentSong, selectMusic, setFullScreen} from '../../store/reducers'
+import {useAppDispatch, useAppSelector} from '../../../../store/hooks'
+import {getCurrentSong, selectMusic, setFullScreen} from '../../../../store/reducers'
 import ProgressCircle from '../progressCircle/ProgressCircle'
-import {useTogglePlaying} from '../player/useAudio'
+import {useTogglePlaying} from '../../useAudio'
+import PlayList from '../playList/PlayList'
 
 const MiniPlayer = () => {
     const dispatch = useAppDispatch()
@@ -48,7 +49,7 @@ const MiniPlayer = () => {
             <div className={styles.control}>
                 <i className={`${styles.iconPlaylist} icon-playlist`}/>
             </div>
-            {/*<div>playList</div>*/}
+            <PlayList />
         </div>
     )
 }

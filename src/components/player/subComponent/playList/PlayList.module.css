@@ -1,0 +1,124 @@
+.playlist {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 200;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.listWrapper {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 210;
+    width: 100%;
+    background-color: #333;
+}
+
+.listHeader {
+    position: relative;
+    padding: .2rem .3rem .1rem .2rem;
+}
+
+.listHeader .title {
+    display: flex;
+    align-items: center
+}
+
+.listHeader .title .icon {
+    margin-right: .1rem;
+    font-size: .24rem;
+    color: rgba(255, 205, 49, 0.5);
+}
+
+.listHeader .title .text {
+    flex: 1;
+    font-size: .14rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.iconClear {
+    font-size: .14rem;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.listContent {
+    max-height: 2.4rem;
+    overflow: hidden;
+}
+
+.listContent .item {
+    display: flex;
+    align-items: center;
+    height: .4rem;
+    padding: 0 .3rem 0 .2rem;
+    overflow: hidden;
+}
+
+.listContent .item .current {
+    flex: 0 0 .2rem;
+    width: .2rem;
+    font-size: 0.12rem;
+    color: rgba(255, 205, 49, 0.5);
+}
+
+.listContent .item .text {
+    flex: 1;
+    font-size: .14rem;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.listContent .item .favorite {
+    margin-right: .15rem;
+    font-size: 0.12rem;
+    color: #ffcd32;
+}
+
+.iconFavorite {
+    color: #d93f30;
+}
+
+.listContent .item .delete {
+    font-size: 0.12rem;
+    color: #ffcd32;
+}
+
+.listContent .item .delete.disable {
+    color: rgba(255, 205, 49, 0.5);
+}
+
+.listAdd {
+    width: 1.4rem;
+    margin: .2rem auto .3rem auto;
+}
+
+.listAdd .add {
+    display: flex;
+    align-items: center;
+    padding: .08rem .16rem;
+    border: .01rem solid rgba(255, 255, 255, 0.5);
+    border-radius: 1rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.iconAdd {
+    margin-right: .05rem;
+    font-size: .1rem;
+}
+
+.listAdd .add .text {
+    font-size: .12rem;
+}
+
+.listFooter {
+    text-align: center;
+    line-height: .5rem;
+    background: #222;
+    font-size: .16rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+
+

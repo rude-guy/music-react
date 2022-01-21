@@ -10,3 +10,8 @@ export const useScrollStyle = () => {
         }
     }, [playList])
 }
+
+
+export const useCreateAnimation = () => {
+    
+}

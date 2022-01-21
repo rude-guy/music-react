@@ -5,19 +5,20 @@ import {useAppDispatch, useAppSelector} from '../../store/hooks'
 import {PLAY_MODE, selectMusic, setFullScreen} from '../../store/reducers'
 import Scroll from '../scroll/Scroll'
 import {changeMode} from '../../store/actions'
-import ProgressBar from '../progressBar/ProgressBar'
+import ProgressBar from './subComponent/progressBar/ProgressBar'
 import {formatTime} from '../../utils/util'
 import useAudio, {useAudioState, useTogglePlaying} from './useAudio'
 import useProgress from './useProgress'
-import MiniPlayer from '../miniPlayer/MiniPlayer'
+import MiniPlayer from './subComponent/miniPlayer/MiniPlayer'
 import useLyric from './useLyric'
 import useMiddleInteractive from './useMiddleInteractive'
+import useAnimation from './useAnimation'
 
 // 熟悉context
 export const ProcessContext = React.createContext<number>(0)
 ProcessContext.displayName = 'myProcessContext'
 
-// 使用动画
+// 使用CSSTransition
 export const useCssTransition = () => {
     const dispatch = useAppDispatch()
     const {fullScreen} = useAppSelector(selectMusic)
@@ -127,11 +128,19 @@ const Player = () => {
     // 屏幕动画相关
     const {animation, closeFullScreen, closeAnimation} = useCssTransition()
 
+    const {onEnter, onEntered, onExit, animationStyle} = useAnimation()
+
     return (
         <div className={'player'}
              style={{display: playList.length ? '' : 'none'}}
         >
-            <CSSTransition classNames={'normal'} timeout={600} in={animation} onExited={closeFullScreen}>
+            <CSSTransition classNames={'normal'}
+                           timeout={600}
+                           in={animation}
+                           onEnter={onEnter}
+                           onEntered={onEntered}
+                           onExit={onExit}
+                           onExited={closeFullScreen}>
                 <div className={styles.normalPlayer}
                     // style={{display: fullScreen ? '' : 'none'}}
                 >
@@ -155,7 +164,9 @@ const Player = () => {
                         <div className={styles.middleL}
                              style={middleLStyle}
                         >
-                            <div className={styles.cdWrapper}>
+                            <div className={styles.cdWrapper}
+                                 style={animationStyle}
+                            >
                                 <div className={styles.cd}>
                                     <img className={`image ${playing ? styles.running : styles.paused}`}
                                          src={currentSong.pic} alt={'song'}/>
@@ -235,7 +246,7 @@ const Player = () => {
                 </div>
             </CSSTransition>
             <ProcessContext.Provider value={progress || 0}>
-                <CSSTransition classNames={'mini'} timeout={600} in={animation} mountOnEnter>
+                <CSSTransition classNames={'mini'} timeout={600} appear={true} in={animation} mountOnEnter>
                     <MiniPlayer/>
                 </CSSTransition>
             </ProcessContext.Provider>

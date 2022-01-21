@@ -1,6 +1,6 @@
 import React, {useContext, useMemo} from 'react'
 import styles from './ProgressCircle.module.css'
-import {ProcessContext} from '../player/Player'
+import {ProcessContext} from '../../Player'
 
 const ProgressCircle: React.FC<{ radius: number }> = ({radius, children}) => {
     const progress = useContext<number>(ProcessContext)
