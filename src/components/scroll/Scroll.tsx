@@ -1,4 +1,4 @@
-import React, {useEffect, useImperativeHandle, useRef, useState} from 'react'
+import React, {ForwardedRef, useEffect, useImperativeHandle, useRef, useState} from 'react'
 import BScroll from 'better-scroll'
 export type Pos = {
     x: number
@@ -8,7 +8,7 @@ export type Pos = {
 type Props = {
     click: boolean
     probeType: number
-    ref: any
+    ref: ForwardedRef<any>
     onScroll?: (pos: Pos) => void
 }
 

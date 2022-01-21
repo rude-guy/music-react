@@ -46,9 +46,11 @@ const useCreateAnimation = () => {
     // 删除style节点
     useEffect(() => {
         return () => {
-            if (style.current) {
-                document.getElementsByTagName('head')[0].removeChild(style.current)
-            }
+            try {
+                if (style.current instanceof HTMLStyleElement) {
+                    document.getElementsByTagName('head')[0].removeChild(style.current)
+                }
+            } catch (e) {}
         }
     }, [])
 

@@ -31,9 +31,11 @@ export const useAudioState = ({audioRef, setCurrentTime, setSongReady, playLyric
         if (!currentSong.id || !currentSong.url || audioVal == null) return
         setSongReady(false)
         setCurrentTime(0)
-        audioVal.src = currentSong.url
-        audioVal.play()
-        dispatch(setPlayingState(true))
+        if (audioVal.src !== currentSong.url) {
+            audioVal.src = currentSong.url
+            audioVal.play()
+            dispatch(setPlayingState(true))
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch, currentSong])
     // 窃听当前播放状态
