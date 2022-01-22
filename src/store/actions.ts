@@ -53,11 +53,72 @@ export const changeMode = (mode: PLAY_MODE): AppThunk => (
     dispatch(setPlayMode(mode))
 }
 
-//
-// export const addSong = (song: Song): AppThunk => (
-//     dispatch,
-//     getState
-// ) => {
-//     const {playList, sequenceList} = selectMusic(getState())
-//
-// }
+
+export const removeSong = (song: Song): AppThunk => (
+    dispatch,
+    getState
+) => {
+    const {playList, sequenceList, currentIndex} = selectMusic(getState())
+
+    const sequenceListSlice = sequenceList.slice()
+    const playListSlice = playList.slice()
+
+    const sequenceIndex = findIndex(sequenceListSlice, song)
+    const playListIndex = findIndex(playListSlice, song)
+
+    if (sequenceIndex < 0 || playListIndex < 0) return
+
+    sequenceListSlice.splice(sequenceIndex, 1)
+    playListSlice.splice(playListIndex, 1)
+
+    if (playListIndex < currentIndex || playList.length === currentIndex) {
+        dispatch(setCurrentIndex(currentIndex - 1))
+    }
+    dispatch(setPlayList(playListSlice))
+    dispatch(setSequenceList(sequenceListSlice))
+    if (!playList.length) {
+        dispatch(setPlayingState(false))
+    }
+}
+
+export const clearSongList = (): AppThunk => (
+    dispatch,
+) => {
+    dispatch(setCurrentIndex(0))
+    dispatch(setSequenceList([]))
+    dispatch(setPlayList([]))
+    dispatch(setPlayingState(false))
+}
+
+export const addSong = (song: Song): AppThunk => (
+    dispatch,
+    getState
+) => {
+    const {playList, sequenceList} = selectMusic(getState())
+    const sequenceListSlice = sequenceList.slice()
+    const playListSlice = playList.slice()
+    let currentIndex: number
+    const playIndex = findIndex(playListSlice, song)
+    if (playIndex > -1) {
+        currentIndex = playIndex
+    } else {
+        playListSlice.push(song)
+        currentIndex = playListSlice.length - 1
+    }
+
+    const sequenceIndex = findIndex(playListSlice, song)
+    if (sequenceIndex === -1) {
+        sequenceListSlice.push(song)
+    }
+
+    dispatch(setCurrentIndex(currentIndex))
+    dispatch(setSequenceList(sequenceListSlice))
+    dispatch(setPlayList(playListSlice))
+    dispatch(setPlayingState(true))
+    dispatch(setFullScreen(true))
+}
+
+
+function findIndex<T extends Song> (list: T[], song: Song) {
+    return list.findIndex(item => item.id === song.id)
+}

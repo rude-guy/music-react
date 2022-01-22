@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react'
+import React, {useCallback, useMemo, useRef, useState} from 'react'
 import styles from './MusicList.module.css'
 import Scroll, {Pos} from '../scroll/Scroll'
 import {Rest, Song} from '../../pages/singer/singerDetail/SingerDetail'
@@ -8,12 +8,12 @@ import NoResult from '../noResult/NoResult'
 import SongList from '../songList/SongList'
 import {randomPlay, selectPlay} from '../../store/actions'
 import {useAppDispatch} from '../../store/hooks'
-import {useScrollStyle} from '../../utils/hooks'
+import {useLoadScroll} from '../../utils/hooks'
 
 type Props = {
     songs: Song[],
     noResult: boolean
-    goBack(): void
+    goBack (): void
 } & Rest
 
 const RESERVED_HEIGHT = 40  // tab高度
@@ -115,7 +115,7 @@ const useStore = ({songs}: { songs: Song[] }) => {
 const MusicList: React.FC<Props> = (props) => {
     const {songs, pic, title, noResult = false, goBack} = props
 
-    const musicRef = useRef<any>(null)
+    const {scrollRef: musicRef, playListStyle: scrollStyle} = useLoadScroll(songs)
     // 获取滚动Y坐标
     const {scrollY, onScroll} = useScroll()
     // 计算样式的
@@ -123,31 +123,17 @@ const MusicList: React.FC<Props> = (props) => {
         bgImage, bgImageStyle,
         filterStyle, playBtnStyle
     } = useStyle(scrollY, pic)
-    // 挂载 scroll刷新
-    useEffect(() => {
-        // TODO 滚动失效
-        let timer: any
-        if (musicRef.current != null) {
-            timer = setTimeout(() => {
-                musicRef.current.refresh()
-            }, 0)
-        }
-        return () => {
-            clearTimeout(timer)
-        }
-    }, [songs])
+
     // 派发store
     const {
         onSelectItem, onRandomPlaying,
     } = useStore({songs})
 
-    const scrollStyle = useScrollStyle()
-
     // 渲染组件
     const renderComponent = useMemo(() => {
-        return songs.length ? <SongList songs={songs} onSelectItem={onSelectItem} style={scrollStyle}/> :
+        return songs.length ? <SongList songs={songs} onSelectItem={onSelectItem}/> :
             noResult ? <NoResult/> : <Loading/>
-    }, [songs, onSelectItem, noResult, scrollStyle])
+    }, [songs, onSelectItem, noResult])
 
     return (
         <div className={styles.musicList}>

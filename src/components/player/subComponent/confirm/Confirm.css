@@ -1,0 +1,55 @@
+.confirm-fade-enter-active {
+    animation: confirm-fadein .3s;
+}
+
+.confirm-fade-enter-active .confirm-content {
+    animation: confirm-zoom-in .3s;
+}
+
+.confirm-fade-exit-active {
+    animation: confirm-fadeout .3s;
+}
+
+.confirm-fade-exit-active .confirm-content {
+    animation: confirm-zoom-out .3s;
+}
+
+
+@keyframes confirm-fadein {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes confirm-fadeout {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes confirm-zoom-in {
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes confirm-zoom-out {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(0);
+    }
+}

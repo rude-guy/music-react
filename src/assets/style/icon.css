@@ -61,10 +61,12 @@
 }
 
 .icon-favorite:before {
+  color: #d93f30;
   content: "\e909";
 }
 
 .icon-not-favorite:before {
+  color: #ffcd32;
   content: "\e90a";
 }
 

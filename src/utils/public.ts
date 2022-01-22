@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useRef, useState} from 'react'
+import React, {useEffect, useMemo, useRef, useState} from 'react'
 
 export const useThrottle = <T>(value: T,wait: number = 50) => {
     // 传入函数时useState会执行函数，所以当value为函数时应该用一个函数去返回该函数
@@ -36,4 +36,9 @@ export const useComputed = <T>(fn: () => T, deps: any[]) => {
         setComputed(memo)
     }, [memo])
     return computed
+}
+
+
+export function stopPropagation(e: React.MouseEvent | React.TouchEvent) {
+   e.stopPropagation()
 }

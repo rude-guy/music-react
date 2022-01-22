@@ -11,7 +11,6 @@ body, html {
     position: relative;
 }
 
-
 /*页面切换*/
 .slide-appear {
     opacity: 0;
@@ -120,13 +119,68 @@ body, html {
     opacity: 1 !important;
 }
 
-
-.list-enter-active, .list-leave-active {
-    transition: all 0.3s;
+/*playList动画*/
+.list-fade-enter {
+    display: block !important;
+    opacity: 0;
 }
 
-.list-enter, .list-leave-done {
+.list-fade-enter .list-wrapper {
+    transform: translate3d(0, 100%, 0);
+}
+
+.list-fade-enter-active {
+    opacity: 1;
+    transition: opacity .3s;
+}
+
+.list-fade-enter-active .list-wrapper {
+    transform: translate3d(0, 0, 0);
+    transition: all .3s;
+}
+
+.list-fade-enter-done {
+    display: block !important;
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+}
+
+.list-fade-exit {
+    display: block !important;
+    opacity: 1;
+}
+
+.list-fade-exit .list-wrapper {
+    transform: translate3d(0, 0, 0);
+}
+
+.list-fade-exit-active {
+    opacity: 0;
+    transition: opacity .3s;
+}
+
+.list-fade-exit-active .list-wrapper {
+    transform: translate3d(0, 100%, 0);
+    transition: all .3s;
+}
+
+.list-fade-exit-done {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+}
+
+/*播放列表添加删除动画*/
+.list-enter {
     height: 0 !important;
+}
+
+.list-enter-active {
+    transition: height .3s;
+}
+
+.list-exit-active {
+    height: 0 !important;
+    transition: height .3s;
 }
 
 @keyframes rotate {

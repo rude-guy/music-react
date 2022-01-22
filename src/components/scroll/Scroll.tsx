@@ -17,7 +17,7 @@ type ScrollProps = Partial<Props> & Omit<React.BlockquoteHTMLAttributes<HTMLElem
 
 const Scroll: React.FC<ScrollProps> = React.forwardRef((props, ref) => {
     const {children, onScroll, click, probeType, ...options} = props
-    const rootRef = useRef(null)
+    const rootRef = useRef<HTMLDivElement>(null)
 
     const [bScroll, setBScroll] = useState<any>(null)
 
@@ -57,6 +57,16 @@ const Scroll: React.FC<ScrollProps> = React.forwardRef((props, ref) => {
         getBScroll() {
             if(bScroll) {
                 return bScroll;
+            }
+        },
+        scrollToElement (node: HTMLElement, time = 1000) {
+            if (bScroll) {
+                bScroll.scrollToElement(node, time)
+            }
+        },
+        getChildren () {
+            if (rootRef.current) {
+                return rootRef.current.children
             }
         }
     }))

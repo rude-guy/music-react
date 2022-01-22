@@ -28,7 +28,11 @@ export const useAudioState = ({audioRef, setCurrentTime, setSongReady, playLyric
     // 窃听当前歌曲变化
     useEffect(() => {
         const audioVal = audioRef.current
-        if (!currentSong.id || !currentSong.url || audioVal == null) return
+        if (!currentSong.id || !currentSong.url || audioVal == null) {
+            audioVal?.pause()
+            audioVal?.load()
+            return
+        }
         setSongReady(false)
         setCurrentTime(0)
         if (audioVal.src !== currentSong.url) {

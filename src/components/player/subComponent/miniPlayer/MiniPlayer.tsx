@@ -1,10 +1,21 @@
-import React, {useCallback} from 'react'
+import React, {createContext, useCallback, useState} from 'react'
 import styles from './MiniPlayer.module.css'
 import {useAppDispatch, useAppSelector} from '../../../../store/hooks'
 import {getCurrentSong, selectMusic, setFullScreen} from '../../../../store/reducers'
 import ProgressCircle from '../progressCircle/ProgressCircle'
 import {useTogglePlaying} from '../../useAudio'
 import PlayList from '../playList/PlayList'
+
+interface MiniContextParams {
+    open: boolean
+    closePlayList (): void
+}
+
+export const MiniContext = createContext<MiniContextParams>({
+    open: false,
+    closePlayList: () => {
+    }
+})
 
 const MiniPlayer = () => {
     const dispatch = useAppDispatch()
@@ -17,6 +28,17 @@ const MiniPlayer = () => {
     const toggleFullScreen = useCallback(() => {
         dispatch(setFullScreen(true))
     }, [dispatch])
+
+    const [open, setOpen] = useState(false)
+
+    function openPlayList (e: React.MouseEvent) {
+        setOpen(true)
+        e.stopPropagation()
+    }
+
+    function closePlayList () {
+        setOpen(false)
+    }
 
     return (
         <div className={styles.miniPlayer}
@@ -46,10 +68,15 @@ const MiniPlayer = () => {
                     />
                 </ProgressCircle>
             </div>
-            <div className={styles.control}>
+            <div className={styles.control} onClick={openPlayList}>
                 <i className={`${styles.iconPlaylist} icon-playlist`}/>
             </div>
-            <PlayList />
+            <MiniContext.Provider value={{
+                open,
+                closePlayList
+            }}>
+                <PlayList/>
+            </MiniContext.Provider>
         </div>
     )
 }

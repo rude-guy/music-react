@@ -3,6 +3,7 @@ import styles from './IndexList.module.css'
 import {SingerInfo, SingerData} from '../../Singer'
 import useFixed from './useFixed'
 import useShortcut from './useShortcut'
+import {useScrollStyle} from '../../../../utils/hooks'
 
 type Props = {
     singers: SingerData[]
@@ -16,10 +17,13 @@ const IndexList: React.FC<Props> = ({singers, selectSinger}) => {
     } = useFixed({singers})
 
     const [onShortcutTouchStart, onShortcutTouchMove] = useShortcut(scrollTo)
+
+    const scrollStyle = useScrollStyle(undefined, 'paddingBottom')
     return (
         <div>
             <div className={styles.indexList}
                  ref={scrollRef}
+                 style={scrollStyle}
             >
                 <ul className={styles.scrollList}
                     ref={groupRef}

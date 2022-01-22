@@ -1,10 +1,9 @@
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import styles from './Player.module.css'
 import {CSSTransition} from 'react-transition-group'
 import {useAppDispatch, useAppSelector} from '../../store/hooks'
-import {PLAY_MODE, selectMusic, setFullScreen} from '../../store/reducers'
+import {selectMusic, setFullScreen} from '../../store/reducers'
 import Scroll from '../scroll/Scroll'
-import {changeMode} from '../../store/actions'
 import ProgressBar from './subComponent/progressBar/ProgressBar'
 import {formatTime} from '../../utils/util'
 import useAudio, {useAudioState, useTogglePlaying} from './useAudio'
@@ -13,6 +12,8 @@ import MiniPlayer from './subComponent/miniPlayer/MiniPlayer'
 import useLyric from './useLyric'
 import useMiddleInteractive from './useMiddleInteractive'
 import useAnimation from './useAnimation'
+import usePlayMode from './usePlayMode'
+import useFavorite from './useFavorite'
 
 // 熟悉context
 export const ProcessContext = React.createContext<number>(0)
@@ -44,48 +45,8 @@ export const useCssTransition = () => {
     }
 }
 
-const useStore = () => {
-    const {
-        playList, playing,
-    } = useAppSelector(selectMusic)
-
-    const getFavoriteIcon = useMemo(() => {
-        return 'icon-not-favorite'
-    }, [])
-
-    return {
-        playList, playing,
-        getFavoriteIcon,
-    }
-}
-
-// 播放模式
-const usePlayMode = () => {
-    const {playMode} = useAppSelector(selectMusic)
-    const dispatch = useAppDispatch()
-    // 播放模式下的icon样式
-    const modeIcon = useMemo(() => {
-        return playMode === PLAY_MODE.sequence
-            ? 'icon-sequence' : playMode === PLAY_MODE.random
-                ? 'icon-random' : 'icon-loop'
-    }, [playMode])
-
-    // 切换播放模式
-    const togglePlayMode = useCallback(() => {
-        const mode = (playMode + 1) % 3
-        dispatch(changeMode(mode))
-    }, [dispatch, playMode])
-
-    return {
-        modeIcon, togglePlayMode
-    }
-}
-
 const Player = () => {
-    const {
-        playList, playing,
-        getFavoriteIcon,
-    } = useStore()
+    const {playList, playing,} = useAppSelector(selectMusic)
 
     // 播放模式相关
     const {togglePlayMode, modeIcon} = usePlayMode()
@@ -127,8 +88,10 @@ const Player = () => {
 
     // 屏幕动画相关
     const {animation, closeFullScreen, closeAnimation} = useCssTransition()
-
     const {onEnter, onEntered, onExit, animationStyle} = useAnimation()
+
+    // 收藏切换
+    const {getFavoriteIcon, toggleFavorite} = useFavorite()
 
     return (
         <div className={'player'}
@@ -239,7 +202,9 @@ const Player = () => {
                                    onClick={nextSong}/>
                             </div>
                             <div className={`${styles.icon} ${styles.iRight}`}>
-                                <i className={getFavoriteIcon}/>
+                                <i className={getFavoriteIcon(currentSong)}
+                                   onClick={() => toggleFavorite(currentSong)}
+                                />
                             </div>
                         </div>
                     </div>

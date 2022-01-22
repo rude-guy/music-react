@@ -4,6 +4,7 @@ import styles from './Recommend.module.css'
 import './Recommend.css'
 import {getRecommend} from '../../services/recommend'
 import Loading from '../../components/loading/Loading'
+import {useScrollStyle} from '../../utils/hooks'
 
 export interface Slider {
     id: string
@@ -26,13 +27,13 @@ export interface ResRecommend {
 const Recommend = () => {
     const [albums, setAlbums] = useState<Album[]>([])
     const [sliders, setSliders] = useState<Slider[]>([])
+    const scrollStyle = useScrollStyle(undefined, 'paddingBottom')
     useEffect(() => {
-        const getData = async () => {
-            const {albums, sliders} = await getRecommend()
+        getRecommend().then(res => {
+            const {albums, sliders} = res
             setAlbums(albums)
             setSliders(sliders)
-        }
-        getData()
+        })
     }, [])
     if (!albums.length && !sliders.length) {
         return <Loading />
@@ -55,7 +56,9 @@ const Recommend = () => {
                     }
                 </Carousel>
             </div>
-            <div className={'recommend-list-wrap'}>
+            <div className={'recommend-list-wrap'}
+                 style={scrollStyle}
+            >
                 <h1 className={styles.listTitle}>热门歌单推荐</h1>
                 <List
                     itemLayout="horizontal"

@@ -1,50 +1,197 @@
-import React from 'react'
+import React, {useContext, useEffect, useRef, useState} from 'react'
 import styles from './PlayList.module.css'
 import ReactDOM from 'react-dom'
 import Scroll from '../../../scroll/Scroll'
+import {useAppDispatch, useAppSelector} from '../../../../store/hooks'
+import {getCurrentSong, selectMusic, setCurrentIndex, setPlayingState} from '../../../../store/reducers'
+import {MiniContext} from '../miniPlayer/MiniPlayer'
+import {CSSTransition, TransitionGroup} from 'react-transition-group'
+import usePlayMode from '../../usePlayMode'
+import {stopPropagation} from '../../../../utils/public'
+import useFavorite from '../../useFavorite'
+import {Song} from '../../../../pages/singer/singerDetail/SingerDetail'
+import {clearSongList, removeSong} from '../../../../store/actions'
+import Confirm from '../confirm/Confirm'
+
+// 组件的显示隐藏
+const useVisible = () => {
+    const {sequenceList} = useAppSelector(selectMusic)
+    const {playList} = useAppSelector(selectMusic)
+    const currentSong = useAppSelector(getCurrentSong)
+    const [visible, setVisible] = useState(false)
+    const playListRef = useRef<any>(null)
+    const {open, closePlayList} = useContext(MiniContext)
+
+    function closeVisible (e?: React.MouseEvent) {
+        closePlayList()
+        setVisible(false)
+        e?.stopPropagation()
+    }
+
+    // Scroll重新计算高度
+    function refreshScroll () {
+        playListRef.current.refresh()
+    }
+
+    // 滚动到对应元素
+    function scrollToElement (node: HTMLElement) {
+        playListRef.current?.scrollToElement(node)
+    }
+
+    // 打开自动滚动到对应的播放歌曲的位置
+    function autoScrollTop () {
+        const index = playList.findIndex(item => currentSong.id === item.id)
+        const node = playListRef.current.getChildren()[0].children[index]
+        if (node instanceof HTMLElement) {
+            setTimeout(() => {
+                scrollToElement(node)
+            }, 200)
+        }
+    }
+
+    useEffect(() => {
+        if (open) {
+            setVisible(Boolean(playList.length))
+        }
+        let timer: any
+        if (open && playListRef.current != null) {
+            timer = setTimeout(() => {
+                refreshScroll()
+                autoScrollTop()
+            }, 0)
+        }
+        return () => {
+            clearTimeout(timer)
+        }
+    }, [open, sequenceList])
+
+
+    return {
+        closeVisible, visible, playListRef,
+        refreshScroll, scrollToElement
+    }
+}
 
 const PlayList = () => {
+    const {sequenceList, playList} = useAppSelector(selectMusic)
+    const currentSong = useAppSelector(getCurrentSong)
+    const dispatch = useAppDispatch()
+
+    // 组件的显示隐藏
+    const {closeVisible, visible, playListRef, refreshScroll, scrollToElement} = useVisible()
+
+    // 播放模式切换
+    const {modeText, modeIcon, togglePlayMode} = usePlayMode()
+
+    // 收藏切换
+    const {getFavoriteIcon, toggleFavorite} = useFavorite()
+
+
+    const timer = useRef<NodeJS.Timeout | null>(null)
+    const changeSong = (song: Song, e: React.MouseEvent) => {
+        const index = playList.findIndex(item => song.id === item.id)
+        dispatch(setCurrentIndex(index))
+        dispatch(setPlayingState(true))
+        if (timer.current) {
+            clearTimeout(timer.current)
+        }
+        timer.current = setTimeout(() => {
+            scrollToElement(e.target as HTMLElement)
+        }, 800)
+    }
+
+    const [removing, setRemoving] = useState(false)
+    const deleteSong = (song: Song, e: React.MouseEvent) => {
+        stopPropagation(e)
+        if (removing) return
+        setRemoving(true)
+        refreshScroll() // 重新计算高度
+        dispatch(removeSong(song))
+        if (!playList.length) {
+            closeVisible()
+        }
+        setTimeout(() => {
+            setRemoving(false)
+        }, 300)
+    }
+
+    const confirmRef = useRef<any>(null)
+
+    function openConfirm () {
+        confirmRef.current?.show()
+    }
+
+    // 清空列表
+    function onConfirmClear () {
+        dispatch(clearSongList())
+        closeVisible()
+    }
+
     return (
-        <div className={styles.playlist}>
-            <div className={styles.listWrapper}>
-                <div className={styles.listHeader}>
-                    <h1 className={styles.title}>
-                        <i className={`${styles.icon} icon-sequence`}/>
-                        <span className={`${styles.text}  no-wrap`}>{'modeText'}</span>
-                        <span className={'extend-click'}>
-                            <i className={`icon-clear ${styles.iconClear}`}/>
-                        </span>
-                    </h1>
-                </div>
-                <Scroll className={styles.listContent}>
-                    <ul>
-                        <li className={styles.item}>
-                            <i className={`${styles.current} icon-play`}/>
-                            <span className={`${styles.text} no-wrap`}>{'name'}</span>
-                            <span className={`${styles.favorite} extend-click`}>
-                               <i className={'icon-not-favorite'}/>
+        <CSSTransition classNames={'list-fade'} timeout={300} in={visible}>
+            <div className={styles.playlist}
+                 onClick={closeVisible}
+            >
+                <div className={`${styles.listWrapper} list-wrapper`} onClick={stopPropagation}>
+                    <div className={styles.listHeader}>
+                        <h1 className={styles.title}>
+                            <i className={`${styles.icon} ${modeIcon}`}
+                               onClickCapture={togglePlayMode}
+                            />
+                            <span className={`${styles.text}  no-wrap`}>{modeText}</span>
+                            <span className={'extend-click'}
+                                  onClick={openConfirm}
+                            >
+                                <i className={`icon-clear ${styles.iconClear}`}/>
                             </span>
-                            <span className={styles.delete}>
-                            <i className={'icon-delete'}/>
-                        </span>
-                        </li>
-                    </ul>
-                </Scroll>
-                <div className={styles.listAdd}>
-                    <div className={styles.add}>
-                        <i className={`icon-add ${styles.iconAdd}`}/>
-                        <span className={styles.text}>添加歌曲到队列</span>
+                        </h1>
+                    </div>
+                    <Scroll ref={playListRef} className={styles.listContent}>
+                        <ul>
+                            <TransitionGroup component={null}>
+                                {
+                                    sequenceList.map(song => (
+                                        <CSSTransition key={song.id} classNames={'list'} timeout={300}>
+                                            <li className={styles.item}
+                                                onClick={(e) => changeSong(song, e)}
+                                            >
+                                                <i className={`${styles.current} ${currentSong.id === song.id ? 'icon-play' : ''}`}/>
+                                                <span className={`${styles.text} no-wrap`}>{song.name}</span>
+                                                <span className={`${styles.favorite} extend-click`}
+                                                      onClick={() => toggleFavorite(song)}
+                                                > <i className={getFavoriteIcon(song)}/></span>
+                                                <span
+                                                    className={`${styles.delete} extend-click ${removing ? styles.delete : ''}`}
+                                                    onClick={(e) => deleteSong(song, e)}
+                                                > <i className={'icon-delete'}/></span>
+                                            </li>
+                                        </CSSTransition>
+                                    ))
+                                }
+                            </TransitionGroup>
+                        </ul>
+                    </Scroll>
+                    <div className={styles.listAdd}>
+                        <div className={styles.add}>
+                            <i className={`icon-add ${styles.iconAdd}`}/>
+                            <span className={styles.text}>添加歌曲到队列</span>
+                        </div>
+                    </div>
+                    <div className={styles.listFooter} onClick={closeVisible}>
+                        <span>关闭</span>
                     </div>
                 </div>
-                <div className={styles.listFooter}>
-                    <span>关闭</span>
-                </div>
+                <Confirm
+                    ref={confirmRef}
+                    text={"是否清空播放列表？"}
+                    confirmBtnText={"清空"}
+                    confirm={onConfirmClear}/>
             </div>
-        </div>
+        </CSSTransition>
     )
 }
 
 
 export default () => {
-    return ReactDOM.createPortal(<PlayList />, document.getElementsByTagName('body')[0])
+    return ReactDOM.createPortal(<PlayList/>, document.getElementsByTagName('body')[0])
 }
