@@ -7,6 +7,7 @@ import storage from 'good-storage'
 import {TOP_KEY} from '../../assets/ts/constant'
 import {Route, Switch, useHistory, useRouteMatch} from 'react-router-dom'
 import TopDetail from './topDetail/TopDetail'
+import Loading from '../../components/loading/Loading'
 
 export interface TopSong {
     id: number
@@ -22,9 +23,6 @@ export interface TopListParams {
     songList: TopSong[]
 }
 
-function Loading () {
-    return null
-}
 
 const TopList = () => {
     const [topList, setTopList] = useState<TopListParams[]>([])
