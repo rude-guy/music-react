@@ -14,6 +14,7 @@ import {CSSTransition} from 'react-transition-group'
 type Props = {
     songs: Song[],
     noResult: boolean
+    rank?: boolean
 } & Rest
 
 // 获取滚动Y坐标
@@ -27,7 +28,7 @@ const useScroll = () => {
 }
 
 const MusicList: React.FC<Props> = (props) => {
-    const {songs, pic, title, noResult = false} = props
+    const {songs, pic, title, noResult, rank} = props
     const {scrollRef: musicRef, playListStyle: scrollStyle} = useLoadScroll(songs)
     // 获取滚动Y坐标
     const {scrollY, onScroll} = useScroll()
@@ -52,7 +53,7 @@ const MusicList: React.FC<Props> = (props) => {
 
     // 渲染组件
     const renderComponent = useMemo(() => {
-        return songs.length ? <SongList songs={songs} onSelectItem={onSelectItem}/> :
+        return songs.length ? <SongList songs={songs} onSelectItem={onSelectItem} rank={rank}/> :
             noResult ? <NoResult/> : <Loading/>
     }, [songs, onSelectItem, noResult])
 
@@ -89,6 +90,11 @@ const MusicList: React.FC<Props> = (props) => {
             </div>
         </CSSTransition>
     )
+}
+
+MusicList.defaultProps = {
+    noResult: false,
+    rank: false
 }
 
 export default MusicList
