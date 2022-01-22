@@ -17,7 +17,7 @@ function App () {
                 <Tabs/>
                 <div className={'router-wrap'}>
                     <Switch>
-                        <Route exact path="/recommend" component={Recommend}/>
+                        <Route path="/recommend" component={Recommend}/>
                         <Route path="/singer" component={Singer} />
                         <Route exact path="/topList" component={TopList}/>
                         <Route exact path="/search" component={Search} />

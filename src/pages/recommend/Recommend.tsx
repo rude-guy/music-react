@@ -1,10 +1,15 @@
 import React, {useEffect, useState} from 'react'
+import {Route, Switch, useHistory, useRouteMatch} from 'react-router-dom'
 import {Carousel, List} from 'antd'
 import styles from './Recommend.module.css'
 import './Recommend.css'
+import Album from './album/Album'
 import {getRecommend} from '../../services/recommend'
 import Loading from '../../components/loading/Loading'
-import {useScrollStyle} from '../../utils/hooks'
+import {useLoadScroll} from '../../utils/hooks'
+import Scroll from '../../components/scroll/Scroll'
+import storage from 'good-storage'
+import {ALBUM_KEY} from '../../assets/ts/constant'
 
 export interface Slider {
     id: string
@@ -12,7 +17,7 @@ export interface Slider {
     pic: string
 }
 
-export interface Album {
+export interface AlbumParams {
     id: number
     pic: string
     title: string
@@ -21,69 +26,91 @@ export interface Album {
 
 export interface ResRecommend {
     sliders: Slider[]
-    albums: Album[]
+    albums: AlbumParams[]
 }
 
 const Recommend = () => {
-    const [albums, setAlbums] = useState<Album[]>([])
+    const [albums, setAlbums] = useState<AlbumParams[]>([])
     const [sliders, setSliders] = useState<Slider[]>([])
-    const scrollStyle = useScrollStyle(undefined, 'paddingBottom')
+    const {scrollRef, playListStyle, refreshScroll} = useLoadScroll(albums)
+    const {path, url} = useRouteMatch()
+    const history = useHistory()
+
     useEffect(() => {
         getRecommend().then(res => {
             const {albums, sliders} = res
             setAlbums(albums)
             setSliders(sliders)
+            refreshScroll()
         })
     }, [])
-    if (!albums.length && !sliders.length) {
-        return <Loading />
+
+    const selectItem = (item: AlbumParams) => {
+        console.log(item)
+        storage.session.set(ALBUM_KEY, item)
+        console.log(`${url}/${item.id}`)
+        history.push(`${url}/${item.id}`)
     }
-    return (
-        <div className={'recommend'}>
-            <div className={'carousel-wrap'}>
-                <Carousel autoplay
-                          dots={{className: styles.dot}}
-                          style={{lineHeight: '0'}}
-                >
-                    {
-                        sliders?.length ? sliders.map(slider => {
-                            return <img className={styles.carouselItem}
-                                        key={slider.id}
-                                        src={slider.pic}
-                                        alt={'banner'}
-                            />
-                        }) : <div className={styles.space}/>
-                    }
-                </Carousel>
-            </div>
-            <div className={'recommend-list-wrap'}
-                 style={scrollStyle}
+
+    return <>
+        {
+            albums.length && sliders.length ? <div className={styles.recommend}
+                                                   style={playListStyle}
             >
-                <h1 className={styles.listTitle}>热门歌单推荐</h1>
-                <List
-                    itemLayout="horizontal"
-                    dataSource={albums}
-                    split={false}
-                    renderItem={item => (
-                        <List.Item className={styles.listItem}>
-                            <List.Item.Meta
-                                className={'recommend-list'}
-                                avatar={
-                                    <div className={styles.icon}>
-                                        <img width="60" height="60"
-                                             src={item.pic} alt={'歌单'}
+                <Scroll className={styles.recommendContent}
+                        ref={scrollRef}
+                >
+                    <div>
+                        <div className={'carousel-wrap'}>
+                            <Carousel autoplay
+                                      dots={{className: styles.dot}}
+                                      style={{lineHeight: '0'}}
+                            >
+                                {
+                                    sliders?.length ? sliders.map(slider => {
+                                        return <img className={styles.carouselItem}
+                                                    key={slider.id}
+                                                    src={slider.pic}
+                                                    alt={'banner'}
                                         />
-                                    </div>
+                                    }) : <div className={styles.space}/>
                                 }
-                                title={item.username}
-                                description={item.title}
+                            </Carousel>
+                        </div>
+                        <div className={'recommend-list-wrap'}>
+                            <h1 className={styles.listTitle}>热门歌单推荐</h1>
+                            <List
+                                itemLayout="horizontal"
+                                dataSource={albums}
+                                split={false}
+                                renderItem={item => (
+                                    <List.Item className={styles.listItem}
+                                               onClick={() => selectItem(item)}
+                                    >
+                                        <List.Item.Meta
+                                            className={'recommend-list'}
+                                            avatar={
+                                                <div className={styles.icon}>
+                                                    <img width="60" height="60"
+                                                         src={item.pic} alt={'歌单'}
+                                                    />
+                                                </div>
+                                            }
+                                            title={item.username}
+                                            description={item.title}
+                                        />
+                                    </List.Item>
+                                )}
                             />
-                        </List.Item>
-                    )}
-                />
-            </div>
-        </div>
-    )
+                        </div>
+                    </div>
+                </Scroll>
+            </div> : <Loading/>
+        }
+        <Switch>
+            <Route path={`${path}/:albumId`} component={Album}/>
+        </Switch>
+    </>
 }
 
 export default Recommend

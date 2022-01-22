@@ -1,3 +1,16 @@
+.recommend {
+    position: fixed;
+    width: 100%;
+    top: .88rem;
+    bottom: 0;
+    overflow: scroll;
+}
+
+.recommendContent {
+    height: 100%;
+    overflow: hidden;
+}
+
 .space {
     width: 100%;
     padding-top: 40%;
