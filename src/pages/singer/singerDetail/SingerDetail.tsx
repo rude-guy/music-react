@@ -7,7 +7,6 @@ import storage from 'good-storage'
 import {SINGER_KEY} from '../../../assets/ts/constant'
 import {processSongs} from '../../../services/song'
 import {useHistory, useParams} from 'react-router-dom'
-import {CSSTransition} from 'react-transition-group'
 
 export interface Song {
     album: string
@@ -37,12 +36,6 @@ export const SingerDetail = () => {
     const history = useHistory()
     const [noResult, setNoResult] = useState(false)
 
-    const [show, setShow] = useState(true)
-
-    function goBack () {
-        setShow(false)
-    }
-
     useLayoutEffect(() => {
         const singer: SingerInfo = storage.session.get(SINGER_KEY)
         setRest({
@@ -62,9 +55,7 @@ export const SingerDetail = () => {
         })
     }, [])
 
-    return <CSSTransition classNames={'slide'} timeout={300} in={show} appear={true} unmountOnExit onExited={history.goBack}>
-        <div className={styles.topDetail}>
-            <MusicList songs={songs} goBack={goBack} noResult={noResult} {...rest}/>
+       return  <div className={styles.topDetail}>
+            <MusicList songs={songs} noResult={noResult} {...rest}/>
         </div>
-    </CSSTransition>
 }

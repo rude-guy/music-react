@@ -1,6 +1,7 @@
 .musicList {
     position: relative;
     height: 100%;
+    background-color: #222;
 }
 
 .back {
