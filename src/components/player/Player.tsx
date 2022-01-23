@@ -19,20 +19,31 @@ import useFavorite from './useFavorite'
 export const ProcessContext = React.createContext<number>(0)
 ProcessContext.displayName = 'myProcessContext'
 
-// 使用CSSTransition
+/**
+ * 自定hooks
+ * 使用CSSTransition
+ */
 export const useCssTransition = () => {
     const dispatch = useAppDispatch()
     const {fullScreen} = useAppSelector(selectMusic)
     const [animation, setAnimation] = useState(false)
 
+    /**
+     * 关闭屏幕
+     */
     function closeFullScreen () {
         dispatch(setFullScreen(false))
     }
-
+    /**
+     * 关闭屏幕动画
+     */
     function closeAnimation () {
         setAnimation(false)
     }
 
+    /**
+     *  初始化动画
+     */
     useEffect(() => {
         setAnimation(fullScreen)
         return () => {
@@ -53,6 +64,7 @@ const Player = () => {
 
     const audioRef = useRef<HTMLAudioElement>(null)
 
+    // 歌曲是否加载完毕
     const [songReady, setSongReady] = useState(false)
 
     const [currentTime, setCurrentTime] = useState(0)
@@ -75,6 +87,7 @@ const Player = () => {
         onended, onerror, prevSong, nextSong,
     } = useAudio({songReady, setSongReady, setCurrentTime, progressChanging, audioRef})
 
+    // 播放暂停切换
     const togglePlaying = useTogglePlaying()
 
     // 播放状态

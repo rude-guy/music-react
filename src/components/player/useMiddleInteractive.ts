@@ -7,10 +7,13 @@ type Touch = {
     directionLocked: '' | 'h' | 'v'
     percent: number
 }
-
-
+// 屏幕宽度
 const innerWidth = -window.innerWidth
 
+/**
+ * 自定义hooks
+ * 播放器首页左右滑动相关
+ */
 export default function useMiddleInteractive () {
     const [currentShow, setCurrentShow] = useState<CurrentShow>('cd')
     const [middleLStyle, setMiddleLStyle] = useState<React.CSSProperties>()
@@ -19,17 +22,24 @@ export default function useMiddleInteractive () {
     const touch = useRef<Touch>({
         startX: 0,
         startY: 0,
-        directionLocked: '',
+        directionLocked: '', // 方向锁定
         percent: 0
     })
     const currentView = useRef<CurrentShow>('cd')
 
+    /**
+     * touch事件
+     * 初始化x,y值和 directionLocked
+     */
     const onMiddleTouchstart = useCallback((e: React.TouchEvent) => {
         touch.current.startX = e.touches[0].pageX
         touch.current.startY = e.touches[0].pageY
         touch.current.directionLocked = ''
     }, [])
 
+    /**
+     * move事件
+     */
     const onMiddleTouchmove = useCallback((e: React.TouchEvent) => {
         const delaX = e.touches[0].pageX - touch.current.startX
         const delaY = e.touches[0].pageY - touch.current.startY
@@ -37,6 +47,7 @@ export default function useMiddleInteractive () {
         const absDelaX = Math.abs(delaX)
         const absDelaY = Math.abs(delaY)
 
+        // 移动x的距离大于y值时默认为 水平（h）滑动
         if (!touch.current.directionLocked) {
             touch.current.directionLocked = absDelaX >= absDelaY ? 'h' : 'v'
         }
@@ -61,7 +72,11 @@ export default function useMiddleInteractive () {
         })
     }, [])
 
-    const onMiddleTouchend = useCallback((e: React.TouchEvent) => {
+    /**
+     * end事件
+     * 滑动最终样式
+     */
+    const onMiddleTouchend = useCallback(() => {
         let offsetWidth
         let opacity
         if (currentShow === 'cd') {

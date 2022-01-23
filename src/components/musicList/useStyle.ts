@@ -1,14 +1,21 @@
-// 计算样式的
 import React, {useCallback, useMemo, useRef} from 'react'
 import {NumberOrString} from '../../types'
 
 const RESERVED_HEIGHT = 40  // tab高度
 
+/**
+ * 自定义hooks
+ * 样式相关的计算 Memo
+ * @param scrollY: 滚动Y轴坐标
+ * @param pic: 背景图像
+ */
 export const useStyle = (scrollY: number, pic: string) => {
     const imageHeight = useRef(0) // 图片的高度
     const maxTranslateY = useRef(0) // 最大偏移高度
 
-    // 初始化Image的高度
+    /**
+     * 初始化Image的高度
+     */
     const bgImage = useCallback((node: HTMLImageElement) => {
         if (node != null) {
             setTimeout(() => {
@@ -18,7 +25,9 @@ export const useStyle = (scrollY: number, pic: string) => {
         }
     }, [])
 
-    // 模糊背景样式
+    /**
+     * 计算模糊背景样式
+     */
     const filterStyle = useMemo<React.CSSProperties>(() => {
         let blur = 0
         if (scrollY >= 0) {
@@ -29,7 +38,9 @@ export const useStyle = (scrollY: number, pic: string) => {
         }
     }, [scrollY])
 
-    // 背景图片样式
+    /**
+     * 计算背景图片样式
+     */
     const bgImageStyle = useMemo<React.CSSProperties>(() => {
         let zIndex = 0
         let paddingTop: NumberOrString = '70%'
@@ -55,7 +66,9 @@ export const useStyle = (scrollY: number, pic: string) => {
         }
     }, [scrollY, pic])
 
-    // 随机播放按钮
+    /**
+     * 计算随机播放按钮
+     */
     const playBtnStyle = useMemo<React.CSSProperties>(() => {
         return {
             display: scrollY > maxTranslateY.current ? 'none' : ''

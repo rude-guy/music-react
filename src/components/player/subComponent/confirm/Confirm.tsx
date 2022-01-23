@@ -3,40 +3,59 @@ import styles from './Confirm.module.css'
 import './Confirm.css'
 import {CSSTransition} from 'react-transition-group'
 
+/**
+ * Confirm组件Props
+ */
 export interface ConfirmProps {
     text: string
     confirmBtnText: string
     cancelBtnText: string
     confirm(): void
     cancel(): void
-    ref: ForwardedRef<any>
+    ref: ForwardedRef<any>  // 转发的Ref
 }
 
 const Confirm: React.FC<Partial<ConfirmProps>> = React.memo(React.forwardRef((props, ref) => {
     const {text, confirmBtnText, cancelBtnText, confirm, cancel} = props
     const [visible, setVisible] = useState(false)
 
+    /**
+     * 点击确定按钮
+     * @param e
+     */
     function onConfirm (e: React.MouseEvent) {
         confirm?.()
         hide()
         e.stopPropagation()
     }
 
+    /**
+     * 点击取消按钮
+     * @param e
+     */
     function onCancel (e: React.MouseEvent) {
-        console.log(1)
         cancel?.()
         hide()
         e.stopPropagation()
     }
 
+    /**
+     * 显示
+     */
     function show () {
         setVisible(true)
     }
 
+    /**
+     * 隐藏
+     */
     function hide () {
         setVisible(false)
     }
 
+    /**
+     * 转发Ref
+     */
     useImperativeHandle(ref, () => ({show, hide}))
 
     return (

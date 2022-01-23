@@ -8,6 +8,9 @@ import {SINGER_KEY} from '../../../assets/ts/constant'
 import {processSongs} from '../../../services/song'
 import {useHistory, useParams} from 'react-router-dom'
 
+/*
+ * 歌曲数据结构
+ */
 export interface Song {
     album: string
     duration: number
@@ -20,13 +23,23 @@ export interface Song {
     lyric?: string
 }
 
+/*
+ *  musicList剩余参数注解
+ *  {pic: 图像, title: 标题}
+ */
 export type Rest = {
     pic: string
     title: string
 }
 
+/**
+ * 组件Props
+ */
+interface Props {
+    singerInfo?: SingerInfo
+}
 
-export const SingerDetail = () => {
+export const SingerDetail: React.FC<Props> = ({singerInfo}) => {
     const [songs, setSongs] = useState<Song[]>([])
     const [rest, setRest] = useState<Rest>({
         pic: '',
@@ -36,8 +49,11 @@ export const SingerDetail = () => {
     const history = useHistory()
     const [noResult, setNoResult] = useState(false)
 
+    /**
+     * 初始化歌手详情页数据
+     */
     useLayoutEffect(() => {
-        const singer: SingerInfo = storage.session.get(SINGER_KEY)
+        let singer: SingerInfo = singerInfo ? singerInfo : storage.session.get(SINGER_KEY)
         setRest({
             pic: singer.pic || '',
             title: singer.name || ''
@@ -46,6 +62,9 @@ export const SingerDetail = () => {
             history.goBack()
             return
         }
+        /**
+         * 获取歌曲列表并添加播放链接
+         */
         getSingerDetail(singer).then(songs => {
             return processSongs(songs)
         }).then(songs => {
@@ -55,7 +74,7 @@ export const SingerDetail = () => {
         })
     }, [])
 
-       return  <div className={styles.topDetail}>
-            <MusicList songs={songs} noResult={noResult} {...rest}/>
-        </div>
+    return <div className={styles.topDetail}>
+        <MusicList songs={songs} noResult={noResult} {...rest}/>
+    </div>
 }

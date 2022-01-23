@@ -10,17 +10,32 @@ type UseProgress = {
     stopLyric: () => void
 } & AudioRef
 
+/**
+ * 自定义hooks
+ * 进度条相关
+ * @param currentTime
+ * @param setCurrentTime
+ * @param audioRef: audio Dom元素的Ref
+ * @param playLyric: 跳转歌词
+ * @param stopLyric: 停止跳转歌词
+ */
 const useProgress = ({currentTime, setCurrentTime, audioRef, playLyric, stopLyric}: UseProgress) => {
     const currentSong = useAppSelector(getCurrentSong)
     const {playing} = useAppSelector(selectMusic)
     const dispatch = useAppDispatch()
     const [progressChanging, setProgressChanging] = useState(false)
-    // 歌曲进度比例
+
+    /**
+     * 计算歌曲进度比例
+     */
     const progress = useMemo(() => {
         return currentTime / currentSong.duration
     }, [currentTime, currentSong])
 
-    // 移动进度条
+    /**
+     * 移动进度条 move
+     * @param progress
+     */
     const onProgressChanging = useCallback((progress: number) => {
         setProgressChanging(true)
         setCurrentTime(progress * currentSong.duration)
@@ -29,6 +44,10 @@ const useProgress = ({currentTime, setCurrentTime, audioRef, playLyric, stopLyri
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentSong])
 
+    /**
+     * 移动进度条结束 end
+     * @param progress
+     */
     const onProgressChanged = useCallback((progress: number) => {
         setProgressChanging(false)
         const currentTime = progress * currentSong.duration

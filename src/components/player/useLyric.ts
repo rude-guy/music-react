@@ -9,7 +9,14 @@ interface LyricProps {
     songReady: boolean
 }
 
+/**
+ * 自定义hooks
+ * 歌词相关
+ * @param currentTime
+ * @param songReady
+ */
 const useLyric = ({currentTime, songReady}: LyricProps) => {
+    // currentTime转存到Ref上防止死循环
     const currentTimeRef = useRef(currentTime)
     currentTimeRef.current = currentTime
 
@@ -17,6 +24,7 @@ const useLyric = ({currentTime, songReady}: LyricProps) => {
     const dispatch = useAppDispatch()
     const [currentLyric, setCurrentLyric] = useState<Lyric | null>(null)
 
+    // currentLyric转存到Ref上防止死循环
     const currentLyricRef = useRef<Lyric | null>(null)
     currentLyricRef.current = currentLyric
 
@@ -26,6 +34,9 @@ const useLyric = ({currentTime, songReady}: LyricProps) => {
     const scrollCom = useRef<any>(null)
     const lyricScrollRef = useRef<any>(null)
 
+    /**
+     * 初始化Scroll组件获取Ref
+     */
     useEffect(() => {
         let timer: any
         if (lyricScrollRef.current) {
@@ -41,7 +52,10 @@ const useLyric = ({currentTime, songReady}: LyricProps) => {
 
     const lyricListRef = useRef<HTMLDivElement>(null)
 
-    // 跳转歌词
+    /**
+     * 跳转歌词
+     * @param currentTime
+     */
     function playLyric (currentTime?: number) {
         if (currentLyricRef.current) {
             currentTime = currentTime != null ? currentTime : currentTimeRef.current
@@ -49,13 +63,20 @@ const useLyric = ({currentTime, songReady}: LyricProps) => {
         }
     }
 
-    // 停止跳转歌词
+    /**
+     * 停止跳转歌词
+     */
     function stopLyric () {
         if (currentLyricRef.current) {
             currentLyricRef.current.stop()
         }
     }
 
+    /**
+     * 歌词回调
+     * @param lineNum: 当前播放歌词的行
+     * @param txt: 当前播放歌词的内容
+     */
     function handleLyric ({lineNum, txt}: { lineNum: number; txt: string }) {
         setCurrentLineNum(lineNum)
         setPlayingLyric(txt)
@@ -70,6 +91,9 @@ const useLyric = ({currentTime, songReady}: LyricProps) => {
         }
     }
 
+    /**
+     * 获取歌词数据
+     */
     const getLyricData = useCallback(async () => {
         if (!currentSong.url || !currentSong.id) {
             return
@@ -86,6 +110,7 @@ const useLyric = ({currentTime, songReady}: LyricProps) => {
         }))
         if (currentSong.lyric !== lyric) return
         const currentLyric = new Lyric(lyric, handleLyric)
+        // 防止一直获取数据创建对象
         if (currentLyricRef.current === currentLyric) {
             return
         }
@@ -103,6 +128,9 @@ const useLyric = ({currentTime, songReady}: LyricProps) => {
         }
     }, [currentSong, dispatch])
 
+    /**
+     * 初始化获取歌词
+     */
     useEffect(() => {
         getLyricData()
         return () => {

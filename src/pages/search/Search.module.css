@@ -1,0 +1,65 @@
+.search {
+    position: fixed;
+    width: 100%;
+    top: 88px;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.searchInputWrapper {
+    margin: .2rem;
+}
+
+.searchContent {
+    flex: 1;
+    overflow: hidden;
+}
+
+.hotKeys {
+    margin: 0 .2rem .2rem .2rem;
+}
+
+.hotKeys .title {
+    margin-bottom: .2rem;
+    font-size: .14rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.hotKeys .item {
+    display: inline-block;
+    padding: .05rem .1rem;
+    margin: 0 .2rem .1rem 0;
+    border-radius: .06rem;
+    background: #333;
+    font-size: .14rem;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.searchHistory {
+    position: relative;
+    margin: 0 .2rem;
+}
+
+.searchHistory .title {
+    display: flex;
+    align-items: center;
+    height: .4rem;
+    font-size: .14rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.searchHistory .title .text {
+    flex: 1;
+}
+
+.clear .iconClear {
+    font-size: .14rem;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.searchResult {
+    flex: 1;
+    overflow: hidden;
+}
+

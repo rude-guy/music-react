@@ -12,33 +12,47 @@ import useFavorite from '../../useFavorite'
 import {Song} from '../../../../pages/singer/singerDetail/SingerDetail'
 import {clearSongList, removeSong} from '../../../../store/actions'
 import Confirm from '../confirm/Confirm'
+import useConfirm from '../confirm/useConfirm'
 
-// 组件的显示隐藏
+/**
+ * 自定义hooks
+ * 组件的显示隐藏
+ */
 const useVisible = () => {
-    const {sequenceList} = useAppSelector(selectMusic)
-    const {playList} = useAppSelector(selectMusic)
+    const {sequenceList, playList} = useAppSelector(selectMusic)
     const currentSong = useAppSelector(getCurrentSong)
     const [visible, setVisible] = useState(false)
     const playListRef = useRef<any>(null)
     const {open, closePlayList} = useContext(MiniContext)
 
+    /**
+     * 关闭 PlayList组件
+     * @param e
+     */
     function closeVisible (e?: React.MouseEvent) {
         closePlayList()
         setVisible(false)
         e?.stopPropagation()
     }
 
-    // Scroll重新计算高度
+    /**
+     * Scroll重新计算高度
+     */
     function refreshScroll () {
         playListRef.current.refresh()
     }
 
-    // 滚动到对应元素
+    /**
+     * 滚动到对应元素DOM
+     * @param node
+     */
     function scrollToElement (node: HTMLElement) {
         playListRef.current?.scrollToElement(node)
     }
 
-    // 打开自动滚动到对应的播放歌曲的位置
+    /**
+     * 打开自动滚动到对应的播放歌曲的位置
+     */
     function autoScrollTop () {
         const index = playList.findIndex(item => currentSong.id === item.id)
         const node = playListRef.current.getChildren()[0].children[index]
@@ -49,12 +63,16 @@ const useVisible = () => {
         }
     }
 
+    /**
+     * 打开播放器触发动画
+     */
     useEffect(() => {
         if (open) {
             setVisible(Boolean(playList.length))
         }
         let timer: any
         if (open && playListRef.current != null) {
+            // 等待一个nextTick
             timer = setTimeout(() => {
                 refreshScroll()
                 autoScrollTop()
@@ -64,7 +82,6 @@ const useVisible = () => {
             clearTimeout(timer)
         }
     }, [open, sequenceList])
-
 
     return {
         closeVisible, visible, playListRef,
@@ -88,6 +105,11 @@ const PlayList = () => {
 
 
     const timer = useRef<NodeJS.Timeout | null>(null)
+    /**
+     * 切换歌曲
+     * @param song
+     * @param e
+     */
     const changeSong = (song: Song, e: React.MouseEvent) => {
         const index = playList.findIndex(item => song.id === item.id)
         dispatch(setCurrentIndex(index))
@@ -101,6 +123,11 @@ const PlayList = () => {
     }
 
     const [removing, setRemoving] = useState(false)
+    /**
+     * 删除歌曲
+     * @param song
+     * @param e
+     */
     const deleteSong = (song: Song, e: React.MouseEvent) => {
         stopPropagation(e)
         if (removing) return
@@ -115,13 +142,12 @@ const PlayList = () => {
         }, 300)
     }
 
-    const confirmRef = useRef<any>(null)
 
-    function openConfirm () {
-        confirmRef.current?.show()
-    }
-
-    // 清空列表
+    // 显示Confirm对话框
+    const { confirmRef, openConfirm} = useConfirm()
+    /**
+     * 清空列表
+     */
     function onConfirmClear () {
         dispatch(clearSongList())
         closeVisible()
@@ -192,6 +218,9 @@ const PlayList = () => {
 }
 
 
+/**
+ * 把DOM portal到body上
+ */
 export default () => {
     return ReactDOM.createPortal(<PlayList/>, document.getElementsByTagName('body')[0])
 }

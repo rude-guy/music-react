@@ -1,4 +1,4 @@
-import React, {createContext, useCallback, useState} from 'react'
+import React, {createContext, useState} from 'react'
 import styles from './MiniPlayer.module.css'
 import {useAppDispatch, useAppSelector} from '../../../../store/hooks'
 import {getCurrentSong, selectMusic, setFullScreen} from '../../../../store/reducers'
@@ -8,6 +8,7 @@ import PlayList from '../playList/PlayList'
 
 interface MiniContextParams {
     open: boolean
+
     closePlayList (): void
 }
 
@@ -25,17 +26,27 @@ const MiniPlayer = () => {
     // 切换播放状态
     const togglePlaying = useTogglePlaying()
 
-    const toggleFullScreen = useCallback(() => {
+    /**
+     * 屏幕打开关闭切换
+     */
+    const toggleFullScreen = () => {
         dispatch(setFullScreen(true))
-    }, [dispatch])
+    }
 
     const [open, setOpen] = useState(false)
 
+    /**
+     * 打开mini播放器
+     * @param e
+     */
     function openPlayList (e: React.MouseEvent) {
         setOpen(true)
         e.stopPropagation()
     }
 
+    /**
+     * 关闭mini播放器
+     */
     function closePlayList () {
         setOpen(false)
     }

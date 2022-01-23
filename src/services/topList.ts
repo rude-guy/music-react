@@ -9,7 +9,7 @@ export async function getTopList () {
             result: {
                 topList: TopListParams[]
             }
-        } = await request.get('./api/getTopList')
+        } = await request.get('/api/getTopList')
 
         return result.result
     } catch (e) {

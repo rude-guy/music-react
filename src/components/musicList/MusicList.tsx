@@ -11,16 +11,25 @@ import {useStore} from './useStore'
 import {useHistory} from 'react-router-dom'
 import {CSSTransition} from 'react-transition-group'
 
+/**
+ * MusicList组件Props
+ */
 type Props = {
     songs: Song[],
     noResult: boolean
     rank?: boolean
 } & Rest
 
-// 获取滚动Y坐标
+/**
+ * 自定义hooks
+ * 获取滚动Y坐标
+  */
 const useScroll = () => {
     const [scrollY, setScrollY] = useState(0)
-    // 窃听滚动
+    /**
+     * 窃听滚动
+     * @param pos: x,y轴坐标
+      */
     const onScroll = useCallback((pos: Pos) => {
         setScrollY(-pos.y)
     }, [])
@@ -29,29 +38,30 @@ const useScroll = () => {
 
 const MusicList: React.FC<Props> = (props) => {
     const {songs, pic, title, noResult, rank} = props
+    const history = useHistory()
     const {scrollRef: musicRef, playListStyle: scrollStyle} = useLoadScroll(songs)
     // 获取滚动Y坐标
     const {scrollY, onScroll} = useScroll()
+
     // 计算样式的
-    const {
-        bgImage, bgImageStyle,
-        filterStyle, playBtnStyle
-    } = useStyle(scrollY, pic)
+    const { bgImage, bgImageStyle,filterStyle, playBtnStyle } = useStyle(scrollY, pic)
 
     // 派发store
-    const {
-        onSelectItem, onRandomPlaying,
-    } = useStore({songs})
+    const {onSelectItem, onRandomPlaying} = useStore({songs})
 
+    // 动画相关
     const [visible, setVisible] = useState(true)
 
+    /**
+     * 关闭动画
+     */
     function close() {
         setVisible(false)
     }
 
-    const history = useHistory()
-
-    // 渲染组件
+    /**
+     * 通过songs渲染所对应组件——对应的效果
+     */
     const renderComponent = useMemo(() => {
         return songs.length ? <SongList songs={songs} onSelectItem={onSelectItem} rank={rank}/> :
             noResult ? <NoResult/> : <Loading/>

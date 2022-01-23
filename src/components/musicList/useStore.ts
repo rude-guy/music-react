@@ -1,20 +1,30 @@
-// 派发store
 import {Song} from '../../pages/singer/singerDetail/SingerDetail'
 import {useAppDispatch} from '../../store/hooks'
-import {useCallback} from 'react'
 import {randomPlay, selectPlay} from '../../store/actions'
 
+/**
+ * 自定义hooks
+ * 派发事件 dispatch
+ * @param songs
+ */
 export const useStore = ({songs}: { songs: Song[] }) => {
     const dispatch = useAppDispatch()
-    // 选择歌曲
-    const onSelectItem = useCallback((song: Song, index: number) => {
-        dispatch(selectPlay({list: songs, index}))
-    }, [dispatch, songs])
 
-    // 随机播放
-    const onRandomPlaying = useCallback(() => {
+    /**
+     * 派发选择的歌曲
+     * @param song: 歌曲
+     * @param index: 对应的序号
+     */
+    function onSelectItem (song: Song, index: number) {
+        dispatch(selectPlay({list: songs, index}))
+    }
+
+    /**
+     * 派发随机播放
+     */
+    function onRandomPlaying () {
         dispatch(randomPlay(songs))
-    }, [dispatch, songs])
+    }
 
     return {
         onSelectItem,

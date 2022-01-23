@@ -1,0 +1,30 @@
+.suggest {
+    height: 100%;
+    overflow: hidden;
+}
+
+.suggestList {
+    padding: 0 .3rem;
+}
+
+.suggestItem {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-bottom: .2rem;
+}
+
+.icon {
+    flex: 0 0 .3rem;
+    width: .3rem;
+    min-height: .16rem;
+    font-size: .14rem;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.name {
+    flex: 1;
+    font-size: .14rem;
+    color: rgba(255, 255, 255, 0.3);
+    overflow: hidden;
+}

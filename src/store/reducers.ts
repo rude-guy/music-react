@@ -1,6 +1,8 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {RootState} from './store'
 import {Song} from '../pages/singer/singerDetail/SingerDetail'
+import {load} from '../assets/ts/arrayStroe'
+import {SEARCH_KEY} from '../assets/ts/constant'
 
 export enum PLAY_MODE {
     sequence = 0,  // 顺序
@@ -16,7 +18,7 @@ export interface MusicState {
     currentIndex: number  // 当前播放列表中歌曲的索引
     fullScreen: boolean  // 是否全屏播放
     favoriteList: Song[]   // 收藏歌曲播放列表
-    searchHistory: []    // 搜索历史
+    searchHistory: string[]    // 搜索历史
     playHistory: Song[]   // 播放历史
 }
 
@@ -28,7 +30,7 @@ const initialState: MusicState = {
     currentIndex: 0,
     fullScreen: false,
     favoriteList: [],
-    searchHistory: [],
+    searchHistory: load(SEARCH_KEY),
     playHistory: []
 }
 
