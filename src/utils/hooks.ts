@@ -20,15 +20,16 @@ export const useScrollStyle = (fn?: (...args: any) => any, style = 'bottom') => 
 /**
  * 挂载scroll组件———刷新
  * @param rely: 刷新组件依赖
+ * @param timeout: 超时
  */
-export const useLoadScroll = (rely: any) => {
+export const useLoadScroll = (rely: any, timeout = 0) => {
     const scrollRef = useRef<any>(null)
     useEffect(() => {
         let timer: any
         if (scrollRef.current != null) {
             timer = setTimeout(() => {
                 refreshScroll()
-            }, 0)
+            }, timeout)
         }
         return () => {
             clearTimeout(timer)
