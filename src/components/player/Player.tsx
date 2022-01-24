@@ -34,6 +34,7 @@ export const useCssTransition = () => {
     function closeFullScreen () {
         dispatch(setFullScreen(false))
     }
+
     /**
      * 关闭屏幕动画
      */
@@ -67,7 +68,17 @@ const Player = () => {
     // 歌曲是否加载完毕
     const [songReady, setSongReady] = useState(false)
 
+    // 当前播放的时间
     const [currentTime, setCurrentTime] = useState(0)
+
+    /**
+     * 修复audio播放器onCanPlay不执行
+     */
+    useEffect(() => {
+        if (!songReady && currentTime > 1.5) {
+            setSongReady(true)
+        }
+    }, [currentTime])
 
     // 歌词相关
     const {

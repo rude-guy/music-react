@@ -110,19 +110,18 @@ const useAudio = ({
     /**
      * 循环播放
      */
-    const loop = useCallback(() => {
+    function loop () {
         const audioVal = audioRef.current
         if (audioVal === null) return
         audioVal.currentTime = 0
         audioVal.play()
         dispatch(setPlayingState(true))
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dispatch])
+    }
 
     /**
      * 上一首
      */
-    const prevSong = useCallback(() => {
+    function prevSong () {
         const playLen = playList.length
         if (!playLen || !songReady) return
         if (playLen === 1) {
@@ -131,13 +130,12 @@ const useAudio = ({
         }
         const index = currentIndex === 0 ? playLen - 1 : currentIndex - 1
         dispatch(setCurrentIndex(index))
-    }, [dispatch, playList, currentIndex, loop, songReady])
-
+    }
 
     /**
      * 下一首
      */
-    const nextSong = useCallback(() => {
+    function nextSong () {
         const playLen = playList.length
         if (!playLen || !songReady) return
         if (playLen === 1) {
@@ -146,16 +144,15 @@ const useAudio = ({
         }
         const index = playLen - 1 === currentIndex ? 0 : currentIndex + 1
         dispatch(setCurrentIndex(index))
-    }, [dispatch, playList, currentIndex, songReady, loop])
+    }
 
     /**
      * 更新播放时间
      */
-    const ontimeupdate = useCallback((e) => {
+    function ontimeupdate (e: any) {
         if (progressChanging) return
         setCurrentTime(e.target.currentTime)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [progressChanging])
+    }
 
     /**
      *  窃听audio标签暂停事件
@@ -167,26 +164,25 @@ const useAudio = ({
     /**
      * 监听audio音频是否准备完成
      */
-    const oncanplay = useCallback(() => {
+    function oncanplay () {
         if (songReady) return
         setSongReady(true)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [songReady])
+    }
 
     /**
      * 监听audio音频播放结束
      */
-    const onended = useCallback(() => {
+    function onended () {
         playMode === PLAY_MODE.loop ? loop() : nextSong()
-    }, [playMode, nextSong, loop])
+    }
 
     /**
      * 监听audio音频播放错误
      */
-    const onerror = useCallback(() => {
+    function onerror () {
+        debugger
         setSongReady(true)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }
 
     return {
         ontimeupdate, onpause, oncanplay,
