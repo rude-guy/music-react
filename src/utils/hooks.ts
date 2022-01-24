@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useRef} from 'react'
+import React, {useEffect, useMemo, useRef, useState} from 'react'
 import {useAppSelector} from '../store/hooks'
 import {selectMusic} from '../store/reducers'
 
@@ -49,6 +49,23 @@ export const useLoadScroll = (rely: any, timeout = 0) => {
 }
 
 /**
+ * 自定义hooks
+ * 简单CSSTranslation动画
+ */
+export const useCSSTranslation = () => {
+    // 动画相关
+    const [visible, setVisible] = useState(true)
+    /**
+     * 关闭动画
+     */
+    function closeVisible () {
+        setVisible(false)
+    }
+
+    return {visible, closeVisible}
+}
+
+/**
  * 等待一个渲染结束时间——可能有问题
  * @param timeout: 定时间时间
  */
@@ -57,4 +74,3 @@ export function nextTick (timeout = 0): Promise<void> {
         setTimeout(() => resolve(), timeout)
     })
 }
-

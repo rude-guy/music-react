@@ -5,7 +5,7 @@ import {Rest, Song} from '../../pages/singer/singerDetail/SingerDetail'
 import Loading from '../loading/Loading'
 import NoResult from '../noResult/NoResult'
 import SongList from '../songList/SongList'
-import {useLoadScroll} from '../../utils/hooks'
+import {useCSSTranslation, useLoadScroll} from '../../utils/hooks'
 import {useStyle} from './useStyle'
 import {useStore} from './useStore'
 import {useHistory} from 'react-router-dom'
@@ -23,13 +23,13 @@ type Props = {
 /**
  * 自定义hooks
  * 获取滚动Y坐标
-  */
+ */
 const useScroll = () => {
     const [scrollY, setScrollY] = useState(0)
     /**
      * 窃听滚动
      * @param pos: x,y轴坐标
-      */
+     */
     const onScroll = useCallback((pos: Pos) => {
         setScrollY(-pos.y)
     }, [])
@@ -44,20 +44,13 @@ const MusicList: React.FC<Props> = (props) => {
     const {scrollY, onScroll} = useScroll()
 
     // 计算样式的
-    const { bgImage, bgImageStyle,filterStyle, playBtnStyle } = useStyle(scrollY, pic)
+    const {bgImage, bgImageStyle, filterStyle, playBtnStyle} = useStyle(scrollY, pic)
 
     // 派发store
     const {onSelectItem, onRandomPlaying} = useStore({songs})
 
-    // 动画相关
-    const [visible, setVisible] = useState(true)
-
-    /**
-     * 关闭动画
-     */
-    function close() {
-        setVisible(false)
-    }
+    // 自定义简单动画
+    const {visible, closeVisible} = useCSSTranslation()
 
     /**
      * 通过songs渲染所对应组件——对应的效果
@@ -68,9 +61,10 @@ const MusicList: React.FC<Props> = (props) => {
     }, [songs, onSelectItem, noResult])
 
     return (
-        <CSSTransition classNames={'slide'} timeout={300} in={visible} appear={true} unmountOnExit onExited={() => history.goBack()}>
+        <CSSTransition classNames={'slide'} timeout={300} in={visible} appear={true} unmountOnExit
+                       onExited={history.goBack}>
             <div className={styles.musicList}>
-                <div className={styles.back} onClick={close}>
+                <div className={styles.back} onClick={closeVisible}>
                     <i className={`icon-back ${styles.iconBack}`}/>
                 </div>
                 <h1 className={`${styles.title} no-wrap`}>{title}</h1>

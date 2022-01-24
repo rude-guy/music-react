@@ -68,10 +68,10 @@ export const musicSlice = createSlice({
                 return item
             })
         },
-        setSearchHistory (state, action: PayloadAction<[]>) {
+        setSearchHistory (state, action: PayloadAction<string[]>) {
             state.searchHistory = action.payload
         },
-        setPlayHistory (state, action: PayloadAction<[]>) {
+        setPlayHistory (state, action: PayloadAction<Song[]>) {
             state.playHistory = action.payload
         }
     },
