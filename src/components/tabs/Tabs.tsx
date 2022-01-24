@@ -9,6 +9,7 @@ interface tab {
     }
 }
 
+// 导航项
 const tabs: tab[] = [
     {
         name: '推荐',

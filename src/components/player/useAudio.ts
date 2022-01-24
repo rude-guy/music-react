@@ -2,6 +2,7 @@
 import React, {useCallback, useEffect} from 'react'
 import {useAppDispatch, useAppSelector} from '../../store/hooks'
 import {getCurrentSong, PLAY_MODE, selectMusic, setCurrentIndex, setPlayingState} from '../../store/reducers'
+import usePlayHistory from './usePlayHistory'
 
 export type AudioRef = {
     audioRef: React.RefObject<HTMLAudioElement>
@@ -106,6 +107,10 @@ const useAudio = ({
         playMode, currentIndex, playList
     } = useAppSelector(selectMusic)
     const dispatch = useAppDispatch()
+    const currentSong = useAppSelector(getCurrentSong)
+
+    // 存储播放历史
+    const {savePlayHistory} = usePlayHistory()
 
     /**
      * 循环播放
@@ -167,6 +172,7 @@ const useAudio = ({
     function oncanplay () {
         if (songReady) return
         setSongReady(true)
+        savePlayHistory(currentSong)
     }
 
     /**
@@ -180,7 +186,6 @@ const useAudio = ({
      * 监听audio音频播放错误
      */
     function onerror () {
-        debugger
         setSongReady(true)
     }
 

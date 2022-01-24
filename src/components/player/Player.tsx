@@ -14,6 +14,7 @@ import useMiddleInteractive from './useMiddleInteractive'
 import useAnimation from './useAnimation'
 import usePlayMode from './usePlayMode'
 import useFavorite from './useFavorite'
+import usePlayHistory from './usePlayHistory'
 
 // 熟悉context
 export const ProcessContext = React.createContext<number>(0)
@@ -71,12 +72,16 @@ const Player = () => {
     // 当前播放的时间
     const [currentTime, setCurrentTime] = useState(0)
 
+    // 存储播放历史
+    const {savePlayHistory} = usePlayHistory()
+
     /**
-     * 修复audio播放器onCanPlay不执行
+     * 修复audio播放器onCanPlay不执行并保存播放历史
      */
     useEffect(() => {
         if (!songReady && currentTime > 1.5) {
             setSongReady(true)
+            savePlayHistory(currentSong)
         }
     }, [currentTime])
 

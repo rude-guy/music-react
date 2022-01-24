@@ -1,0 +1,77 @@
+.addSong {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 300;
+    background: #222;
+}
+
+.header {
+    position: relative;
+    height: .44rem;
+    text-align: center;
+}
+
+.title {
+    line-height: .44rem;
+    font-size: .18rem;
+    color: #fff;
+}
+
+.close {
+    position: absolute;
+    top: 0;
+    right: .08rem;
+}
+
+.iconClose {
+    display: block;
+    padding: .12rem;
+    font-size: .2rem;
+    color: #ffcd32;
+}
+
+.searchInputWrapper {
+    margin: .2rem
+}
+
+.listWrapper {
+    position: absolute;
+    top: 1.65rem;
+    bottom: 0;
+    width: 100%;
+}
+
+.listWrapper .listScroll {
+    height: 100%;
+    overflow: hidden;
+}
+
+.listWrapper .listScroll .listInner {
+    padding: .2rem .3rem;
+}
+
+.searchResult {
+    position: fixed;
+    top: 1.24rem;
+    bottom: 0;
+    width: 100%;
+}
+
+.messageTitle {
+    text-align: center;
+    padding: .18rem 0;
+    font-size: 0;
+}
+
+.messageTitle .iconOk {
+    font-size: 0.14rem;
+    color: #ffcd32;
+    margin-right: .04rem;
+}
+
+.messageTitle .text {
+    font-size: 0.14rem;
+    color: #fff;
+}

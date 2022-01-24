@@ -5,12 +5,14 @@ import {CSSTransition, TransitionGroup} from 'react-transition-group'
 interface Props {
     searches: string[]
 
-    deleteKey (query: string): void
+    showDelete?: boolean
+
+    deleteKey?: (query: string) => void
 
     selectHistory (query: string): void
 }
 
-const SearchList: React.FC<Props> = ({searches, deleteKey, selectHistory}) => {
+const SearchList: React.FC<Props> = React.memo(({searches, deleteKey, selectHistory, showDelete = true}) => {
     return <div className={'search-list'}>
         <ul>
             <TransitionGroup component={null}>
@@ -22,7 +24,8 @@ const SearchList: React.FC<Props> = ({searches, deleteKey, selectHistory}) => {
                             >
                                 <span className={styles.text}>{search}</span>
                                 <span className={'icon extend-click'}
-                                      onClick={() => deleteKey(search)}
+                                      style={{display: showDelete ? '' : 'none'}}
+                                      onClick={() => deleteKey?.(search)}
                                 >
                                     <i className={`${styles.iconDelete} icon-delete`}/>
                                 </span>
@@ -33,6 +36,6 @@ const SearchList: React.FC<Props> = ({searches, deleteKey, selectHistory}) => {
             </TransitionGroup>
         </ul>
     </div>
-}
+})
 
 export default SearchList

@@ -17,7 +17,7 @@ interface Props {
     query: string
     showSinger?: boolean
     selectItemSong: (song: Song) => void
-    selectItemSinger: (singer: SingerInfo) => void
+    selectItemSinger?: (singer: SingerInfo) => void
 }
 
 const Suggest: React.FC<Props> = ({query, showSinger = true, selectItemSong, selectItemSinger}) => {
@@ -26,7 +26,7 @@ const Suggest: React.FC<Props> = ({query, showSinger = true, selectItemSong, sel
     const [songs, setSongs] = useState<Song[]>([])
     const [singer, setSinger] = useState<SingerInfo | null>(null)
     // 分页页码
-   const page = useRef(0)
+    const page = useRef(0)
     // 是否有更多数据
     const [hasMore, setHasMore] = useState(true)
     // 是否手动刷新
@@ -40,7 +40,9 @@ const Suggest: React.FC<Props> = ({query, showSinger = true, selectItemSong, sel
     // 注册BScroll,使其能上拉刷新
     const {rootRef, scroll, isPullUpload} = usePullLoad(searchMore, loading || manualLoading)
 
-    // 是否能下拉刷新
+    /**
+     * 是否能下拉刷新,刷新重新计算高度
+     */
     const pullUpLoading = useMemo(() => {
         const pullLoading = isPullUpload && hasMore
         if (loading) {
@@ -109,7 +111,7 @@ const Suggest: React.FC<Props> = ({query, showSinger = true, selectItemSong, sel
             <ul className={styles.suggestList}>
                 {
                     singer ? <li className={styles.suggestItem}
-                                 onClick={() => selectItemSinger(singer)}
+                                 onClick={() => selectItemSinger?.(singer)}
                     >
                         <div className={styles.icon}>
                             <i className="icon-mine"/>

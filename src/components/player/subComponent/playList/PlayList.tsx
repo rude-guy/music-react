@@ -1,10 +1,9 @@
-import React, {useContext, useEffect, useRef, useState} from 'react'
+import React, {useRef, useState} from 'react'
 import styles from './PlayList.module.css'
 import ReactDOM from 'react-dom'
 import Scroll from '../../../scroll/Scroll'
 import {useAppDispatch, useAppSelector} from '../../../../store/hooks'
 import {getCurrentSong, selectMusic, setCurrentIndex, setPlayingState} from '../../../../store/reducers'
-import {MiniContext} from '../miniPlayer/MiniPlayer'
 import {CSSTransition, TransitionGroup} from 'react-transition-group'
 import usePlayMode from '../../usePlayMode'
 import {stopPropagation} from '../../../../utils/public'
@@ -13,81 +12,8 @@ import {Song} from '../../../../pages/singer/singerDetail/SingerDetail'
 import {clearSongList, removeSong} from '../../../../store/actions'
 import Confirm from '../confirm/Confirm'
 import useConfirm from '../confirm/useConfirm'
-
-/**
- * 自定义hooks
- * 组件的显示隐藏
- */
-const useVisible = () => {
-    const {sequenceList, playList} = useAppSelector(selectMusic)
-    const currentSong = useAppSelector(getCurrentSong)
-    const [visible, setVisible] = useState(false)
-    const playListRef = useRef<any>(null)
-    const {open, closePlayList} = useContext(MiniContext)
-
-    /**
-     * 关闭 PlayList组件
-     * @param e
-     */
-    function closeVisible (e?: React.MouseEvent) {
-        closePlayList()
-        setVisible(false)
-        e?.stopPropagation()
-    }
-
-    /**
-     * Scroll重新计算高度
-     */
-    function refreshScroll () {
-        playListRef.current.refresh()
-    }
-
-    /**
-     * 滚动到对应元素DOM
-     * @param node
-     */
-    function scrollToElement (node: HTMLElement) {
-        playListRef.current?.scrollToElement(node)
-    }
-
-    /**
-     * 打开自动滚动到对应的播放歌曲的位置
-     */
-    function autoScrollTop () {
-        const index = playList.findIndex(item => currentSong.id === item.id)
-        const node = playListRef.current.getChildren()[0].children[index]
-        if (node instanceof HTMLElement) {
-            setTimeout(() => {
-                scrollToElement(node)
-            }, 200)
-        }
-    }
-
-    /**
-     * 打开播放器触发动画
-     */
-    useEffect(() => {
-        if (open) {
-            setVisible(Boolean(playList.length))
-        }
-        let timer: any
-        if (open && playListRef.current != null) {
-            // 等待一个nextTick
-            timer = setTimeout(() => {
-                refreshScroll()
-                autoScrollTop()
-            }, 0)
-        }
-        return () => {
-            clearTimeout(timer)
-        }
-    }, [open, sequenceList])
-
-    return {
-        closeVisible, visible, playListRef,
-        refreshScroll, scrollToElement
-    }
-}
+import {useVisible} from './useVisible'
+import AddSong from '../addSong/AddSong'
 
 const PlayList = () => {
     const {sequenceList, playList} = useAppSelector(selectMusic)
@@ -102,6 +28,9 @@ const PlayList = () => {
 
     // 收藏切换
     const {getFavoriteIcon, toggleFavorite} = useFavorite()
+
+    // AddSong组件转发Ref
+    const addSongRef = useRef<any>(null)
 
 
     const timer = useRef<NodeJS.Timeout | null>(null)
@@ -140,6 +69,13 @@ const PlayList = () => {
         setTimeout(() => {
             setRemoving(false)
         }, 300)
+    }
+
+    /**
+     * 跳转到添加歌曲
+     */
+    const onAddSong = () => {
+        addSongRef.current?.showVisible()
     }
 
 
@@ -198,7 +134,9 @@ const PlayList = () => {
                         </ul>
                     </Scroll>
                     <div className={styles.listAdd}>
-                        <div className={styles.add}>
+                        <div className={styles.add}
+                             onClick={onAddSong}
+                        >
                             <i className={`icon-add ${styles.iconAdd}`}/>
                             <span className={styles.text}>添加歌曲到队列</span>
                         </div>
@@ -211,7 +149,9 @@ const PlayList = () => {
                     ref={confirmRef}
                     text={"是否清空播放列表？"}
                     confirmBtnText={"清空"}
-                    confirm={onConfirmClear}/>
+                    confirm={onConfirmClear}
+                />
+                <AddSong ref={addSongRef}/>
             </div>
         </CSSTransition>
     )

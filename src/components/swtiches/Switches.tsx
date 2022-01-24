@@ -3,7 +3,7 @@ import styles from './Switches.module.css'
 
 interface Props {
     items: string[]
-    modelIndex?: number
+    modelIndex: number
 
     /**
      * 切换项回调

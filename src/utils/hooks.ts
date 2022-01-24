@@ -10,7 +10,10 @@ import {selectMusic} from '../store/reducers'
 export const useScrollStyle = (fn?: (...args: any) => any, style = 'bottom') => {
     const {playList} = useAppSelector(selectMusic)
     return useMemo(() => {
-        fn?.()
+        // 等一个nextTick
+        setTimeout(() => {
+            fn?.()
+        }, 100)
         return {
             [style]: playList.length ? '.6rem' : '0'
         } as React.CSSProperties
@@ -51,10 +54,15 @@ export const useLoadScroll = (rely: any, timeout = 0) => {
 /**
  * 自定义hooks
  * 简单CSSTranslation动画
+ * @param init: 初始值
  */
-export const useCSSTranslation = () => {
+export const useCSSTranslation = (init = true) => {
     // 动画相关
-    const [visible, setVisible] = useState(true)
+    const [visible, setVisible] = useState(init)
+
+    function showVisible () {
+        setVisible(true)
+    }
     /**
      * 关闭动画
      */
@@ -62,7 +70,7 @@ export const useCSSTranslation = () => {
         setVisible(false)
     }
 
-    return {visible, closeVisible}
+    return {visible, closeVisible, showVisible}
 }
 
 /**

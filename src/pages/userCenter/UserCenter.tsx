@@ -13,6 +13,9 @@ import {useCSSTranslation, useLoadScroll, useScrollStyle} from '../../utils/hook
 import {CSSTransition} from 'react-transition-group'
 import {addSong, randomPlay} from '../../store/actions'
 
+// const use
+
+
 const UserCenter = () => {
     const dispatch = useDispatch()
     const history = useHistory()
@@ -39,9 +42,12 @@ const UserCenter = () => {
     const switchItem = (index: number) => {
         setCurrentIndex(index)
         index === 0 ? setCurrentList(favoriteList) : setCurrentList(playHistory)
-        refreshScroll()
     }
 
+    /**
+     *
+     * @param song
+     */
     const selectSong = (song: Song) => {
         dispatch(addSong(song))
     }

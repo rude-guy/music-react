@@ -18,6 +18,9 @@ const TopDetail = () => {
     const history = useHistory()
     const [noResult, setNoResult] = useState(false)
 
+    /**
+     * 初始化歌手数据，无数据返回
+     */
     useLayoutEffect(() => {
         const top: TopListParams = storage.session.get(TOP_KEY)
         setRest({

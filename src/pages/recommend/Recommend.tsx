@@ -42,8 +42,6 @@ const Recommend = () => {
             setAlbums(albums)
             setSliders(sliders)
         })
-        return () => {
-        }
     }, [])
 
     /**
@@ -52,7 +50,6 @@ const Recommend = () => {
      */
     const selectItem = (item: AlbumParams) => {
         storage.session.set(ALBUM_KEY, item)
-        console.log(`${url}/${item.id}`)
         history.push(`${url}/${item.id}`)
     }
 

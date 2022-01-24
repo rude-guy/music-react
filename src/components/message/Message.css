@@ -1,0 +1,12 @@
+.slide-down-enter {
+    transform: translate3d(0, -100%, 0)
+}
+
+.slide-down-enter-active {
+    transition: all 0.3s
+}
+
+.slide-down-exit-active {
+    transform: translate3d(0, -100%, 0);
+    transition: all 0.3s
+}

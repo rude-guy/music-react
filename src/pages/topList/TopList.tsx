@@ -32,14 +32,20 @@ const TopList = () => {
 
     const {scrollRef, playListStyle} = useLoadScroll(topList)
 
+    /**
+     * 初始化TopList数据
+     */
     useEffect(() => {
         getTopList().then(res => {
             setTopList(res.topList)
         })
     }, [])
 
+    /**
+     * 选择对应排行
+     * @param item
+     */
     const selectItem = (item: TopListParams) => {
-        console.log(item)
         storage.session.set(TOP_KEY, item)
         console.log(`${url}/${item.id}`)
         history.push(`${url}/${item.id}`)
