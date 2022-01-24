@@ -32,7 +32,7 @@ export interface ResRecommend {
 const Recommend = () => {
     const [albums, setAlbums] = useState<AlbumParams[]>([])
     const [sliders, setSliders] = useState<Slider[]>([])
-    const {scrollRef, playListStyle} = useLoadScroll(albums, 150)
+    const {scrollRef, playListStyle} = useLoadScroll([albums, sliders], 150)
     const {path, url} = useRouteMatch()
     const history = useHistory()
 

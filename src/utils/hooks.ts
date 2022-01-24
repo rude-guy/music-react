@@ -26,10 +26,11 @@ export const useScrollStyle = (fn?: (...args: any) => any, style = 'bottom') => 
  * @param timeout: 超时
  */
 export const useLoadScroll = (rely: any, timeout = 0) => {
+    const mountedRef = useMountedRef()
     const scrollRef = useRef<any>(null)
     useEffect(() => {
         let timer: any
-        if (scrollRef.current != null) {
+        if (scrollRef.current != null && mountedRef.current) {
             timer = setTimeout(() => {
                 refreshScroll()
             }, timeout)
@@ -63,6 +64,7 @@ export const useCSSTranslation = (init = true) => {
     function showVisible () {
         setVisible(true)
     }
+
     /**
      * 关闭动画
      */
@@ -72,6 +74,22 @@ export const useCSSTranslation = (init = true) => {
 
     return {visible, closeVisible, showVisible}
 }
+
+/**
+ *  自定义hooks
+ *  返回组件的挂载状态，如果还没挂载或者已经卸载，返回false，反之，返回true
+ */
+export const useMountedRef = () => {
+    const mountedRef = useRef(false)
+    useEffect(() => {
+        mountedRef.current = true
+        return () => {
+            mountedRef.current = false
+        }
+    })
+    return mountedRef
+}
+
 
 /**
  * 等待一个渲染结束时间——可能有问题
