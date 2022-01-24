@@ -46,8 +46,11 @@ const Recommend = () => {
         }
     }, [])
 
+    /**
+     * 选择推荐
+     * @param item
+     */
     const selectItem = (item: AlbumParams) => {
-        console.log(item)
         storage.session.set(ALBUM_KEY, item)
         console.log(`${url}/${item.id}`)
         history.push(`${url}/${item.id}`)

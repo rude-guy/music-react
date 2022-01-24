@@ -46,10 +46,11 @@ const TopList = () => {
     }
 
     return <>{
-        topList.length ? <div className={styles.topList}>
+        topList.length ? <div className={styles.topList}
+                              style={playListStyle}
+        >
             <Scroll className={styles.topListContent}
                     ref={scrollRef}
-                    style={playListStyle}
             >
                 <ul> {
                     topList.map(tops => (

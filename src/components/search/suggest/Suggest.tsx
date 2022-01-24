@@ -7,7 +7,7 @@ import {processSongs} from '../../../services/song'
 import Loading from '../../loading/Loading'
 import {SingerInfo} from '../../../pages/singer/Singer'
 import usePullLoad from './usePullLoad'
-import {nextTick, useScrollStyle} from '../../../utils/hooks'
+import {nextTick} from '../../../utils/hooks'
 import NoResult from '../../noResult/NoResult'
 
 /*
@@ -42,7 +42,11 @@ const Suggest: React.FC<Props> = ({query, showSinger = true, selectItemSong, sel
 
     // 是否能下拉刷新
     const pullUpLoading = useMemo(() => {
-        return isPullUpload && hasMore
+        const pullLoading = isPullUpload && hasMore
+        if (loading) {
+            scroll.current?.refresh()
+        }
+        return pullLoading
     }, [isPullUpload, hasMore])
 
     /**
@@ -91,9 +95,6 @@ const Suggest: React.FC<Props> = ({query, showSinger = true, selectItemSong, sel
         }
     }
 
-    // miniPlay播放器存在时的样式
-    const scrollStyle = useScrollStyle(undefined, 'marginBottom')
-
     // 渲染加载和无数据显示
     if (loading && !hasMore) {
         return <NoResult title={'抱歉，暂无搜索结果'}/>
@@ -103,6 +104,7 @@ const Suggest: React.FC<Props> = ({query, showSinger = true, selectItemSong, sel
     return (
         <div className={styles.suggest}
              ref={rootRef}
+
         >
             <ul className={styles.suggestList}>
                 {
@@ -134,11 +136,9 @@ const Suggest: React.FC<Props> = ({query, showSinger = true, selectItemSong, sel
                         </li>
                     ))
                 }
-                <div style={scrollStyle}>
-                    <div className={styles.suggestItem}
-                         style={{display: pullUpLoading ? '' : 'none'}}
-                         children={<Loading title={''}/>}/>
-                </div>
+                <div className={styles.suggestItem}
+                     style={{display: pullUpLoading ? '' : 'none'}}
+                     children={<Loading title={''}/>}/>
             </ul>
         </div>
     )

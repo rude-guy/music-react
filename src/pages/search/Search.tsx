@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Route, Switch, useHistory, useRouteMatch} from 'react-router-dom'
 import storage from 'good-storage'
 import styles from './Search.module.css'
@@ -151,13 +151,10 @@ const Search = () => {
 
     const {scrollRef, playListStyle} = useLoadScroll([hotkeys, searchHistory])
 
-    const scrollStyle = useMemo(() => {
-        const style = JSON.parse(JSON.stringify(playListStyle))
-        return Object.assign(style, {display: query ? 'none' : ''})
-    }, [query, playListStyle])
-
     return (
-        <div className={styles.search}>
+        <div className={styles.search}
+             style={playListStyle}
+        >
             <div className={styles.searchInputWrapper}>
                 <SearchInput value={query}
                              onChange={onchange}
@@ -166,7 +163,7 @@ const Search = () => {
             </div>
             <Scroll ref={scrollRef}
                     className={styles.searchContent}
-                    style={scrollStyle}
+                    style={{display: query ? 'none' : ''}}
             >
                 <div>
                     <div className={styles.hotKeys}>
