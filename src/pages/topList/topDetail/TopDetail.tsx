@@ -7,16 +7,18 @@ import storage from 'good-storage'
 import {TOP_KEY} from '../../../assets/ts/constant'
 import {getTopDetail} from '../../../services/topList'
 import {TopListParams} from '../TopList'
+import {useSongs} from '../../../utils/hooks'
 
 const TopDetail = () => {
-    const [songs, setSongs] = useState<Song[]>([])
     const [rest, setRest] = useState<Rest>({
         pic: '',
         title: ''
     })
     const {topListId} = useParams<{ topListId: string }>()
     const history = useHistory()
-    const [noResult, setNoResult] = useState(false)
+
+    // 获取详情页数据
+    const {songs, noResult, getSongs} = useSongs<Song, TopListParams>(getTopDetail)
 
     /**
      * 初始化歌手数据，无数据返回
@@ -31,14 +33,9 @@ const TopDetail = () => {
             history.goBack()
             return
         }
-        getTopDetail(top).then(result => {
-            if (result.songs.length) {
-                setSongs(result.songs)
-                return
-            }
-            setNoResult(true)
-        })
+        getSongs(top)
     }, [])
+
     return <div className={styles.topDetail}>
         <MusicList songs={songs} noResult={noResult} {...rest} rank/>
     </div>

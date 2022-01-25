@@ -7,17 +7,18 @@ import {ALBUM_KEY} from '../../../assets/ts/constant'
 import {Rest, Song} from '../../singer/singerDetail/SingerDetail'
 import {AlbumParams} from '../Recommend'
 import {getAlbum} from '../../../services/recommend'
-import {processSongs} from '../../../services/song'
+import {useSongs} from '../../../utils/hooks'
 
 const Album = () => {
-    const [songs, setSongs] = useState<Song[]>([])
     const [rest, setRest] = useState<Rest>({
         pic: '',
         title: ''
     })
     const {albumId} = useParams<{ albumId: string }>()
     const history = useHistory()
-    const [noResult, setNoResult] = useState(false)
+
+    // 获取详情页数据
+    const {songs, noResult, getSongs} = useSongs<Song, AlbumParams>(getAlbum)
 
     /**
      * 初始化数据
@@ -32,13 +33,7 @@ const Album = () => {
             pic: album.pic || '',
             title: album.title || ''
         })
-        getAlbum(album).then(result => {
-            return processSongs(result.songs)
-        }).then(songs => {
-            setSongs(songs)
-        }).catch(() => {
-            setNoResult(true)
-        })
+        getSongs(album)
     }, [])
 
     return <div className={styles.album}>

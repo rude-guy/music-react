@@ -1,6 +1,8 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react'
 import {useAppSelector} from '../store/hooks'
 import {selectMusic} from '../store/reducers'
+import {Song} from '../pages/singer/singerDetail/SingerDetail'
+import {processSongs} from '../services/song'
 
 /**
  * 存在playList（播放列表）时，预留miniPlay组件的位置
@@ -88,6 +90,41 @@ export const useMountedRef = () => {
         }
     })
     return mountedRef
+}
+
+/**
+ *
+ * @param getSingerDetail
+ */
+export const useSongs = <T extends Song, V> (getSingerDetail: (top: V) => Promise<{ songs: Song[] }>) => {
+    const [songs, setSongs] = useState<Song[]>([])
+    const [noResult, setNoResult] = useState(false)
+
+    /**
+     * 有数据关闭无数据状态
+     */
+    useEffect(() => {
+        if (songs.length && noResult) {
+            setNoResult(true)
+        }
+    }, [songs])
+
+    /**
+     * 获取歌手或者歌单详情页信息
+     */
+    function getSongs (value: V) {
+        getSingerDetail(value).then(result => {
+            return processSongs(result.songs)
+        }).then(songs => {
+            setSongs(songs)
+        }).catch(() => {
+            setNoResult(true)
+        })
+    }
+
+    return {
+        songs, noResult, getSongs
+    }
 }
 
 

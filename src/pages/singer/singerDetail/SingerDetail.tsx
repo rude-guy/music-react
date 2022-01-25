@@ -1,12 +1,12 @@
 import React, {useLayoutEffect, useState} from 'react'
 import styles from './SingerDetail.module.css'
 import MusicList from '../../../components/musicList/MusicList'
-import {getSingerDetail} from '../../../services/singer'
 import {SingerInfo} from '../Singer'
 import storage from 'good-storage'
 import {SINGER_KEY} from '../../../assets/ts/constant'
-import {processSongs} from '../../../services/song'
 import {useHistory, useParams} from 'react-router-dom'
+import {useSongs} from '../../../utils/hooks'
+import {getSingerDetail} from '../../../services/singer'
 
 /*
  * 歌曲数据结构
@@ -40,14 +40,15 @@ interface Props {
 }
 
 export const SingerDetail: React.FC<Props> = ({singerInfo}) => {
-    const [songs, setSongs] = useState<Song[]>([])
     const [rest, setRest] = useState<Rest>({
         pic: '',
         title: ''
     })
     const {singerId} = useParams<{ singerId: string }>()
     const history = useHistory()
-    const [noResult, setNoResult] = useState(false)
+
+    // 获取详情页数据
+    const {songs, noResult, getSongs} = useSongs<Song, SingerInfo>(getSingerDetail)
 
     /**
      * 初始化歌手详情页数据
@@ -62,16 +63,7 @@ export const SingerDetail: React.FC<Props> = ({singerInfo}) => {
             history.goBack()
             return
         }
-        /**
-         * 获取歌曲列表并添加播放链接
-         */
-        getSingerDetail(singer).then(songs => {
-            return processSongs(songs)
-        }).then(songs => {
-            setSongs(songs)
-        }).catch(() => {
-            setNoResult(true)
-        })
+        getSongs(singer)
     }, [])
 
     return <div className={styles.topDetail}>

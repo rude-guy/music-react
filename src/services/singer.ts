@@ -15,7 +15,8 @@ export async function getSingerList (): Promise<SingerData[]> {
         return [{title: '', list: []}]
     }
 }
-export async function getSingerDetail (singer: SingerInfo): Promise<Song[]> {
+
+export async function getSingerDetail (singer: SingerInfo) {
     try {
         const result: {
             code: number
@@ -27,8 +28,8 @@ export async function getSingerDetail (singer: SingerInfo): Promise<Song[]> {
                 mid: singer.mid
             }
         })
-        return result.result.songs
+        return result.result
     } catch (e) {
-        return []
+        return {songs: []}
     }
 }
