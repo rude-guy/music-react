@@ -7,6 +7,7 @@ import {ALBUM_KEY} from '../../../assets/ts/constant'
 import {Rest, Song} from '../../singer/singerDetail/SingerDetail'
 import {AlbumParams} from '../Recommend'
 import {getAlbum} from '../../../services/recommend'
+import {processSongs} from '../../../services/song'
 
 const Album = () => {
     const [songs, setSongs] = useState<Song[]>([])
@@ -18,21 +19,24 @@ const Album = () => {
     const history = useHistory()
     const [noResult, setNoResult] = useState(false)
 
+    /**
+     * 初始化数据
+     */
     useLayoutEffect(() => {
         const album: AlbumParams = storage.session.get(ALBUM_KEY)
-        setRest({
-            pic: album.pic || '',
-            title: album.title || ''
-        })
         if (album.id !== +albumId) {
             history.goBack()
             return
         }
+        setRest({
+            pic: album.pic || '',
+            title: album.title || ''
+        })
         getAlbum(album).then(result => {
-            if (result.songs.length) {
-                setSongs(result.songs)
-                return
-            }
+            return processSongs(result.songs)
+        }).then(songs => {
+            setSongs(songs)
+        }).catch(() => {
             setNoResult(true)
         })
     }, [])

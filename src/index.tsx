@@ -8,7 +8,6 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 import './wdyr'
 
-
 ReactDOM.render(
     // <React.StrictMode>
         <Provider store={store}>

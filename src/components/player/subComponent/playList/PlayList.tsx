@@ -20,7 +20,7 @@ const PlayList = () => {
     const currentSong = useAppSelector(getCurrentSong)
     const dispatch = useAppDispatch()
 
-    // 组件的显示隐藏
+    // 组件的显示隐藏 动画效果
     const {closeVisible, visible, playListRef, refreshScroll, scrollToElement} = useVisible()
 
     // 播放模式切换

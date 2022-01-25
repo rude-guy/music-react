@@ -18,6 +18,7 @@ const IndexList: React.FC<Props> = ({singers, selectSinger}) => {
 
     const [onShortcutTouchStart, onShortcutTouchMove] = useShortcut(scrollTo)
 
+    // 自定义计算样式
     const scrollStyle = useScrollStyle(undefined, 'paddingBottom')
     return (
         <div>
