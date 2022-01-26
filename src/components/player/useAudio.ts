@@ -47,9 +47,12 @@ export const useAudioState = ({audioRef, setCurrentTime, setSongReady, playLyric
             audioVal?.load()
             return
         }
-        setSongReady(false)
-        setCurrentTime(0)
+        /**
+         * 防止切换模式时，currentSong变化导致进度条跳动
+         */
         if (audioVal.src !== currentSong.url) {
+            setSongReady(false)
+            setCurrentTime(0)
             audioVal.src = currentSong.url
             audioVal.play()
             dispatch(setPlayingState(true))

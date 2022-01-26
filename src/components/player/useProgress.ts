@@ -1,6 +1,6 @@
 import {useAppDispatch, useAppSelector} from '../../store/hooks'
 import {getCurrentSong, selectMusic, setPlayingState} from '../../store/reducers'
-import React, {useCallback, useMemo, useState} from 'react'
+import React, {useMemo, useState} from 'react'
 import {AudioRef} from './useAudio'
 
 type UseProgress = {
@@ -36,19 +36,19 @@ const useProgress = ({currentTime, setCurrentTime, audioRef, playLyric, stopLyri
      * 移动进度条 move
      * @param progress
      */
-    const onProgressChanging = useCallback((progress: number) => {
+    function onProgressChanging (progress: number) {
         setProgressChanging(true)
         setCurrentTime(progress * currentSong.duration)
         playLyric()
         stopLyric()
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentSong])
+    }
 
     /**
      * 移动进度条结束 end
      * @param progress
      */
-    const onProgressChanged = useCallback((progress: number) => {
+    function onProgressChanged (progress: number) {
         setProgressChanging(false)
         const currentTime = progress * currentSong.duration
         setCurrentTime(() => currentTime)
@@ -57,8 +57,8 @@ const useProgress = ({currentTime, setCurrentTime, audioRef, playLyric, stopLyri
         if (!playing) dispatch(setPlayingState(true))
         if (audioRef.current == null) return
         audioRef.current.currentTime = currentTime
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dispatch, currentSong, playing])
+    }
+
     return {
         progressChanging, progress,
         onProgressChanging, onProgressChanged

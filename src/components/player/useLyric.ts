@@ -21,6 +21,9 @@ const useLyric = ({currentTime, songReady}: LyricProps) => {
     currentTimeRef.current = currentTime
 
     const currentSong = useAppSelector(getCurrentSong)
+    // 用户缓存currentSongUrl，防止切换模式时导致currentSong变化重新获取歌词
+    const cacheCurrentSongUrl = useRef('')
+
     const dispatch = useAppDispatch()
     const [currentLyric, setCurrentLyric] = useState<Lyric | null>(null)
 
@@ -53,26 +56,6 @@ const useLyric = ({currentTime, songReady}: LyricProps) => {
     const lyricListRef = useRef<HTMLDivElement>(null)
 
     /**
-     * 跳转歌词
-     * @param currentTime
-     */
-    function playLyric (currentTime?: number) {
-        if (currentLyricRef.current) {
-            currentTime = currentTime != null ? currentTime : currentTimeRef.current
-            currentLyricRef.current.seek(currentTime * 1000)
-        }
-    }
-
-    /**
-     * 停止跳转歌词
-     */
-    function stopLyric () {
-        if (currentLyricRef.current) {
-            currentLyricRef.current.stop()
-        }
-    }
-
-    /**
      * 歌词回调
      * @param lineNum: 当前播放歌词的行
      * @param txt: 当前播放歌词的内容
@@ -95,7 +78,8 @@ const useLyric = ({currentTime, songReady}: LyricProps) => {
      * 获取歌词数据
      */
     const getLyricData = useCallback(async () => {
-        if (!currentSong.url || !currentSong.id) {
+        // 防止切换模式时导致currentSong变化重新获取歌词
+        if (!currentSong.url || !currentSong.id || cacheCurrentSongUrl.current === currentSong.url) {
             return
         }
         stopLyric()
@@ -110,6 +94,7 @@ const useLyric = ({currentTime, songReady}: LyricProps) => {
         }))
         if (currentSong.lyric !== lyric) return
         const currentLyric = new Lyric(lyric, handleLyric)
+        cacheCurrentSongUrl.current = currentSong.url
         // 防止一直获取数据创建对象
         if (currentLyricRef.current === currentLyric) {
             return
@@ -134,11 +119,34 @@ const useLyric = ({currentTime, songReady}: LyricProps) => {
     useEffect(() => {
         getLyricData()
         return () => {
+            if (cacheCurrentSongUrl.current === currentSong.url) return
             stopLyric()
             currentLyricRef.current = null
             setCurrentLyric(null)
         }
     }, [getLyricData])
+
+
+    /**
+     * 跳转歌词
+     * @param currentTime
+     */
+    function playLyric (currentTime?: number) {
+        if (currentLyricRef.current) {
+            currentTime = currentTime != null ? currentTime : currentTimeRef.current
+            currentLyricRef.current.seek(currentTime * 1000)
+        }
+    }
+
+    /**
+     * 停止跳转歌词
+     */
+    function stopLyric () {
+        if (currentLyricRef.current) {
+            currentLyricRef.current.stop()
+        }
+    }
+
 
     return {
         currentLyric, currentLineNum, playLyric, lyricScrollRef,

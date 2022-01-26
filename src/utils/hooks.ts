@@ -93,7 +93,8 @@ export const useMountedRef = () => {
 }
 
 /**
- *
+ * 自定义hooks
+ * 跳转详情页抽离固定写法
  * @param getSingerDetail
  */
 export const useSongs = <T extends Song, V> (getSingerDetail: (top: V) => Promise<{ songs: Song[] }>) => {
