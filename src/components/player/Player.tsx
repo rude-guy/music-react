@@ -75,21 +75,31 @@ const Player = () => {
     // 存储播放历史
     const {savePlayHistory} = usePlayHistory()
 
-    /**
-     * 修复audio播放器onCanPlay不执行并保存播放历史
-     */
-    useEffect(() => {
-        if (!songReady && currentTime > 1.5) {
-            setSongReady(true)
-            savePlayHistory(currentSong)
-        }
-    }, [currentTime])
-
     // 歌词相关
     const {
         currentLyric, currentLineNum, playLyric, lyricScrollRef,
         lyricListRef, stopLyric, pureMusicLyric, playingLyric
     } = useLyric({currentTime, songReady})
+
+    /**
+     * 修复audio播放器onCanPlay不执行并保存播放历史
+     */
+    useEffect(() => {
+        if (!songReady && currentTime > 0) {
+            setSongReady(true)
+            savePlayHistory(currentSong)
+        }
+    }, [currentTime])
+
+    /**
+     * 歌曲加载完成播放歌词
+     */
+    useEffect(() => {
+        if (songReady) {
+            stopLyric()
+            playLyric()
+        }
+    }, [songReady])
 
     // 进度条相关逻辑
     const {
