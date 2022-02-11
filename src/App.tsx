@@ -1,6 +1,6 @@
 import React from 'react'
 import './App.css'
-import {Route, HashRouter as Router, Switch, Redirect} from 'react-router-dom'
+import {Route, BrowserRouter as Router, Switch, Redirect} from 'react-router-dom'
 import Tabs from './components/tabs/Tabs'
 import Header from './components/header/Header'
 import useLoadLocalStorage from './utils/loadLocalStorage'

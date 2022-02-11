@@ -16,6 +16,10 @@
     padding-top: 40%;
 }
 
+.carouselWrap {
+    height: 40%;
+}
+
 .carouselItem {
     width: 100%;
     object-fit: fill;

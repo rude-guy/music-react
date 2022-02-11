@@ -62,7 +62,7 @@ const Recommend = () => {
                         ref={scrollRef}
                 >
                     <div>
-                        <div className={'carousel-wrap'}>
+                        <div className={styles.carouselWrap}>
                             <Carousel autoplay
                                       dots={{className: styles.dot}}
                                       style={{lineHeight: '0'}}
