@@ -1,6 +1,7 @@
 import React from 'react'
 import {NavLink} from 'react-router-dom'
 import styles from './Tabs.module.css'
+import {useAliveController} from 'react-activation'
 
 interface tab {
     name: string

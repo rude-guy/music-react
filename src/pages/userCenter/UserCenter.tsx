@@ -84,7 +84,7 @@ const UserCenter = () => {
                     >
                         <i className={`${styles.iconPlay} icon-play`}/>
                         <span className={styles.text}>随机播放全部</span>
-                    </div> : <NoResult title={currentIndex === 0? '暂无收藏歌曲' : '暂无最近播放历史'}/>
+                    </div> : <NoResult title={currentIndex === 0 ? '暂无收藏歌曲' : '暂无最近播放历史'}/>
                 }
                 <div className={styles.listWrapper} style={playListStyle}>
                     <Scroll className={styles.listScroll}

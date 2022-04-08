@@ -81,7 +81,7 @@ const Recommend = () => {
                         <div className={'recommend-list-wrap'}>
                             <h1 className={styles.listTitle}>热门歌单推荐</h1>
                             <List
-                                itemLayout="horizontal"
+                                itemLayout='horizontal'
                                 dataSource={albums}
                                 split={false}
                                 renderItem={item => (
@@ -92,7 +92,7 @@ const Recommend = () => {
                                             className={'recommend-list'}
                                             avatar={
                                                 <div className={styles.icon}>
-                                                    <img width="60" height="60"
+                                                    <img width='60' height='60'
                                                          src={item.pic} alt={'歌单'}
                                                     />
                                                 </div>

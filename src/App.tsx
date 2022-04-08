@@ -1,6 +1,7 @@
 import React from 'react'
 import './App.css'
-import {Route, BrowserRouter as Router, Switch, Redirect} from 'react-router-dom'
+import {Route, HashRouter as Router, Switch, Redirect} from 'react-router-dom'
+import KeepAlive, {AliveScope} from 'react-activation'
 import Tabs from './components/tabs/Tabs'
 import Header from './components/header/Header'
 import useLoadLocalStorage from './utils/loadLocalStorage'
@@ -19,21 +20,23 @@ function App () {
     return (
         <div className={'container'}>
             <Router>
-                <Header/>
-                <Tabs/>
-                <React.Suspense fallback={<Loading/>}>
-                    <div className={'router-wrap'}>
-                        <Switch>
-                            <Route exact path={'/user'} component={UserCenter}/>
-                            <Route path="/recommend" component={Recommend}/>
-                            <Route path="/singer" component={Singer}/>
-                            <Route path="/topList" component={TopList}/>
-                            <Route path="/search" component={Search}/>
-                            <Redirect from={'/'} to={'/recommend'}/>
-                        </Switch>
-                    </div>
-                    <Player/>
-                </React.Suspense>
+                <AliveScope>
+                    <Header/>
+                    <Tabs/>
+                    <React.Suspense fallback={<Loading/>}>
+                        <div className={'router-wrap'}>
+                            <Switch>
+                                <Route exact path={'/user'} render={() => <KeepAlive name={'UserCenter'} id={'UserCenter'}><UserCenter/></KeepAlive>}/>
+                                <Route path='/recommend' render={() => <KeepAlive name={'Recommend'} id={'Recommend'}><Recommend/></KeepAlive>}/>
+                                <Route path='/singer' render={() => <KeepAlive name={'Singer'} id={'Singer'}><Singer/></KeepAlive>}/>
+                                <Route path='/topList' render={() => <KeepAlive name={'TopList'} id={'TopList'}><TopList/></KeepAlive>}/>
+                                <Route path='/search' render={() => <KeepAlive name={'KeepAlive'} id={'KeepAlive'}><Search/></KeepAlive>}/>
+                                <Redirect from={'/'} to={'/recommend'}/>
+                            </Switch>
+                        </div>
+                        <Player/>
+                    </React.Suspense>
+                </AliveScope>
             </Router>
         </div>
     )

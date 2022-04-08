@@ -4,9 +4,9 @@ import styles from './Singer.module.css'
 import {getSingerList} from '../../services/singer'
 import IndexList from './components/indexList/IndexList'
 import {Route, Switch, useHistory, useRouteMatch} from 'react-router-dom'
-import {SingerDetail} from './singerDetail/SingerDetail'
 import {SINGER_KEY} from '../../assets/ts/constant'
 import Loading from '../../components/loading/Loading'
+const SingerDetail = React.lazy(() => import(/* webpackPrefetch: true */ '../singer/singerDetail/SingerDetail'))
 
 /*
  * 歌手数据结构
@@ -53,11 +53,13 @@ const Singer = () => {
 
     return <div className={styles.singer}>
         {singers.length ? <IndexList singers={singers} selectSinger={selectSinger}/> : <Loading/>}
-        <Switch>
-            <Route path={`${path}/:singerId`}>
-                <SingerDetail singerInfo={singerInfo}/>
-            </Route>
-        </Switch>
+        <React.Suspense fallback={<Loading/>}>
+            <Switch>
+                <Route path={`${path}/:singerId`}>
+                    <SingerDetail singerInfo={singerInfo}/>
+                </Route>
+            </Switch>
+        </React.Suspense>
     </div>
 }
 

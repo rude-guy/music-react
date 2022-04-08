@@ -39,7 +39,7 @@ interface Props {
     singerInfo?: SingerInfo
 }
 
-export const SingerDetail: React.FC<Props> = ({singerInfo}) => {
+const SingerDetail: React.FC<Props> = ({singerInfo}) => {
     const [rest, setRest] = useState<Rest>({
         pic: '',
         title: ''
@@ -70,3 +70,5 @@ export const SingerDetail: React.FC<Props> = ({singerInfo}) => {
         <MusicList songs={songs} noResult={noResult} {...rest}/>
     </div>
 }
+
+export default SingerDetail

@@ -6,7 +6,8 @@ import {store} from './store/store'
 import './assets/style/index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
-import './wdyr'
+// import './wdyr'
+
 
 ReactDOM.render(
     // <React.StrictMode>
