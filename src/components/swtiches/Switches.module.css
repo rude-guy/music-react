@@ -1,35 +1,35 @@
 .switches {
-    display: flex;
-    position: relative;
-    align-items: center;
-    width: 2.40rem;
-    margin: 0 auto;
-    border: .01rem solid  #333;
-    border-radius: .05rem;
+  display: flex;
+  position: relative;
+  align-items: center;
+  width: 2.4rem;
+  margin: 0 auto;
+  border: 0.01rem solid #333;
+  border-radius: 0.05rem;
 }
 
 .switchItem {
-    position: relative;
-    z-index: 10;
-    flex: 1;
-    height: .3rem;
-    line-height: .3rem;
-    text-align: center;
-    font-size: .14rem;
-    color: rgba(255, 255, 255, 0.3);
+  position: relative;
+  z-index: 10;
+  flex: 1;
+  height: 0.3rem;
+  line-height: 0.3rem;
+  text-align: center;
+  font-size: 0.14rem;
+  color: rgba(255, 255, 255, 0.3);
 }
 
 .switchItem.active {
-    color: #fff;
+  color: #fff;
 }
 
 .activeBar {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 1.2rem;
-    height: .3rem;
-    transition: transform 0.3s;
-    border-radius: .05rem;
-    background: #333;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1.2rem;
+  height: 0.3rem;
+  transition: transform 0.3s;
+  border-radius: 0.05rem;
+  background: #333;
 }

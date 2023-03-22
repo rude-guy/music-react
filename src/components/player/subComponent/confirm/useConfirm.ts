@@ -1,19 +1,20 @@
-import {useRef} from 'react'
+import { useRef } from 'react';
 /**
  * 自定hooks
  */
 const useConfirm = () => {
-    /**
-     * 显示Confirm对话框
-     */
-    const confirmRef = useRef<any>(null)
-    function openConfirm () {
-        confirmRef.current?.show()
-    }
+  /**
+   * 显示Confirm对话框
+   */
+  const confirmRef = useRef<any>(null);
+  function openConfirm() {
+    confirmRef.current?.show();
+  }
 
-    return {
-        confirmRef, openConfirm
-    }
-}
+  return {
+    confirmRef,
+    openConfirm
+  };
+};
 
-export default useConfirm
+export default useConfirm;

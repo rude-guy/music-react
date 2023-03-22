@@ -1,63 +1,63 @@
 .userCenter {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    z-index: 100;
-    width: 100%;
-    background: #222;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  z-index: 100;
+  width: 100%;
+  background: #222;
 }
 
 .back {
-    position: absolute;
-    top: 0;
-    left: .06rem;
-    z-index: 50;
+  position: absolute;
+  top: 0;
+  left: 0.06rem;
+  z-index: 50;
 }
 
 .back .iconBack {
-    display: block;
-    padding: .1rem;
-    font-size: .22rem;
-    color: #ffcd32;
+  display: block;
+  padding: 0.1rem;
+  font-size: 0.22rem;
+  color: #ffcd32;
 }
 
 .switchesWrapper {
-    margin: .1rem 0 .3rem 0;
+  margin: 0.1rem 0 0.3rem 0;
 }
 
 .playBtn {
-    box-sizing: border-box;
-    width: 1.35rem;
-    padding: .07rem 0;
-    margin: 0 auto;
-    text-align: center;
-    border: .01rem solid rgba(255, 255, 255, 0.5);
-    color: rgba(255, 255, 255, 0.5);
-    border-radius: 1rem;
-    font-size: 0;
+  box-sizing: border-box;
+  width: 1.35rem;
+  padding: 0.07rem 0;
+  margin: 0 auto;
+  text-align: center;
+  border: 0.01rem solid rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.5);
+  border-radius: 1rem;
+  font-size: 0;
 }
 
 .playBtn .iconPlay {
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: .06rem;
-    font-size: .16rem;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 0.06rem;
+  font-size: 0.16rem;
 }
 
 .playBtn .text {
-    display: inline-block;
-    vertical-align: middle;
-    font-size: .12rem;
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 0.12rem;
 }
 
 .listWrapper {
-    position: absolute;
-    top: 1.1rem;
-    bottom: 0;
-    width: 100%;
+  position: absolute;
+  top: 1.1rem;
+  bottom: 0;
+  width: 100%;
 }
 
 .listScroll {
-    height: 100%;
-    overflow: hidden;
+  height: 100%;
+  overflow: hidden;
 }

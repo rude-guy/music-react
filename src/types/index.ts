@@ -1,3 +1,3 @@
-export type Code = number
+export type Code = number;
 
-export type NumberOrString = number | string
+export type NumberOrString = number | string;

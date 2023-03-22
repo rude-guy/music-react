@@ -3,7 +3,7 @@ html {
 }
 
 body {
-  font-size: .12rem;
+  font-size: 0.12rem;
 }
 
 .container {
@@ -13,31 +13,30 @@ body {
 }
 
 .router-wrap {
-  height: calc(100vh - .88rem);
+  height: calc(100vh - 0.88rem);
   overflow-y: scroll;
   overflow-x: hidden;
   scroll-behavior: smooth;
 }
 
-
 /* 修改andt轮播图样式 */
 
 .ant-carousel .slick-dots li {
-  width: .08rem !important;
-  height: .08rem !important;
-  margin: 0 .04rem !important;
+  width: 0.08rem !important;
+  height: 0.08rem !important;
+  margin: 0 0.04rem !important;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.5);
   overflow: hidden;
 }
 
 .ant-carousel .slick-dots li button {
-  height: .08rem !important;
+  height: 0.08rem !important;
   background: rgba(255, 255, 255, 0.5);
 }
 
 .ant-carousel .slick-dots li.slick-active {
-  width: .2rem !important;
-  border-radius: .05rem !important;
+  width: 0.2rem !important;
+  border-radius: 0.05rem !important;
   background: rgba(255, 255, 255, 0.8) !important;
 }

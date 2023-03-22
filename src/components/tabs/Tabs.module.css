@@ -1,23 +1,23 @@
 .tabWrap {
-    display: flex;
-    height: 0.44rem;
-    line-height: 0.44rem;
-    font-size: 0.14rem;
-    background: #222;
-    margin-bottom: 0;
+  display: flex;
+  height: 0.44rem;
+  line-height: 0.44rem;
+  font-size: 0.14rem;
+  background: #222;
+  margin-bottom: 0;
 }
 
 .tabItem {
-    flex: 1;
-    text-align: center;
+  flex: 1;
+  text-align: center;
 }
 
 .tabLink {
-    padding-bottom: .05rem;
-    color: rgba(255, 255, 255, 0.5);
+  padding-bottom: 0.05rem;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .routerLinkActive.tabLink {
-    color: #ffcd32;
-    border-bottom: 2px solid #ffcd32;
+  color: #ffcd32;
+  border-bottom: 2px solid #ffcd32;
 }

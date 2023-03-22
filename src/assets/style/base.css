@@ -1,229 +1,226 @@
-body, html {
-    line-height: 1;
-    font-family: 'PingFang SC', 'STHeitiSC-Light', 'Helvetica-Light', arial, sans-serif, 'Droid Sans Fallback';
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-    background: #222;
-    color: #fff;
+body,
+html {
+  line-height: 1;
+  font-family: 'PingFang SC', 'STHeitiSC-Light', 'Helvetica-Light', arial, sans-serif, 'Droid Sans Fallback';
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  background: #222;
+  color: #fff;
 }
 
 .g-relative {
-    position: relative;
+  position: relative;
 }
 
 /*页面切换*/
 .slide-appear {
-    opacity: 0;
-    transform: translate3d(100%, 0, 0)
+  opacity: 0;
+  transform: translate3d(100%, 0, 0);
 }
 
 .slide-appear-active {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-    transition: all 0.3s;
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  transition: all 0.3s;
 }
 
 .slide-enter {
-    opacity: 0;
-    transform: translate3d(100%, 0, 0)
+  opacity: 0;
+  transform: translate3d(100%, 0, 0);
 }
 
-
 .slide-enter-active {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-    transition: all 0.3s;
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  transition: all 0.3s;
 }
 
 .slide-exit {
-    opacity: 1;
-    transform: translate3d(0, 0, 0)
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
 }
 
 .slide-exit-active {
-    opacity: 0;
-    transform: translate3d(100%, 0, 0);
-    transition: all 0.3s;
+  opacity: 0;
+  transform: translate3d(100%, 0, 0);
+  transition: all 0.3s;
 }
 
 /*播放器显示隐藏*/
 .normal-enter {
-    opacity: 0;
+  opacity: 0;
 }
 
 .normal-enter .top {
-    transform: translate3d(0, -1rem, 0);
+  transform: translate3d(0, -1rem, 0);
 }
 
 .normal-enter .bottom {
-    transform: translate3d(0, 1rem, 0)
+  transform: translate3d(0, 1rem, 0);
 }
 
 .normal-enter-active {
-    opacity: 1;
-    transition: all .6s;
+  opacity: 1;
+  transition: all 0.6s;
 }
 
 .normal-enter-active .top,
 .normal-enter-active .bottom {
-    transform: translate3d(0, 0, 0);
-    transition: all .6s cubic-bezier(0.45, 0, 0.55, 1);
+  transform: translate3d(0, 0, 0);
+  transition: all 0.6s cubic-bezier(0.45, 0, 0.55, 1);
 }
 
 .normal-exit {
-    opacity: 1;
+  opacity: 1;
 }
 
 .normal-exit .top,
 .normal-exit .bottom {
-    transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
 }
 
 .normal-exit-active {
-    opacity: 0;
-    transition: all .6s;
+  opacity: 0;
+  transition: all 0.6s;
 }
 
 .normal-exit-active .top {
-    transform: translate3d(0, -1rem, 0);
-    transition: all .6s cubic-bezier(0.45, 0, 0.55, 1);
+  transform: translate3d(0, -1rem, 0);
+  transition: all 0.6s cubic-bezier(0.45, 0, 0.55, 1);
 }
 
 .normal-exit-active .bottom {
-    transform: translate3d(0, 1rem, 0);
-    transition: all .6s cubic-bezier(0.45, 0, 0.55, 1);
+  transform: translate3d(0, 1rem, 0);
+  transition: all 0.6s cubic-bezier(0.45, 0, 0.55, 1);
 }
 
 .normal-exit-done {
-    display: none !important;
+  display: none !important;
 }
-
 
 /*mini播放器*/
 .mini-enter {
-    opacity: 1;
-    transform: translate3d(0, 0, 0)
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
 }
 
 .mini-enter-active {
-    opacity: 0;
-    transform: translate3d(0, 100%, 0);
-    transition: all 600ms;
+  opacity: 0;
+  transform: translate3d(0, 100%, 0);
+  transition: all 600ms;
 }
 
 .mini-enter-done {
-    opacity: 0 !important;
-    display: none !important;
+  opacity: 0 !important;
+  display: none !important;
 }
 
 .mini-exit {
-    opacity: 0;
-    transform: translate3d(0, 100%, 0);
+  opacity: 0;
+  transform: translate3d(0, 100%, 0);
 }
 
 .mini-exit-active {
-    opacity: 1 !important;
-    transform: translate3d(0, 0, 0);
-    transition: all 600ms;
+  opacity: 1 !important;
+  transform: translate3d(0, 0, 0);
+  transition: all 600ms;
 }
 
 .mini-exit-done {
-    opacity: 1 !important;
+  opacity: 1 !important;
 }
 
 /*playList动画*/
 .list-fade-enter {
-    display: block !important;
-    opacity: 0;
+  display: block !important;
+  opacity: 0;
 }
 
 .list-fade-enter .list-wrapper {
-    transform: translate3d(0, 100%, 0);
+  transform: translate3d(0, 100%, 0);
 }
 
 .list-fade-enter-active {
-    opacity: 1;
-    transition: opacity .3s;
+  opacity: 1;
+  transition: opacity 0.3s;
 }
 
 .list-fade-enter-active .list-wrapper {
-    transform: translate3d(0, 0, 0);
-    transition: all .3s;
+  transform: translate3d(0, 0, 0);
+  transition: all 0.3s;
 }
 
 .list-fade-enter-done {
-    display: block !important;
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
+  display: block !important;
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
 }
 
 .list-fade-exit {
-    display: block !important;
-    opacity: 1;
+  display: block !important;
+  opacity: 1;
 }
 
 .list-fade-exit .list-wrapper {
-    transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
 }
 
 .list-fade-exit-active {
-    opacity: 0;
-    transition: opacity .3s;
+  opacity: 0;
+  transition: opacity 0.3s;
 }
 
 .list-fade-exit-active .list-wrapper {
-    transform: translate3d(0, 100%, 0);
-    transition: all .3s;
+  transform: translate3d(0, 100%, 0);
+  transition: all 0.3s;
 }
 
 .list-fade-exit-done {
-    opacity: 0;
-    transform: translate3d(0, 100%, 0);
+  opacity: 0;
+  transform: translate3d(0, 100%, 0);
 }
 
 /*播放列表添加删除动画*/
 .list-enter {
-    height: 0 !important;
+  height: 0 !important;
 }
 
 .list-enter-active {
-    transition: height .3s;
+  transition: height 0.3s;
 }
 
 .list-exit-active {
-    height: 0 !important;
-    transition: height .3s;
+  height: 0 !important;
+  transition: height 0.3s;
 }
 
 @keyframes rotate {
-    0% {
-        transform: rotate(0)
-    }
+  0% {
+    transform: rotate(0);
+  }
 
-    100% {
-        transform: rotate(360deg)
-    }
+  100% {
+    transform: rotate(360deg);
+  }
 }
-
 
 /*禁止折行*/
 .no-wrap {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 /*扩展小图标按钮的点击区域*/
 .extend-click {
-    position: relative;
+  position: relative;
 }
 
 .extend-click:before {
-    content: '';
-    position: absolute;
-    top: -.1rem;
-    left: -.1rem;
-    right: -.1rem;
-    bottom: -.1rem;
+  content: '';
+  position: absolute;
+  top: -0.1rem;
+  left: -0.1rem;
+  right: -0.1rem;
+  bottom: -0.1rem;
 }
-

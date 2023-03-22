@@ -1,11 +1,11 @@
 .indexList {
-    position: relative;
-    width: 100%;
-    height: calc(100vh - .88rem);
-    overflow-x: hidden;
-    overflow-y: scroll;
-    /*scroll-behavior: smooth;*/
-    background: #222;
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 0.88rem);
+  overflow-x: hidden;
+  overflow-y: scroll;
+  /*scroll-behavior: smooth;*/
+  background: #222;
 }
 
 /*.scrollList {*/
@@ -14,76 +14,75 @@
 /*}*/
 
 .indexList::-webkit-scrollbar {
-    width: 0;
+  width: 0;
 }
 
 .group {
-    padding-bottom: .3rem;
+  padding-bottom: 0.3rem;
 }
 
 .group .title {
-    height: .3rem;
-    line-height: .3rem;
-    padding-left: .2rem;
-    font-size: .12rem;
-    color: rgba(255, 255, 255, 0.5);
-    background: #333;
+  height: 0.3rem;
+  line-height: 0.3rem;
+  padding-left: 0.2rem;
+  font-size: 0.12rem;
+  color: rgba(255, 255, 255, 0.5);
+  background: #333;
 }
 
 .group .item {
-    display: flex;
-    align-items: center;
-    padding: .20rem 0 0 .30rem;
+  display: flex;
+  align-items: center;
+  padding: 0.2rem 0 0 0.3rem;
 }
 
 .group .item .avatar {
-    width: .50rem;
-    height: .50rem;
-    border-radius: 50%;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
 }
 
 .group .item .name {
-    margin-left: .20rem;
-    color: rgba(255, 255, 255, 0.5);
-    font-size: .14rem;
+  margin-left: 0.2rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.14rem;
 }
 
 .fixed {
-    position: absolute;
-    top: -.01rem;
-    left: 0;
-    width: 100%;
+  position: absolute;
+  top: -0.01rem;
+  left: 0;
+  width: 100%;
 }
 
 .fixedTitle {
-    height: .30rem;
-    line-height: .30rem;
-    padding-left: .20rem;
-    font-size: .12rem;
-    color: rgba(255, 255, 255, 0.5);
-    background: #333;
+  height: 0.3rem;
+  line-height: 0.3rem;
+  padding-left: 0.2rem;
+  font-size: 0.12rem;
+  color: rgba(255, 255, 255, 0.5);
+  background: #333;
 }
 
-
 .shortcut {
-    position: absolute;
-    right: .04rem;
-    top: 50%;
-    transform: translateY(-50%);
-    width: .20rem;
-    padding: .20rem 0;
-    border-radius: .10rem;
-    text-align: center;
-    background: rgba(0, 0, 0, 0.3);
+  position: absolute;
+  right: 0.04rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0.2rem;
+  padding: 0.2rem 0;
+  border-radius: 0.1rem;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.3);
 }
 
 .shortcut .item {
-    padding: .03rem;
-    line-height: 1;
-    color:  rgba(255, 255, 255, 0.5);
-    font-size: .12rem;
+  padding: 0.03rem;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.12rem;
 }
 
 .shortcut .item.current {
-    color: #ffcd32;
+  color: #ffcd32;
 }

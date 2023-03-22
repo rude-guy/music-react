@@ -1,73 +1,72 @@
 .songListWrapper {
-    padding: .2rem .3rem;
-    background: #222;
+  padding: 0.2rem 0.3rem;
+  background: #222;
 }
 
-
 .songList .item {
-    display: flex;
-    align-items: center;
-    box-sizing: border-box;
-    height: 64px;
-    font-size: .14rem;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  height: 64px;
+  font-size: 0.14rem;
 }
 
 .songList .item .rank {
-    flex: 0 0 .25rem;
-    width: .25rem;
-    margin-right: .20rem;
-    text-align: center;
+  flex: 0 0 0.25rem;
+  width: 0.25rem;
+  margin-right: 0.2rem;
+  text-align: center;
 }
 
 .rank .icon {
-    display: inline-block;
-    width: .25rem;
-    height: .24rem;
-    background-size: .25rem .24rem;
+  display: inline-block;
+  width: 0.25rem;
+  height: 0.24rem;
+  background-size: 0.25rem 0.24rem;
 }
 
 .rank .icon.icon0 {
-    background-image: url('./first@2x.png');
+  background-image: url('./first@2x.png');
 }
 
 .rank .icon.icon1 {
-    background-image: url('./second@2x.png');
+  background-image: url('./second@2x.png');
 }
 
 .rank .icon.icon2 {
-    background-image: url('./third@2x.png');
+  background-image: url('./third@2x.png');
 }
 
 @media (-webkit-min-device-pixel-ratio: 3), (min-device-pixel-ratio: 3) {
-    .rank .icon.icon0 {
-        background-image: url('./first@3x.png');
-    }
+  .rank .icon.icon0 {
+    background-image: url('./first@3x.png');
+  }
 
-    .rank .icon.icon1 {
-        background-image: url('./second@3x.png');
-    }
+  .rank .icon.icon1 {
+    background-image: url('./second@3x.png');
+  }
 
-    .rank .icon.icon2 {
-        background-image: url('./third@3x.png');
-    }
+  .rank .icon.icon2 {
+    background-image: url('./third@3x.png');
+  }
 }
 
 .rank .text {
-    color: #ffcd32;
-    font-size: .18rem;
+  color: #ffcd32;
+  font-size: 0.18rem;
 }
 
 .content {
-    flex: 1;
-    line-height: .20rem;
-    overflow: hidden;
+  flex: 1;
+  line-height: 0.2rem;
+  overflow: hidden;
 }
 
 .name {
-    color: #fff;
+  color: #fff;
 }
 
 .desc {
-    margin-top: .04rem;
-    color: rgba(255, 255, 255, 0.3);
+  margin-top: 0.04rem;
+  color: rgba(255, 255, 255, 0.3);
 }

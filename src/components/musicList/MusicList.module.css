@@ -1,90 +1,90 @@
 .musicList {
-    position: relative;
-    height: 100%;
-    background-color: #222;
+  position: relative;
+  height: 100%;
+  background-color: #222;
 }
 
 .back {
-    position: absolute;
-    top: 0;
-    left: .06rem;
-    z-index: 20;
-    transform: translateZ(.02rem);
+  position: absolute;
+  top: 0;
+  left: 0.06rem;
+  z-index: 20;
+  transform: translateZ(0.02rem);
 }
 
 .back .iconBack {
-    display: block;
-    padding: .10rem;
-    font-size: .22rem;
-    color: #ffcd32;
+  display: block;
+  padding: 0.1rem;
+  font-size: 0.22rem;
+  color: #ffcd32;
 }
 
 .title {
-    position: absolute;
-    top: 0;
-    left: 10%;
-    width: 80%;
-    z-index: 20;
-    transform: translateZ(.02rem);
-    text-align: center;
-    line-height: .40rem;
-    font-size: .18rem;
-    color: #fff;
+  position: absolute;
+  top: 0;
+  left: 10%;
+  width: 80%;
+  z-index: 20;
+  transform: translateZ(0.02rem);
+  text-align: center;
+  line-height: 0.4rem;
+  font-size: 0.18rem;
+  color: #fff;
 }
 
 .bgImage {
-    position: relative;
-    transform-origin: top;
-    background-size: cover;
-    width: 100%;
-    padding-top: 70%;
+  position: relative;
+  transform-origin: top;
+  background-size: cover;
+  width: 100%;
+  padding-top: 70%;
 }
 
 .playBtnWrapper {
-    position: absolute;
-    bottom: .20rem;
-    z-index: 10;
-    width: 100%;
+  position: absolute;
+  bottom: 0.2rem;
+  z-index: 10;
+  width: 100%;
 }
 .playBtnWrapper .playBtn {
-    box-sizing: border-box;
-    width: 1.35rem;
-    padding: .07rem 0;
-    margin: 0 auto;
-    text-align: center;
-    border: .01rem solid #ffcd32;
-    color: #ffcd32;
-    border-radius: 1rem;
-    font-size: 0;
+  box-sizing: border-box;
+  width: 1.35rem;
+  padding: 0.07rem 0;
+  margin: 0 auto;
+  text-align: center;
+  border: 0.01rem solid #ffcd32;
+  color: #ffcd32;
+  border-radius: 1rem;
+  font-size: 0;
 }
 
 .iconPlay {
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: .06rem;
-    font-size: .16rem;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 0.06rem;
+  font-size: 0.16rem;
 }
 
 .playBtnWrapper .text {
-    display: inline-block;
-    vertical-align: middle;
-    font-size: .12rem;
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 0.12rem;
 }
 
 .filter {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(7, 17, 27, 0.4);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(7, 17, 27, 0.4);
 }
 
 .list {
-    position: absolute;
-    top: 70vw;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 0;
+  position: absolute;
+  top: 70vw;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
 }

@@ -1,18 +1,17 @@
 .searchItem {
-    display: flex;
-    align-items: center;
-    height: .4rem;
-    overflow: hidden;
+  display: flex;
+  align-items: center;
+  height: 0.4rem;
+  overflow: hidden;
 }
 
 .text {
-    font-size: .16rem;
-    flex: 1;
-    color: rgba(255, 255, 255, 0.5);
+  font-size: 0.16rem;
+  flex: 1;
+  color: rgba(255, 255, 255, 0.5);
 }
 
-
 .iconDelete {
-    font-size: .12rem;
-    color: rgba(255, 255, 255, 0.3);
+  font-size: 0.12rem;
+  color: rgba(255, 255, 255, 0.3);
 }
