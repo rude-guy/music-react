@@ -6,7 +6,7 @@ const Header = () => {
   return (
     <div className={styles.header}>
       <span className={styles.icon} />
-      <h1 className={styles.text}>Chicken Music</h1>
+      <h1 className={styles.text}>小杨音乐</h1>
       <Link className={styles.mine} to="/user">
         <i className={`icon-mine ${styles.iconMine}`} />
       </Link>
