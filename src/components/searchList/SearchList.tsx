@@ -24,7 +24,10 @@ const SearchList: React.FC<Props> = React.memo(({ searches, deleteKey, selectHis
                 <span
                   className={'icon extend-click'}
                   style={{ display: showDelete ? '' : 'none' }}
-                  onClick={() => deleteKey?.(search)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteKey?.(search);
+                  }}
                 >
                   <i className={`${styles.iconDelete} icon-delete`} />
                 </span>
