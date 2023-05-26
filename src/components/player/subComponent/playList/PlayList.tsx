@@ -16,7 +16,7 @@ import { useVisible } from './useVisible';
 import AddSong from '../addSong/AddSong';
 
 const PlayList = () => {
-  const { sequenceList, playList } = useAppSelector(selectMusic);
+  const {  playList } = useAppSelector(selectMusic);
   const currentSong = useAppSelector(getCurrentSong);
   const dispatch = useAppDispatch();
 
@@ -103,7 +103,7 @@ const PlayList = () => {
           <Scroll ref={playListRef} className={styles.listContent}>
             <ul>
               <TransitionGroup component={null}>
-                {sequenceList.map((song) => (
+                {playList.map((song) => (
                   <CSSTransition key={song.id} classNames={'list'} timeout={300}>
                     <li className={styles.item} onClick={(e) => changeSong(song, e)}>
                       <i className={`${styles.current} ${currentSong.id === song.id ? 'icon-play' : ''}`} />
