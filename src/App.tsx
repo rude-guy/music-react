@@ -30,9 +30,7 @@ function App() {
                   exact
                   path={'/user'}
                   render={() => (
-                    <KeepAlive name={'UserCenter'} id={'UserCenter'}>
                       <UserCenter />
-                    </KeepAlive>
                   )}
                 />
                 <Route
